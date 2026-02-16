@@ -3,159 +3,263 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Llamadas - U Caldas</title>
+    <title>Gestión de Llamadas - 40 Caldas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; font-size: 16px; line-height: 1.5; }
-        .header { background: linear-gradient(90deg, #ff6b00 0%, #ff8c00 25%, #ffa500 50%, #c4d500 75%, #9acd32 100%); color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .header-left { display: flex; align-items: center; gap: 15px; }
-        .header-icon { width: 45px; height: 45px; background: rgba(255,255,255,0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
-        .header-title h1 { font-size: 18px; } .header-title p { font-size: 12px; opacity: 0.9; }
-        .header-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-        .user-info { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.15); padding: 8px 15px; border-radius: 25px; }
-        .user-avatar { width: 32px; height: 32px; background: rgba(255,255,255,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; }
-        .user-name { font-size: 13px; font-weight: 500; } .user-role { font-size: 10px; background: rgba(255,255,255,0.25); padding: 2px 8px; border-radius: 10px; }
-        .btn-menu { background: rgba(255,255,255,0.2); border: none; color: white; padding: 10px 15px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 500; text-decoration: none; display: flex; align-items: center; gap: 5px; }
-        .btn-menu:hover { background: rgba(255,255,255,0.3); }
-        .main-content { padding: 20px; max-width: 1200px; margin: 0 auto; }
-        .login-container { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #ff6b00 0%, #ffb800 50%, #9acd32 100%); }
-        .login-card { background: white; border-radius: 16px; padding: 35px; width: 100%; max-width: 420px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
-        .login-header { text-align: center; margin-bottom: 25px; }
-        .login-icon { font-size: 50px; margin-bottom: 15px; }
-        .login-header h1 { font-size: 22px; color: #333; margin-bottom: 5px; } .login-header p { font-size: 14px; color: #666; }
-        .form-group { margin-bottom: 18px; }
-        .form-group label { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 600; color: #333; }
-        .form-group input { width: 100%; padding: 13px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 15px; }
-        .form-group input:focus { border-color: #ff6b00; outline: none; }
-        .btn-login { width: 100%; padding: 14px; background: linear-gradient(90deg, #ff6b00, #ff8c00, #9acd32); color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; }
-        .alert { padding: 12px; border-radius: 8px; margin-top: 15px; font-size: 13px; text-align: center; }
-        .alert-error { background: #f8d7da; color: #721c24; }
-        .login-footer { text-align: center; margin-top: 20px; padding-top: 15px; border-top: 1px solid #e9ecef; font-size: 12px; color: #999; }
-        .login-footer strong { color: #ff6b00; }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-bottom: 20px; }
-        .stat-card { background: white; border-radius: 12px; padding: 18px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #e8e8e8; }
-        .stat-card-icon { font-size: 26px; margin-bottom: 6px; }
-        .stat-card h3 { font-size: 28px; font-weight: 700; color: #1a3353; }
-        .stat-card p { font-size: 12px; color: #666; margin-top: 4px; }
-        .progress-section { background: white; border-radius: 14px; padding: 18px 22px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #e8e8e8; }
-        .progress-label { font-size: 14px; font-weight: 600; color: #1a3353; margin-bottom: 8px; display: flex; justify-content: space-between; }
-        .progress-track { height: 18px; background: #e9ecef; border-radius: 9px; overflow: hidden; }
-        .progress-fill { height: 100%; background: linear-gradient(90deg, #28a745, #20c997); border-radius: 9px; display: flex; align-items: center; justify-content: center; transition: width 0.5s; }
-        .progress-fill span { color: white; font-size: 11px; font-weight: 700; }
-        .search-section { background: white; border-radius: 16px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #e8e8e8; }
-        .search-title { font-size: 16px; font-weight: 600; color: #1a3353; margin-bottom: 12px; }
-        .search-box { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-        .search-input { flex: 1; min-width: 200px; padding: 11px 14px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 14px; }
-        .search-input:focus { border-color: #ff6b00; outline: none; }
-        .filter-btn { padding: 9px 14px; border: 2px solid #e0e0e0; background: white; border-radius: 20px; font-size: 12px; cursor: pointer; font-weight: 500; }
-        .filter-btn:hover { border-color: #ff6b00; }
-        .filter-btn.active { background: #ff6b00; color: white; border-color: #ff6b00; }
-        .table-section { background: white; border-radius: 16px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #e8e8e8; }
-        .table-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 2px solid #ff6b00; }
-        .table-title { font-size: 15px; font-weight: 600; color: #1a3353; }
-        .table-count { background: linear-gradient(90deg, #ff6b00, #ff8c00); color: white; padding: 4px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; }
-        .table-container { overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; }
-        th { background: #1a3353; color: white; padding: 10px 8px; text-align: left; font-size: 11px; text-transform: uppercase; }
-        td { padding: 10px 8px; border-bottom: 1px solid #f0f0f0; font-size: 13px; color: #333; }
-        tr:hover { background: #f8f9fa; }
-        tr.done-row { background: #f0fff4; }
-        tr.done-row:hover { background: #e0f5e8; }
-        .badge { display: inline-block; padding: 3px 9px; border-radius: 10px; font-size: 10px; font-weight: 600; text-transform: uppercase; }
-        .badge-pend { background: #fff3cd; color: #856404; }
-        .badge-done { background: #d4edda; color: #155724; }
-        .btn-enc { background: linear-gradient(90deg, #ff6b00, #ff8c00); color: white; border: none; padding: 7px 13px; border-radius: 7px; font-size: 12px; cursor: pointer; font-weight: 500; }
-        .btn-enc:hover { transform: translateY(-1px); }
-        .btn-enc-done { background: linear-gradient(90deg, #28a745, #20c997); }
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: flex-start; padding: 15px; overflow-y: auto; }
-        .modal-overlay.active { display: flex; }
-        .modal { background: white; border-radius: 16px; width: 100%; max-width: 700px; margin: 15px auto; box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
-        .modal-header { padding: 16px 22px; display: flex; justify-content: space-between; align-items: center; background: linear-gradient(90deg, #ff6b00, #ff8c00); border-radius: 16px 16px 0 0; color: white; }
-        .modal-header h2 { font-size: 16px; }
-        .btn-close { background: rgba(255,255,255,0.2); border: none; font-size: 20px; color: white; cursor: pointer; width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
-        .modal-body { padding: 22px; max-height: 72vh; overflow-y: auto; }
-        .modal-footer { padding: 16px 22px; border-top: 1px solid #e8e8e8; display: flex; gap: 10px; justify-content: flex-end; }
-        .form-section { margin-bottom: 18px; }
-        .form-section-title { font-size: 13px; font-weight: 600; color: #ff6b00; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 2px solid #ff6b00; }
-        .form-row { display: flex; gap: 12px; margin-bottom: 10px; }
-        .form-row .fm { flex: 1; margin-bottom: 0; }
-        .fm { margin-bottom: 10px; }
-        .fm label { display: block; margin-bottom: 3px; font-size: 11px; font-weight: 600; color: #555; }
-        .fm input { width: 100%; padding: 9px 10px; border: 1px solid #ddd; border-radius: 7px; font-size: 13px; }
-        .fm input:focus { border-color: #ff6b00; outline: none; }
-        .info-box { background: #f8f9fa; border: 1px solid #e8e8e8; padding: 9px 10px; border-radius: 7px; font-size: 13px; color: #333; min-height: 34px; }
-        .btn-save { background: linear-gradient(135deg, #28a745, #20c997); color: white; border: none; padding: 11px 22px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
-        .btn-cancel { background: #6c757d; color: white; border: none; padding: 11px 22px; border-radius: 8px; font-size: 14px; cursor: pointer; }
-        .enc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .enc-q { background: #f8f9fc; border-radius: 10px; padding: 12px; border: 1px solid #e8eaf0; }
-        .enc-q label { display: block; font-size: 12px; font-weight: 600; color: #333; margin-bottom: 7px; }
-        .btn-group { display: flex; gap: 6px; }
-        .btn-sn { flex: 1; padding: 9px; border: 2px solid #e0e0e0; border-radius: 7px; background: white; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; }
-        .btn-sn:hover { border-color: #ff6b00; }
-        .btn-sn.si-on { background: #ff6b00; color: white; border-color: #ff6b00; }
-        .btn-sn.no-on { background: #6c757d; color: white; border-color: #6c757d; }
-        .coord-section { background: white; border-radius: 16px; padding: 22px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #e8e8e8; }
-        .coord-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 2px solid #1a3353; }
-        .coord-title { font-size: 16px; font-weight: 600; color: #1a3353; }
-        .btn-ref { background: linear-gradient(90deg, #17a2b8, #20c997); color: white; border: none; padding: 9px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; }
-        .csg { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin-bottom: 22px; }
-        .cs { padding: 18px; border-radius: 12px; text-align: center; color: white; }
-        .cs h3 { font-size: 30px; font-weight: 700; } .cs p { font-size: 11px; opacity: 0.9; margin-top: 4px; }
-        .cs.t1 { background: linear-gradient(135deg, #667eea, #764ba2); }
-        .cs.t2 { background: linear-gradient(135deg, #11998e, #38ef7d); }
-        .cs.t3 { background: linear-gradient(135deg, #ff6b00, #ff8c00); }
-        .cs.t4 { background: linear-gradient(135deg, #eb3349, #f45c43); }
-        .cb { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
-        .cb-l { width: 140px; font-size: 12px; color: #333; font-weight: 500; text-align: right; }
-        .cb-t { flex: 1; height: 24px; background: #f0f0f0; border-radius: 12px; overflow: hidden; }
-        .cb-f { height: 100%; background: linear-gradient(90deg, #28a745, #20c997); border-radius: 12px; display: flex; align-items: center; justify-content: flex-end; padding-right: 6px; }
-        .cb-f span { color: white; font-size: 10px; font-weight: 700; }
-        .cb-p { width: 50px; font-size: 11px; font-weight: 600; color: #28a745; }
-        .resp-layout { display: flex; gap: 20px; align-items: flex-start; }
-        .resp-bars { flex: 1; min-width: 0; }
-        .resp-donut { width: 280px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; }
-        .donut-wrap { position: relative; width: 220px; height: 220px; }
-        .donut-wrap canvas { width: 220px; height: 220px; }
-        .donut-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); text-align: center; }
-        .donut-center h3 { font-size: 36px; font-weight: 800; background: linear-gradient(135deg, #ff6b00, #28a745); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .donut-center p { font-size: 11px; color: #666; margin-top: 2px; }
-        .donut-legend { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
-        .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #444; }
-        .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
-        .btn-export-group { display: flex; gap: 10px; flex-wrap: wrap; }
-        .btn-export { display: flex; align-items: center; gap: 6px; padding: 10px 18px; border: none; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; color: white; transition: transform 0.15s, box-shadow 0.15s; }
-        .btn-export:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-        .btn-exp-txt { background: linear-gradient(135deg, #667eea, #764ba2); }
-        .btn-exp-csv { background: linear-gradient(135deg, #11998e, #38ef7d); }
-        .btn-exp-ops { background: linear-gradient(135deg, #ff6b00, #ff8c00); }
-        .ot { width: 100%; border-collapse: collapse; }
-        .ot th { background: linear-gradient(90deg, #1a3353, #2d4a6f); color: white; padding: 10px 8px; text-align: left; font-size: 10px; text-transform: uppercase; }
-        .ot td { padding: 10px 8px; border-bottom: 1px solid #eee; font-size: 12px; }
-        .ot tr:hover { background: #f8f9fa; }
-        .rk { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 11px; color: white; }
-        .rk1 { background: #ffd700; } .rk2 { background: #c0c0c0; } .rk3 { background: #cd7f32; } .rkn { background: #6c757d; }
-        .pb { width: 100%; height: 7px; background: #e9ecef; border-radius: 4px; overflow: hidden; }
-        .pb-f { height: 100%; background: linear-gradient(90deg, #28a745, #20c997); border-radius: 4px; }
-        .hidden { display: none !important; }
-        .pag-bar { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 0 4px; flex-wrap: wrap; }
-        .pag-btn { background: linear-gradient(135deg, #1a3353, #2d4a6f); color: white; border: none; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; }
-        .pag-btn:hover:not(:disabled) { background: linear-gradient(135deg, #ff6b00, #ff8c00); }
-        .pag-btn:disabled { opacity: 0.4; cursor: default; }
-        .pag-info { font-size: 13px; font-weight: 600; color: #1a3353; padding: 0 8px; }
-        .uppercase { text-transform: uppercase; }
-        .loading-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.9); z-index: 2000; justify-content: center; align-items: center; flex-direction: column; }
-        .loading-overlay.active { display: flex; }
-        .loading-spinner { width: 50px; height: 50px; border: 4px solid #e0e0e0; border-top-color: #ff6b00; border-radius: 50%; animation: spin 1s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .footer { background: #1a3353; color: white; text-align: center; padding: 12px 20px; font-size: 12px; }
-        .footer strong { color: #ff8c00; }
-        @media (max-width: 768px) { .header { flex-direction: column; gap: 10px; padding: 12px; } .header-right { width: 100%; justify-content: space-between; } .main-content { padding: 12px; } .form-row { flex-direction: column; gap: 0; } .enc-grid { grid-template-columns: 1fr; } .modal { margin: 8px; } .modal-body { padding: 15px; } .stats-grid { grid-template-columns: repeat(2, 1fr); } .csg { grid-template-columns: repeat(2, 1fr); } .search-box { flex-direction: column; } .resp-layout { flex-direction: column; } .resp-donut { width: 100%; } .btn-export-group { flex-direction: column; } }
+:root {
+    --corp-font: 'Source Sans 3', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    --corp-primary: #D95F0E;
+    --corp-primary-hover: #C2510A;
+    --corp-primary-light: #F97316;
+    --corp-primary-50: #FFF8F1;
+    --corp-primary-100: #FFEDD5;
+    --corp-primary-200: #FED7AA;
+    --corp-primary-8: rgba(217, 95, 14, 0.08);
+    --corp-dark: #0F172A;
+    --corp-gray-50: #F8FAFC;
+    --corp-gray-100: #F1F5F9;
+    --corp-gray-200: #E2E8F0;
+    --corp-gray-300: #CBD5E1;
+    --corp-gray-400: #94A3B8;
+    --corp-gray-500: #64748B;
+    --corp-gray-600: #475569;
+    --corp-gray-700: #334155;
+    --corp-gray-800: #1E293B;
+    --corp-white: #FFFFFF;
+    --corp-success: #0D9488;
+    --corp-success-light: #F0FDFA;
+    --corp-danger: #BE123C;
+    --corp-danger-light: #FFF1F2;
+    --corp-warning: #B45309;
+    --corp-warning-light: #FFFBEB;
+    --corp-info: #1D4ED8;
+    --corp-info-light: #EFF6FF;
+    --corp-shadow-sm: 0 1px 3px rgba(15,23,42,0.06), 0 1px 2px rgba(15,23,42,0.04);
+    --corp-shadow-md: 0 4px 6px -1px rgba(15,23,42,0.07), 0 2px 4px rgba(15,23,42,0.04);
+    --corp-shadow-lg: 0 10px 25px -3px rgba(15,23,42,0.08), 0 4px 6px rgba(15,23,42,0.04);
+    --corp-radius: 8px;
+    --corp-radius-lg: 12px;
+    --corp-transition: all 0.2s ease;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--corp-font); background: var(--corp-gray-100); font-size: 15px; line-height: 1.5; color: var(--corp-dark); -webkit-font-smoothing: antialiased; }
+.header { background: var(--corp-white); border-bottom: 1px solid var(--corp-gray-200); padding: 12px 24px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+.header-left { display: flex; align-items: center; gap: 14px; }
+.header-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--corp-primary), var(--corp-primary-light)); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+.header-icon svg { width: 20px; height: 20px; fill: none; stroke: white; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.header-title h1 { font-size: 16px; font-weight: 800; color: var(--corp-dark); letter-spacing: -0.3px; }
+.header-title p { font-size: 11px; color: var(--corp-gray-400); font-weight: 600; }
+.header-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.user-info { display: flex; align-items: center; gap: 8px; background: var(--corp-gray-50); border: 1px solid var(--corp-gray-200); padding: 6px 14px; border-radius: 100px; }
+.user-avatar { width: 28px; height: 28px; background: var(--corp-primary-100); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.user-avatar svg { width: 14px; height: 14px; fill: none; stroke: var(--corp-primary); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.user-name { font-size: 12px; font-weight: 700; color: var(--corp-dark); }
+.user-role { font-size: 10px; font-weight: 700; background: var(--corp-primary-100); color: var(--corp-primary); padding: 2px 8px; border-radius: 100px; }
+.btn-menu { background: var(--corp-gray-50); border: 1px solid var(--corp-gray-200); color: var(--corp-gray-600); padding: 7px 14px; border-radius: var(--corp-radius); cursor: pointer; font-size: 12px; font-weight: 600; font-family: var(--corp-font); text-decoration: none; display: flex; align-items: center; gap: 5px; transition: var(--corp-transition); }
+.btn-menu svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.btn-menu:hover { border-color: var(--corp-primary); color: var(--corp-primary); }
+.main-content { padding: 20px 24px; max-width: 1200px; margin: 0 auto; }
+.login-container { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--corp-gray-100); position: relative; overflow: hidden; }
+.login-container::before { content: ''; position: absolute; top: -15%; right: -8%; width: 450px; height: 450px; background: radial-gradient(circle, rgba(217,95,14,0.07) 0%, transparent 70%); border-radius: 50%; }
+.login-container::after { content: ''; position: absolute; bottom: -10%; left: -5%; width: 350px; height: 350px; background: radial-gradient(circle, rgba(217,95,14,0.04) 0%, transparent 70%); border-radius: 50%; }
+.login-card { background: var(--corp-white); border-radius: var(--corp-radius-lg); padding: 40px 32px; width: 100%; max-width: 400px; box-shadow: var(--corp-shadow-lg); border: 1px solid var(--corp-gray-200); position: relative; z-index: 1; }
+.login-header { text-align: center; margin-bottom: 28px; }
+.login-icon { width: 64px; height: 64px; background: linear-gradient(135deg, var(--corp-primary), var(--corp-primary-light)); border-radius: 16px; margin: 0 auto 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 20px rgba(217, 95, 14, 0.25); }
+.login-icon svg { width: 30px; height: 30px; fill: none; stroke: white; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.login-header h1 { font-size: 22px; font-weight: 800; color: var(--corp-dark); letter-spacing: -0.5px; }
+.login-header p { font-size: 13px; color: var(--corp-gray-400); font-weight: 500; margin-top: 3px; }
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; margin-bottom: 5px; font-size: 11px; font-weight: 700; color: var(--corp-gray-600); text-transform: uppercase; letter-spacing: 0.5px; }
+.form-group input { width: 100%; padding: 11px 14px; border: 1.5px solid var(--corp-gray-200); border-radius: var(--corp-radius); font-size: 14px; font-family: var(--corp-font); font-weight: 500; color: var(--corp-dark); transition: var(--corp-transition); }
+.form-group input:focus { border-color: var(--corp-primary); outline: none; box-shadow: 0 0 0 3px var(--corp-primary-8); }
+.form-group input::placeholder { color: var(--corp-gray-300); }
+.btn-login { width: 100%; padding: 12px; background: var(--corp-primary); color: white; border: none; border-radius: var(--corp-radius); font-size: 14px; font-weight: 700; font-family: var(--corp-font); cursor: pointer; transition: var(--corp-transition); }
+.btn-login:hover { background: var(--corp-primary-hover); box-shadow: 0 4px 12px rgba(217,95,14,0.3); }
+.alert { padding: 10px 14px; border-radius: var(--corp-radius); margin-top: 14px; font-size: 13px; font-weight: 600; text-align: center; }
+.alert-error { background: var(--corp-danger-light); color: var(--corp-danger); border: 1px solid #FECDD3; }
+.login-footer { text-align: center; margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--corp-gray-200); font-size: 12px; color: var(--corp-gray-400); font-weight: 500; }
+.login-footer strong { color: var(--corp-primary); font-weight: 700; }
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 16px; }
+.stat-card { background: var(--corp-white); border-radius: var(--corp-radius); padding: 16px; text-align: center; box-shadow: var(--corp-shadow-sm); border: 1px solid var(--corp-gray-200); }
+.stat-card-icon { width: 36px; height: 36px; border-radius: var(--corp-radius); display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; }
+.stat-card-icon svg { width: 18px; height: 18px; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.stat-card-icon.sc-total { background: var(--corp-info-light); border: 1px solid #BFDBFE; }
+.stat-card-icon.sc-total svg { stroke: var(--corp-info); }
+.stat-card-icon.sc-done { background: var(--corp-success-light); border: 1px solid #99F6E4; }
+.stat-card-icon.sc-done svg { stroke: var(--corp-success); }
+.stat-card-icon.sc-pend { background: var(--corp-warning-light); border: 1px solid #FDE68A; }
+.stat-card-icon.sc-pend svg { stroke: var(--corp-warning); }
+.stat-card-icon.sc-pct { background: var(--corp-primary-50); border: 1px solid var(--corp-primary-200); }
+.stat-card-icon.sc-pct svg { stroke: var(--corp-primary); }
+.stat-card h3 { font-size: 26px; font-weight: 800; color: var(--corp-dark); }
+.stat-card p { font-size: 11px; color: var(--corp-gray-400); margin-top: 2px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
+.progress-section { background: var(--corp-white); border-radius: var(--corp-radius); padding: 16px 20px; margin-bottom: 16px; box-shadow: var(--corp-shadow-sm); border: 1px solid var(--corp-gray-200); }
+.progress-label { font-size: 13px; font-weight: 700; color: var(--corp-dark); margin-bottom: 8px; display: flex; justify-content: space-between; }
+.progress-label span:last-child { color: var(--corp-gray-400); font-weight: 600; }
+.progress-track { height: 14px; background: var(--corp-gray-100); border-radius: 7px; overflow: hidden; border: 1px solid var(--corp-gray-200); }
+.progress-fill { height: 100%; background: var(--corp-success); border-radius: 7px; display: flex; align-items: center; justify-content: center; transition: width 0.5s; }
+.progress-fill span { color: white; font-size: 10px; font-weight: 700; }
+.search-section { background: var(--corp-white); border-radius: var(--corp-radius); padding: 16px 20px; margin-bottom: 16px; box-shadow: var(--corp-shadow-sm); border: 1px solid var(--corp-gray-200); }
+.search-title { font-size: 12px; font-weight: 700; color: var(--corp-dark); text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.search-title::before { content: ''; width: 3px; height: 14px; background: var(--corp-primary); border-radius: 2px; }
+.search-box { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.search-input { flex: 1; min-width: 200px; padding: 9px 12px; border: 1.5px solid var(--corp-gray-200); border-radius: var(--corp-radius); font-size: 13px; font-family: var(--corp-font); font-weight: 500; color: var(--corp-dark); transition: var(--corp-transition); }
+.search-input:focus { border-color: var(--corp-primary); outline: none; box-shadow: 0 0 0 3px var(--corp-primary-8); }
+.search-input::placeholder { color: var(--corp-gray-300); }
+.filter-btn { padding: 8px 14px; border: 1.5px solid var(--corp-gray-200); background: var(--corp-white); border-radius: 100px; font-size: 12px; cursor: pointer; font-weight: 600; font-family: var(--corp-font); color: var(--corp-gray-600); transition: var(--corp-transition); }
+.filter-btn:hover { border-color: var(--corp-primary); color: var(--corp-primary); }
+.filter-btn.active { background: var(--corp-primary); color: white; border-color: var(--corp-primary); }
+.table-section { background: var(--corp-white); border-radius: var(--corp-radius); padding: 18px 20px; margin-bottom: 16px; box-shadow: var(--corp-shadow-sm); border: 1px solid var(--corp-gray-200); }
+.table-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 2px solid var(--corp-primary); }
+.table-title { font-size: 12px; font-weight: 700; color: var(--corp-dark); text-transform: uppercase; letter-spacing: 0.3px; }
+.table-count { background: var(--corp-primary); color: white; padding: 3px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; }
+.table-container { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th { background: var(--corp-gray-800); color: white; padding: 10px 8px; text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; }
+th:first-child { border-radius: 6px 0 0 0; }
+th:last-child { border-radius: 0 6px 0 0; }
+td { padding: 10px 8px; border-bottom: 1px solid var(--corp-gray-100); font-size: 13px; color: var(--corp-dark); font-weight: 500; }
+tr:hover { background: var(--corp-gray-50); }
+tr.done-row { background: var(--corp-success-light); }
+tr.done-row:hover { background: #E6FAF7; }
+.badge { display: inline-block; padding: 3px 10px; border-radius: 100px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; }
+.badge-pend { background: var(--corp-warning-light); color: var(--corp-warning); border: 1px solid #FDE68A; }
+.badge-done { background: var(--corp-success-light); color: var(--corp-success); border: 1px solid #99F6E4; }
+.btn-enc { background: var(--corp-primary); color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; font-family: var(--corp-font); cursor: pointer; transition: var(--corp-transition); }
+.btn-enc:hover { background: var(--corp-primary-hover); }
+.btn-enc-done { background: var(--corp-success); }
+.btn-enc-done:hover { background: #0F766E; }
+.modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15,23,42,0.5); z-index: 1000; justify-content: center; align-items: flex-start; padding: 15px; overflow-y: auto; backdrop-filter: blur(4px); }
+.modal-overlay.active { display: flex; }
+.modal { background: var(--corp-white); border-radius: var(--corp-radius-lg); width: 100%; max-width: 700px; margin: 15px auto; box-shadow: var(--corp-shadow-lg); border: 1px solid var(--corp-gray-200); }
+.modal-header { padding: 16px 22px; display: flex; justify-content: space-between; align-items: center; background: var(--corp-white); border-bottom: 1px solid var(--corp-gray-200); border-radius: var(--corp-radius-lg) var(--corp-radius-lg) 0 0; }
+.modal-header h2 { font-size: 15px; font-weight: 800; color: var(--corp-dark); display: flex; align-items: center; gap: 8px; }
+.modal-header h2 svg { width: 18px; height: 18px; fill: none; stroke: var(--corp-primary); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.btn-close { background: var(--corp-gray-50); border: 1px solid var(--corp-gray-200); font-size: 18px; color: var(--corp-gray-500); cursor: pointer; width: 32px; height: 32px; border-radius: var(--corp-radius); display: flex; align-items: center; justify-content: center; transition: var(--corp-transition); }
+.btn-close:hover { background: var(--corp-gray-100); color: var(--corp-danger); }
+.modal-body { padding: 22px; max-height: 72vh; overflow-y: auto; }
+.modal-footer { padding: 14px 22px; border-top: 1px solid var(--corp-gray-200); display: flex; gap: 10px; justify-content: flex-end; }
+.form-section { margin-bottom: 18px; }
+.form-section-title { font-size: 11px; font-weight: 700; color: var(--corp-primary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid var(--corp-primary-100); display: flex; align-items: center; gap: 6px; }
+.form-section-title svg { width: 14px; height: 14px; fill: none; stroke: var(--corp-primary); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.form-row { display: flex; gap: 12px; margin-bottom: 10px; }
+.form-row .fm { flex: 1; margin-bottom: 0; }
+.fm { margin-bottom: 10px; }
+.fm label { display: block; margin-bottom: 3px; font-size: 10px; font-weight: 700; color: var(--corp-gray-500); text-transform: uppercase; letter-spacing: 0.5px; }
+.fm input { width: 100%; padding: 9px 10px; border: 1.5px solid var(--corp-gray-200); border-radius: 6px; font-size: 13px; font-family: var(--corp-font); font-weight: 500; color: var(--corp-dark); transition: var(--corp-transition); }
+.fm input:focus { border-color: var(--corp-primary); outline: none; box-shadow: 0 0 0 3px var(--corp-primary-8); }
+.info-box { background: var(--corp-gray-50); border: 1px solid var(--corp-gray-200); padding: 9px 10px; border-radius: 6px; font-size: 13px; font-weight: 600; color: var(--corp-dark); min-height: 36px; }
+.btn-save { background: var(--corp-success); color: white; border: none; padding: 10px 22px; border-radius: var(--corp-radius); font-size: 13px; font-weight: 700; font-family: var(--corp-font); cursor: pointer; transition: var(--corp-transition); display: flex; align-items: center; gap: 6px; }
+.btn-save svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.btn-save:hover { background: #0F766E; }
+.btn-cancel { background: var(--corp-gray-500); color: white; border: none; padding: 10px 22px; border-radius: var(--corp-radius); font-size: 13px; font-weight: 600; font-family: var(--corp-font); cursor: pointer; }
+.btn-cancel:hover { background: var(--corp-gray-600); }
+.enc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.enc-q { background: var(--corp-gray-50); border-radius: var(--corp-radius); padding: 12px; border: 1px solid var(--corp-gray-200); }
+.enc-q label { display: block; font-size: 12px; font-weight: 700; color: var(--corp-dark); margin-bottom: 7px; }
+.btn-group { display: flex; gap: 6px; }
+.btn-sn { flex: 1; padding: 8px; border: 1.5px solid var(--corp-gray-200); border-radius: 6px; background: var(--corp-white); font-size: 12px; font-weight: 700; font-family: var(--corp-font); color: var(--corp-gray-600); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; transition: var(--corp-transition); }
+.btn-sn:hover { border-color: var(--corp-primary); }
+.btn-sn.si-on { background: var(--corp-success); color: white; border-color: var(--corp-success); }
+.btn-sn.no-on { background: var(--corp-gray-500); color: white; border-color: var(--corp-gray-500); }
+.coord-section { background: var(--corp-white); border-radius: var(--corp-radius); padding: 20px; margin-bottom: 16px; box-shadow: var(--corp-shadow-sm); border: 1px solid var(--corp-gray-200); }
+.coord-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid var(--corp-primary); }
+.coord-title { font-size: 12px; font-weight: 700; color: var(--corp-dark); text-transform: uppercase; letter-spacing: 0.3px; }
+.btn-ref { background: var(--corp-primary); color: white; border: none; padding: 8px 16px; border-radius: var(--corp-radius); font-size: 12px; font-weight: 700; font-family: var(--corp-font); cursor: pointer; transition: var(--corp-transition); display: flex; align-items: center; gap: 5px; }
+.btn-ref svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.btn-ref:hover { background: var(--corp-primary-hover); }
+.csg { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 16px; }
+.cs { padding: 18px; border-radius: var(--corp-radius); text-align: center; background: var(--corp-white); border: 1px solid var(--corp-gray-200); }
+.cs h3 { font-size: 28px; font-weight: 800; color: var(--corp-dark); }
+.cs p { font-size: 10px; font-weight: 700; color: var(--corp-gray-400); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; justify-content: center; gap: 4px; }
+.cs p svg { width: 12px; height: 12px; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.cs.t1 { border-left: 4px solid var(--corp-info); }
+.cs.t1 p svg { stroke: var(--corp-info); }
+.cs.t2 { border-left: 4px solid var(--corp-success); }
+.cs.t2 p svg { stroke: var(--corp-success); }
+.cs.t3 { border-left: 4px solid var(--corp-primary); }
+.cs.t3 p svg { stroke: var(--corp-primary); }
+.cs.t4 { border-left: 4px solid var(--corp-danger); }
+.cs.t4 p svg { stroke: var(--corp-danger); }
+.cb { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+.cb-l { width: 140px; font-size: 12px; color: var(--corp-dark); font-weight: 600; text-align: right; }
+.cb-t { flex: 1; height: 20px; background: var(--corp-gray-100); border-radius: 10px; overflow: hidden; border: 1px solid var(--corp-gray-200); }
+.cb-f { height: 100%; background: var(--corp-success); border-radius: 10px; display: flex; align-items: center; justify-content: flex-end; padding-right: 6px; }
+.cb-f span { color: white; font-size: 10px; font-weight: 700; }
+.cb-p { width: 50px; font-size: 11px; font-weight: 700; color: var(--corp-success); }
+.resp-layout { display: flex; gap: 20px; align-items: flex-start; }
+.resp-bars { flex: 1; min-width: 0; }
+.resp-donut { width: 260px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; }
+.donut-wrap { position: relative; width: 220px; height: 220px; }
+.donut-wrap canvas { width: 220px; height: 220px; }
+.donut-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); text-align: center; }
+.donut-center h3 { font-size: 32px; font-weight: 800; color: var(--corp-primary); }
+.donut-center p { font-size: 10px; color: var(--corp-gray-400); margin-top: 2px; font-weight: 600; text-transform: uppercase; }
+.donut-legend { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--corp-gray-600); font-weight: 600; }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+.btn-export-group { display: flex; gap: 10px; flex-wrap: wrap; }
+.btn-export { display: flex; align-items: center; gap: 6px; padding: 9px 16px; border: none; border-radius: var(--corp-radius); font-size: 12px; font-weight: 700; font-family: var(--corp-font); cursor: pointer; color: white; transition: var(--corp-transition); }
+.btn-export svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.btn-export:hover { transform: translateY(-1px); box-shadow: var(--corp-shadow-md); }
+.btn-exp-txt { background: var(--corp-info); }
+.btn-exp-csv { background: var(--corp-success); }
+.btn-exp-ops { background: var(--corp-primary); }
+.ot { width: 100%; border-collapse: collapse; }
+.ot th { background: var(--corp-gray-800); color: white; padding: 10px 8px; text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; }
+.ot td { padding: 10px 8px; border-bottom: 1px solid var(--corp-gray-100); font-size: 12px; font-weight: 500; }
+.ot tr:hover { background: var(--corp-gray-50); }
+.rk { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 11px; color: white; }
+.rk1 { background: #D97706; } .rk2 { background: var(--corp-gray-400); } .rk3 { background: #92400E; } .rkn { background: var(--corp-gray-300); color: var(--corp-gray-600); }
+.pb { width: 100%; height: 6px; background: var(--corp-gray-100); border-radius: 3px; overflow: hidden; border: 1px solid var(--corp-gray-200); }
+.pb-f { height: 100%; background: var(--corp-success); border-radius: 3px; }
+.pag-bar { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 0 4px; flex-wrap: wrap; }
+.pag-btn { background: var(--corp-gray-800); color: white; border: none; padding: 7px 14px; border-radius: var(--corp-radius); font-size: 12px; font-weight: 700; font-family: var(--corp-font); cursor: pointer; transition: var(--corp-transition); }
+.pag-btn:hover:not(:disabled) { background: var(--corp-primary); }
+.pag-btn:disabled { opacity: 0.3; cursor: default; }
+.pag-info { font-size: 12px; font-weight: 700; color: var(--corp-dark); padding: 0 8px; }
+.hidden { display: none !important; }
+.uppercase { text-transform: uppercase; }
+.loading-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(248,250,252,0.92); z-index: 2000; justify-content: center; align-items: center; flex-direction: column; backdrop-filter: blur(4px); }
+.loading-overlay.active { display: flex; }
+.loading-spinner { width: 40px; height: 40px; border: 3px solid var(--corp-gray-200); border-top-color: var(--corp-primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.footer { background: var(--corp-gray-800); color: var(--corp-gray-300); text-align: center; padding: 12px 20px; font-size: 12px; font-weight: 500; }
+.footer strong { color: var(--corp-primary); font-weight: 700; }
+.btn-registraduria { display: inline-flex; align-items: center; gap: 6px; background: var(--corp-info); color: white; padding: 9px 18px; border-radius: var(--corp-radius); text-decoration: none; font-size: 12px; font-weight: 700; box-shadow: 0 2px 8px rgba(29,78,216,0.2); transition: var(--corp-transition); }
+.btn-registraduria svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.btn-registraduria:hover { background: #1E40AF; }
+/* === NUEVO: Estilos para notificacion de ciclo reiniciado === */
+.cycle-reset-banner { background: linear-gradient(135deg, var(--corp-info), #2563EB); color: white; padding: 16px 24px; border-radius: var(--corp-radius-lg); margin-bottom: 16px; text-align: center; box-shadow: 0 4px 15px rgba(29,78,216,0.25); animation: fadeInBanner 0.5s ease; }
+.cycle-reset-banner h3 { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
+.cycle-reset-banner p { font-size: 13px; font-weight: 500; opacity: 0.9; }
+@keyframes fadeInBanner { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 768px) {
+    .header { flex-direction: column; gap: 10px; padding: 12px; }
+    .header-right { width: 100%; justify-content: space-between; }
+    .main-content { padding: 12px; }
+    .form-row { flex-direction: column; gap: 0; }
+    .enc-grid { grid-template-columns: 1fr; }
+    .modal { margin: 8px; }
+    .modal-body { padding: 15px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .csg { grid-template-columns: repeat(2, 1fr); }
+    .search-box { flex-direction: column; }
+    .resp-layout { flex-direction: column; }
+    .resp-donut { width: 100%; }
+    .btn-export-group { flex-direction: column; }
+}
     </style>
 </head>
 <body>
+    <!-- ===== LOGIN ===== -->
     <div id="loginSection" class="login-container">
         <div class="login-card">
-            <div class="login-header"><div class="login-icon">📞</div><h1>Gestión de Llamadas</h1><p>Red 40-WilCas • U Caldas</p></div>
+            <div class="login-header">
+                <div class="login-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+                <h1>Gestión de Llamadas</h1>
+                <p>40 Caldas - Red WilCas</p>
+            </div>
             <div class="form-group"><label>Usuario</label><input type="text" id="loginUsuario" placeholder="Ej: operador1"></div>
             <div class="form-group"><label>Contraseña</label><input type="password" id="loginClave" placeholder="Ingrese su contraseña"></div>
             <button class="btn-login" id="btnLogin">Ingresar al Sistema</button>
@@ -163,57 +267,105 @@
             <div class="login-footer">Desarrollado por <strong>Soluciones WilCas</strong></div>
         </div>
     </div>
+
+    <!-- ===== OPERADOR ===== -->
     <div id="mainApp" class="hidden">
-        <div class="header"><div class="header-left"><div class="header-icon">📞</div><div class="header-title"><h1>Gestión de Llamadas</h1><p>Red 40-WilCas</p></div></div><div class="header-right"><div class="user-info"><div class="user-avatar">👤</div><span class="user-name" id="userInfo">-</span><span class="user-role">Operador</span></div><a href="https://script.google.com/macros/s/AKfycbyxdUb31zFOygX8ladGubiRst3t-Nz78GRY67ivUPPAxbNTfms2SWkmYZVWeUs6fHl-/exec" class="btn-menu" target="_top">← Menú</a><button class="btn-menu" id="btnLogout">Salir</button></div></div>
+        <div class="header">
+            <div class="header-left">
+                <div class="header-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+                <div class="header-title"><h1>Gestión de Llamadas</h1><p>Red 40-WilCas</p></div>
+            </div>
+            <div class="header-right">
+                <div class="user-info"><div class="user-avatar"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><span class="user-name" id="userInfo">-</span><span class="user-role">Operador</span></div>
+                <a id="btnMenuOp" class="btn-menu" target="_top"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Menú</a>
+                <button class="btn-menu" id="btnLogout"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> Salir</button>
+            </div>
+        </div>
         <div class="main-content">
-            <div class="stats-grid"><div class="stat-card"><div class="stat-card-icon">📋</div><h3 id="sT">0</h3><p>Asignados</p></div><div class="stat-card"><div class="stat-card-icon">✅</div><h3 id="sE">0</h3><p>Encuestados</p></div><div class="stat-card"><div class="stat-card-icon">⏳</div><h3 id="sP">0</h3><p>Pendientes</p></div><div class="stat-card"><div class="stat-card-icon">📊</div><h3 id="sPct">0%</h3><p>Avance</p></div></div>
+            <!-- NUEVO: Banner de ciclo reiniciado (oculto por defecto) -->
+            <div id="cycleResetBanner" class="cycle-reset-banner hidden">
+                <h3>Ciclo Completado - Registros Reiniciados</h3>
+                <p id="cycleResetMsg">Todos los registros han vuelto a estado pendiente para un nuevo ciclo de llamadas.</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card"><div class="stat-card-icon sc-total"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div><h3 id="sT">0</h3><p>Asignados</p></div>
+                <div class="stat-card"><div class="stat-card-icon sc-done"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><h3 id="sE">0</h3><p>Encuestados</p></div>
+                <div class="stat-card"><div class="stat-card-icon sc-pend"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><h3 id="sP">0</h3><p>Pendientes</p></div>
+                <div class="stat-card"><div class="stat-card-icon sc-pct"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div><h3 id="sPct">0%</h3><p>Avance</p></div>
+            </div>
             <div class="progress-section"><div class="progress-label"><span>Progreso</span><span id="pTxt">0/0</span></div><div class="progress-track"><div class="progress-fill" id="pBar" style="width:0%"><span id="pPct">0%</span></div></div></div>
-            <div class="search-section"><div class="search-title">📋 Mis Simpatizantes Asignados</div><div class="search-box"><input type="text" class="search-input" id="searchInput" placeholder="Buscar por nombre, celular o documento..."><button class="filter-btn active" data-filter="todos" onclick="filtrar('todos')">Todos</button><button class="filter-btn" data-filter="pendientes" onclick="filtrar('pendientes')">⏳ Pendientes</button><button class="filter-btn" data-filter="encuestados" onclick="filtrar('encuestados')">✅ Hechos</button></div></div>
-            <div class="table-section"><div class="table-header"><span class="table-title">📋 Registros</span><span class="table-count" id="tCnt">0</span></div><div class="table-container" id="tBody"><p style="text-align:center;padding:30px;color:#666;">Cargando...</p></div></div>
+            <div class="search-section"><div class="search-title">Mis Simpatizantes Asignados</div><div class="search-box"><input type="text" class="search-input" id="searchInput" placeholder="Buscar por nombre, celular o documento..."><button class="filter-btn active" data-filter="todos" onclick="filtrar('todos')">Todos</button><button class="filter-btn" data-filter="pendientes" onclick="filtrar('pendientes')">Pendientes</button><button class="filter-btn" data-filter="encuestados" onclick="filtrar('encuestados')">Hechos</button></div></div>
+            <div class="table-section"><div class="table-header"><span class="table-title">Registros</span><span class="table-count" id="tCnt">0</span></div><div class="table-container" id="tBody"><p style="text-align:center;padding:30px;color:var(--corp-gray-400);">Cargando...</p></div></div>
         </div>
         <footer class="footer"><p>Desarrollado por <strong>Soluciones WilCas</strong></p></footer>
     </div>
+
+    <!-- ===== COORDINADOR ===== -->
     <div id="coordApp" class="hidden">
-        <div class="header"><div class="header-left"><div class="header-icon">📊</div><div class="header-title"><h1>Panel Coordinador</h1><p>Estadísticas en Tiempo Real</p></div></div><div class="header-right"><div class="user-info"><div class="user-avatar">👑</div><span class="user-name" id="cUser">-</span><span class="user-role">Coordinador</span></div><a href="https://script.google.com/macros/s/AKfycbyxdUb31zFOygX8ladGubiRst3t-Nz78GRY67ivUPPAxbNTfms2SWkmYZVWeUs6fHl-/exec" class="btn-menu" target="_top">← Menú</a><button class="btn-menu" id="btnLogoutC">Salir</button></div></div>
+        <div class="header">
+            <div class="header-left">
+                <div class="header-icon"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+                <div class="header-title"><h1>Panel Coordinador</h1><p>Estadísticas en Tiempo Real</p></div>
+            </div>
+            <div class="header-right">
+                <div class="user-info"><div class="user-avatar"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div><span class="user-name" id="cUser">-</span><span class="user-role">Coordinador</span></div>
+                <a id="btnMenuCoord" class="btn-menu" target="_top"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Menú</a>
+                <button class="btn-menu" id="btnLogoutC"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> Salir</button>
+            </div>
+        </div>
         <div class="main-content">
-            <div class="csg"><div class="cs t1"><h3 id="cT">0</h3><p>📋 Total</p></div><div class="cs t2"><h3 id="cE">0</h3><p>✅ Encuestados</p></div><div class="cs t3"><h3 id="cV">0%</h3><p>🗳️ Votaría</p></div><div class="cs t4"><h3 id="cPe">0</h3><p>⏳ Pendientes</p></div></div>
-            <div class="coord-section"><div class="coord-header"><span class="coord-title">📊 Respuestas</span><button class="btn-ref" id="btnRef">🔄 Actualizar</button></div><div class="resp-layout"><div class="resp-bars" id="cChart"></div><div class="resp-donut"><div class="donut-wrap"><canvas id="donutCanvas" width="440" height="440"></canvas><div class="donut-center"><h3 id="donutPct">0%</h3><p>Avance General</p></div></div><div class="donut-legend" id="donutLegend"></div></div></div></div>
-            <div class="coord-section"><div class="coord-header"><span class="coord-title">📥 Exportar Informes</span></div><div class="btn-export-group"><button class="btn-export btn-exp-txt" onclick="exportTxt()">📄 Informe General (.txt)</button><button class="btn-export btn-exp-csv" onclick="exportCsv()">📊 Datos Encuestas (.csv)</button><button class="btn-export btn-exp-ops" onclick="exportOps()">🏆 Rendimiento Operadores (.csv)</button></div></div>
-            <div class="coord-section"><div class="coord-header"><span class="coord-title">🏆 Operadores</span></div><div id="cOps"></div></div>
-            <div class="coord-section"><div class="coord-header"><span class="coord-title">📝 Últimas Encuestas</span></div><div class="table-container" id="cUlt"></div></div>
+            <div class="csg">
+                <div class="cs t1"><h3 id="cT">0</h3><p><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Total</p></div>
+                <div class="cs t2"><h3 id="cE">0</h3><p><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Encuestados</p></div>
+                <div class="cs t3"><h3 id="cV">0%</h3><p><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> Votaría</p></div>
+                <div class="cs t4"><h3 id="cPe">0</h3><p><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Pendientes</p></div>
+            </div>
+            <div class="coord-section"><div class="coord-header"><span class="coord-title">Respuestas</span><button class="btn-ref" id="btnRef"><svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> Actualizar</button></div><div class="resp-layout"><div class="resp-bars" id="cChart"></div><div class="resp-donut"><div class="donut-wrap"><canvas id="donutCanvas" width="440" height="440"></canvas><div class="donut-center"><h3 id="donutPct">0%</h3><p>Avance General</p></div></div><div class="donut-legend" id="donutLegend"></div></div></div></div>
+            <div class="coord-section"><div class="coord-header"><span class="coord-title">Exportar Informes</span></div><div class="btn-export-group"><button class="btn-export btn-exp-txt" onclick="exportTxt()"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Informe General (.txt)</button><button class="btn-export btn-exp-csv" onclick="exportCsv()"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Datos Encuestas (.csv)</button><button class="btn-export btn-exp-ops" onclick="exportOps()"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg> Rendimiento Operadores (.csv)</button></div></div>
+            <div class="coord-section"><div class="coord-header"><span class="coord-title">Operadores</span></div><div id="cOps"></div></div>
+            <div class="coord-section"><div class="coord-header"><span class="coord-title">Últimas Encuestas</span></div><div class="table-container" id="cUlt"></div></div>
         </div>
         <footer class="footer"><p>Desarrollado por <strong>Soluciones WilCas</strong></p></footer>
     </div>
+
+    <!-- ===== MODAL ENCUESTA ===== -->
     <div class="modal-overlay" id="modal">
         <div class="modal">
-            <div class="modal-header"><h2>📋 Encuesta Telefónica</h2><button class="btn-close" id="mClose">&times;</button></div>
+            <div class="modal-header"><h2><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> Encuesta Telefónica</h2><button class="btn-close" id="mClose">&times;</button></div>
             <div class="modal-body">
                 <input type="hidden" id="mIdx">
-                <div class="form-section"><div class="form-section-title">👤 Datos del Simpatizante</div><div class="form-row"><div class="fm"><label>Nombre</label><div class="info-box" id="mNom"></div></div><div class="fm"><label>Celular</label><div class="info-box" id="mCel"></div></div></div><div class="form-row"><div class="fm"><label>Documento</label><div class="info-box" id="mDoc"></div></div><div class="fm"><label>Municipio</label><div class="info-box" id="mMun"></div></div></div><div class="form-row"><div class="fm"><label>Barrio</label><div class="info-box" id="mBar"></div></div><div class="fm"><label>Líder</label><div class="info-box" id="mLid"></div></div></div></div>
-                <div class="form-section"><div class="form-section-title">🗳️ Info Electoral</div><div class="form-row"><div class="fm"><label>Puesto de Votación</label><input type="text" id="mPuesto" class="uppercase" placeholder="Ej: I.E. LEONARDO DAVINCI"></div><div class="fm"><label>Mesa</label><input type="number" id="mMesa" placeholder="Ej: 23" min="1"></div></div><div style="text-align:center;margin-top:8px;"><a href="https://eleccionescolombia.registraduria.gov.co/identificacion" target="_blank" style="display:inline-block;background:linear-gradient(135deg,#1565c0,#0d47a1);color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;font-size:13px;font-weight:600;box-shadow:0 2px 8px rgba(21,101,192,0.3);">🗳️ Consultar lugar de votación - Registraduría</a></div></div>
-                <div class="form-section"><div class="form-section-title">📝 Preguntas</div>
+                <div class="form-section"><div class="form-section-title"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Datos del Simpatizante</div><div class="form-row"><div class="fm"><label>Nombre</label><div class="info-box" id="mNom"></div></div><div class="fm"><label>Celular</label><div class="info-box" id="mCel"></div></div></div><div class="form-row"><div class="fm"><label>Documento</label><div class="info-box" id="mDoc"></div></div><div class="fm"><label>Municipio</label><div class="info-box" id="mMun"></div></div></div><div class="form-row"><div class="fm"><label>Barrio</label><div class="info-box" id="mBar"></div></div><div class="fm"><label>Líder</label><div class="info-box" id="mLid"></div></div></div></div>
+                <div class="form-section"><div class="form-section-title"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> Info Electoral</div><div class="form-row"><div class="fm"><label>Puesto de Votación</label><input type="text" id="mPuesto" class="uppercase" placeholder="Ej: I.E. LEONARDO DAVINCI"></div><div class="fm"><label>Mesa</label><input type="number" id="mMesa" placeholder="Ej: 23" min="1"></div></div><div style="text-align:center;margin-top:8px;"><a href="https://eleccionescolombia.registraduria.gov.co/identificacion" target="_blank" class="btn-registraduria"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Consultar lugar de votación - Registraduría</a></div></div>
+                <div class="form-section"><div class="form-section-title"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Preguntas</div>
                     <div class="enc-grid">
-                        <div class="enc-q"><label>¿Contestó la llamada?</label><div class="btn-group" data-c="contesto"><button type="button" class="btn-sn" onclick="sel(this,'si')">✅ SÍ</button><button type="button" class="btn-sn" onclick="sel(this,'no')">✖ NO</button></div></div>
-                        <div class="enc-q"><label>¿Conoce al referente/líder?</label><div class="btn-group" data-c="conoceReferente"><button type="button" class="btn-sn" onclick="sel(this,'si')">✅ SÍ</button><button type="button" class="btn-sn" onclick="sel(this,'no')">✖ NO</button></div></div>
-                        <div class="enc-q"><label>¿Conoce al candidato?</label><div class="btn-group" data-c="conoceCandidato"><button type="button" class="btn-sn" onclick="sel(this,'si')">✅ SÍ</button><button type="button" class="btn-sn" onclick="sel(this,'no')">✖ NO</button></div></div>
-                        <div class="enc-q"><label>¿Votaría por el candidato?</label><div class="btn-group" data-c="votaria"><button type="button" class="btn-sn" onclick="sel(this,'si')">✅ SÍ</button><button type="button" class="btn-sn" onclick="sel(this,'no')">✖ NO</button></div></div>
-                        <div class="enc-q"><label>¿Sabe cómo votar? (U o 1)</label><div class="btn-group" data-c="sabeVotar"><button type="button" class="btn-sn" onclick="sel(this,'si')">✅ SÍ</button><button type="button" class="btn-sn" onclick="sel(this,'no')">✖ NO</button></div></div>
-                        <div class="enc-q"><label>¿Conoce su mesa y puesto?</label><div class="btn-group" data-c="conoceMesaPuesto"><button type="button" class="btn-sn" onclick="sel(this,'si')">✅ SÍ</button><button type="button" class="btn-sn" onclick="sel(this,'no')">✖ NO</button></div></div>
-                        <div class="enc-q" style="grid-column:1/-1"><label>¿Desea info por WhatsApp?</label><div class="btn-group" data-c="infoWhatsApp"><button type="button" class="btn-sn" onclick="sel(this,'si')">✅ SÍ</button><button type="button" class="btn-sn" onclick="sel(this,'no')">✖ NO</button></div></div>
+                        <div class="enc-q"><label>Contestó la llamada?</label><div class="btn-group" data-c="contesto"><button type="button" class="btn-sn" onclick="sel(this,'si')">SÍ</button><button type="button" class="btn-sn" onclick="sel(this,'no')">NO</button></div></div>
+                        <div class="enc-q"><label>Conoce al referente/líder?</label><div class="btn-group" data-c="conoceReferente"><button type="button" class="btn-sn" onclick="sel(this,'si')">SÍ</button><button type="button" class="btn-sn" onclick="sel(this,'no')">NO</button></div></div>
+                        <div class="enc-q"><label>Conoce al candidato?</label><div class="btn-group" data-c="conoceCandidato"><button type="button" class="btn-sn" onclick="sel(this,'si')">SÍ</button><button type="button" class="btn-sn" onclick="sel(this,'no')">NO</button></div></div>
+                        <div class="enc-q"><label>Votaría por el candidato?</label><div class="btn-group" data-c="votaria"><button type="button" class="btn-sn" onclick="sel(this,'si')">SÍ</button><button type="button" class="btn-sn" onclick="sel(this,'no')">NO</button></div></div>
+                        <div class="enc-q"><label>Sabe cómo votar? (U o 1)</label><div class="btn-group" data-c="sabeVotar"><button type="button" class="btn-sn" onclick="sel(this,'si')">SÍ</button><button type="button" class="btn-sn" onclick="sel(this,'no')">NO</button></div></div>
+                        <div class="enc-q"><label>Conoce su mesa y puesto?</label><div class="btn-group" data-c="conoceMesaPuesto"><button type="button" class="btn-sn" onclick="sel(this,'si')">SÍ</button><button type="button" class="btn-sn" onclick="sel(this,'no')">NO</button></div></div>
+                        <div class="enc-q"><label>Desea info por WhatsApp?</label><div class="btn-group" data-c="infoWhatsApp"><button type="button" class="btn-sn" onclick="sel(this,'si')">SÍ</button><button type="button" class="btn-sn" onclick="sel(this,'no')">NO</button></div></div>
+                        <div class="enc-q"><label>En listado 14 de Mayo?</label><div class="btn-group" data-c="listado14Mayo"><button type="button" class="btn-sn" onclick="sel(this,'si')">SÍ</button><button type="button" class="btn-sn" onclick="sel(this,'no')">NO</button></div></div>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer"><button class="btn-cancel" id="mCancel">Cancelar</button><button class="btn-save" id="mSave">💾 Guardar</button></div>
+            <div class="modal-footer"><button class="btn-cancel" id="mCancel">Cancelar</button><button class="btn-save" id="mSave"><svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Guardar</button></div>
         </div>
     </div>
-    <div class="loading-overlay" id="ld"><div class="loading-spinner"></div><p style="margin-top:15px;color:#666;">Cargando...</p></div>
+
+    <!-- ===== LOADING ===== -->
+    <div class="loading-overlay" id="ld"><div class="loading-spinner"></div><p style="margin-top:15px;color:var(--corp-gray-400);font-weight:600;font-size:14px;">Cargando...</p></div>
+<!-- ===== JAVASCRIPT — CON AUTO-RESETEO DE CICLO ===== -->
 <script>
 (function(){
 var U=null,R=[],RF=[],SL={},FA='todos',PG=1,PGS=50;
+var BASE_URL='';
+var RESETTING=false; // NUEVO: Bandera para evitar loops de reseteo
 function $(i){return document.getElementById(i)}
 function ld(s){$('ld').classList.toggle('active',s)}
 function esc(t){var d=document.createElement('div');d.textContent=t||'';return d.innerHTML}
-function msg(m){var a=document.createElement('div');a.textContent=m;a.style.cssText='position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#d4edda;color:#155724;padding:14px 28px;border-radius:10px;z-index:3000;font-weight:600;box-shadow:0 4px 15px rgba(0,0,0,0.2);';document.body.appendChild(a);setTimeout(function(){a.remove()},3000)}
+function msg(m){var a=document.createElement('div');a.textContent=m;a.style.cssText='position:fixed;top:20px;left:50%;transform:translateX(-50%);background:var(--corp-success-light);color:var(--corp-success);padding:12px 24px;border-radius:var(--corp-radius);z-index:3000;font-weight:700;font-size:14px;box-shadow:var(--corp-shadow-md);border:1px solid #99F6E4;font-family:var(--corp-font);';document.body.appendChild(a);setTimeout(function(){a.remove()},3000)}
+function getBaseUrl(){try{var u=window.location.href;var idx=u.indexOf('/exec');if(idx!==-1)return u.substring(0,idx+5);idx=u.indexOf('/dev');if(idx!==-1)return u.substring(0,idx+4);return u.split('?')[0]}catch(e){return ''}}
 function login(){
     var u=$('loginUsuario').value.trim().toLowerCase(),c=$('loginClave').value;
     if(!u||!c){$('loginError').textContent='Ingrese usuario y contraseña';$('loginError').classList.remove('hidden');return}
@@ -227,7 +379,7 @@ function initApp(){
     if(U.rol==='coordinador'){$('coordApp').classList.remove('hidden');$('cUser').textContent=U.nombre;loadCoord()}
     else{$('mainApp').classList.remove('hidden');$('userInfo').textContent=U.nombre;loadRegs()}
 }
-function logout(){U=null;R=[];$('mainApp').classList.add('hidden');$('coordApp').classList.add('hidden');$('loginSection').classList.remove('hidden');$('loginUsuario').value='';$('loginClave').value='';$('loginError').classList.add('hidden')}
+function logout(){U=null;R=[];RESETTING=false;$('mainApp').classList.add('hidden');$('coordApp').classList.add('hidden');$('loginSection').classList.remove('hidden');$('loginUsuario').value='';$('loginClave').value='';$('loginError').classList.add('hidden')}
 function loadRegs(keepPage){
     ld(true);
     if(typeof google!=='undefined'&&google.script){
@@ -238,18 +390,64 @@ function updView(keepPage){
     var t=R.length,e=R.filter(function(r){return r.encuestado}).length,p=t-e,pc=t>0?Math.round(e/t*100):0;
     $('sT').textContent=t;$('sE').textContent=e;$('sP').textContent=p;$('sPct').textContent=pc+'%';
     $('pTxt').textContent=e+' / '+t;$('pBar').style.width=pc+'%';$('pPct').textContent=pc+'%';
+    // === NUEVO: Verificar si todos completados para auto-reseteo ===
+    if(t>0 && e===t && !RESETTING){
+        RESETTING=true;
+        verificarYResetearCiclo();
+        return;
+    }
+    // === FIN NUEVO ===
     filtrar(FA,keepPage);
 }
+// === NUEVO: Funcion de auto-reseteo de ciclo ===
+function verificarYResetearCiclo(){
+    if(typeof google!=='undefined'&&google.script){
+        ld(true);
+        google.script.run.withSuccessHandler(function(r){
+            ld(false);
+            if(r&&r.success){
+                mostrarBannerReset(r.reseteados||0);
+                msg('Ciclo completado - '+r.reseteados+' registros reiniciados');
+                setTimeout(function(){RESETTING=false;loadRegs()},2000);
+            }else{
+                RESETTING=false;
+                filtrar(FA);
+            }
+        }).withFailureHandler(function(e){
+            ld(false);RESETTING=false;
+            filtrar(FA);
+        }).resetearCicloOperadorWrapper(U.numeroOperador);
+    }else{
+        // Demo: resetear localmente
+        R.forEach(function(r){
+            r.encuestado=false;r.contesto='';r.votaria='';r.conoceReferente='';
+            r.conoceCandidato='';r.sabeVotar='';r.conoceMesaPuesto='';
+            r.infoWhatsApp='';r.listado14Mayo='';r.puestoVotacion='';r.mesa='';
+        });
+        mostrarBannerReset(R.length);
+        msg('Ciclo completado - Registros reiniciados (Demo)');
+        setTimeout(function(){RESETTING=false;updView()},1500);
+    }
+}
+function mostrarBannerReset(cantidad){
+    var banner=$('cycleResetBanner');
+    if(banner){
+        $('cycleResetMsg').textContent=cantidad+' registros han vuelto a estado pendiente para un nuevo ciclo de llamadas.';
+        banner.classList.remove('hidden');
+        setTimeout(function(){banner.classList.add('hidden')},8000);
+    }
+}
+// === FIN NUEVO ===
 window.filtrar=function(f,keepPage){
     FA=f;document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active');if(b.getAttribute('data-filter')===f)b.classList.add('active')});
     var q=($('searchInput').value||'').toLowerCase();
-    RF=R.filter(function(r){var mf=f==='todos'||(f==='encuestados'&&r.encuestado)||(f==='pendientes'&&!r.encuestado);var mb=!q||(r.nombre||'').toLowerCase().includes(q)||(r.celular||'').includes(q)||(r.documento||'').includes(q);return mf&&mb});
+    RF=R.filter(function(r){var mf=f==='todos'||(f==='encuestados'&&r.encuestado)||(f==='pendientes'&&!r.encuestado);var mb=!q||(r.nombre||'').toLowerCase().indexOf(q)>=0||(r.celular||'').indexOf(q)>=0||(r.documento||'').indexOf(q)>=0;return mf&&mb});
     if(!keepPage)PG=1;
     renderT();
 };
 function renderT(){
     $('tCnt').textContent=RF.length+' registros';
-    if(!RF.length){$('tBody').innerHTML='<p style="text-align:center;padding:30px;color:#666;">Sin registros</p>';return}
+    if(!RF.length){$('tBody').innerHTML='<p style="text-align:center;padding:30px;color:var(--corp-gray-400);">Sin registros</p>';return}
     var totalPags=Math.ceil(RF.length/PGS);
     if(PG>totalPags)PG=totalPags;
     if(PG<1)PG=1;
@@ -257,16 +455,16 @@ function renderT(){
     var h='<table><thead><tr><th>#</th><th>Nombre</th><th>Celular</th><th>Documento</th><th>Municipio</th><th>Líder</th><th>Estado</th><th>Acción</th></tr></thead><tbody>';
     for(var i=ini;i<fin;i++){
         var r=RF[i];
-        var cl=r.encuestado?'done-row':'',bg=r.encuestado?'<span class="badge badge-done">✅ Hecho</span>':'<span class="badge badge-pend">⏳ Pendiente</span>',bc=r.encuestado?'btn-enc btn-enc-done':'btn-enc',bt=r.encuestado?'✏️ Editar':'📋 Encuestar';
+        var cl=r.encuestado?'done-row':'',bg=r.encuestado?'<span class="badge badge-done">Hecho</span>':'<span class="badge badge-pend">Pendiente</span>',bc=r.encuestado?'btn-enc btn-enc-done':'btn-enc',bt=r.encuestado?'Editar':'Encuestar';
         h+='<tr class="'+cl+'"><td>'+(i+1)+'</td><td><strong>'+esc(r.nombre)+'</strong></td><td>'+esc(r.celular)+'</td><td style="font-size:11px;">'+esc(r.documento)+'</td><td style="font-size:11px;">'+esc(r.municipio)+'</td><td style="font-size:11px;">'+esc((r.nombreLider||'').substring(0,18))+'</td><td>'+bg+'</td><td><button class="'+bc+'" onclick="abrirEnc('+r.idx+')">'+bt+'</button></td></tr>';
     }
     h+='</tbody></table>';
     if(totalPags>1){
-        h+='<div class="pag-bar"><button class="pag-btn" onclick="irPag(1)"'+(PG===1?' disabled':'')+'>⏮</button>';
-        h+='<button class="pag-btn" onclick="irPag('+(PG-1)+')"'+(PG===1?' disabled':'')+'>◀ Anterior</button>';
+        h+='<div class="pag-bar"><button class="pag-btn" onclick="irPag(1)"'+(PG===1?' disabled':'')+'>&#9198;</button>';
+        h+='<button class="pag-btn" onclick="irPag('+(PG-1)+')"'+(PG===1?' disabled':'')+'>Anterior</button>';
         h+='<span class="pag-info">Página '+PG+' de '+totalPags+' ('+RF.length+' registros)</span>';
-        h+='<button class="pag-btn" onclick="irPag('+(PG+1)+')"'+(PG===totalPags?' disabled':'')+'>Siguiente ▶</button>';
-        h+='<button class="pag-btn" onclick="irPag('+totalPags+')"'+(PG===totalPags?' disabled':'')+'>⏭</button></div>';
+        h+='<button class="pag-btn" onclick="irPag('+(PG+1)+')"'+(PG===totalPags?' disabled':'')+'>Siguiente</button>';
+        h+='<button class="pag-btn" onclick="irPag('+totalPags+')"'+(PG===totalPags?' disabled':'')+'>&#9197;</button></div>';
     }
     $('tBody').innerHTML=h;
 }
@@ -276,7 +474,7 @@ window.abrirEnc=function(idx){
     $('mIdx').value=idx;$('mNom').textContent=r.nombre||'';$('mCel').textContent=r.celular||'';$('mDoc').textContent=r.documento||'';$('mMun').textContent=r.municipio||'';$('mBar').textContent=r.barrio||'';$('mLid').textContent=r.nombreLider||'';
     $('mPuesto').value=r.puestoVotacion||'';$('mMesa').value=r.mesa||'';
     SL={};document.querySelectorAll('.btn-sn').forEach(function(b){b.classList.remove('si-on','no-on')});
-    ['contesto','conoceReferente','conoceCandidato','votaria','sabeVotar','conoceMesaPuesto','infoWhatsApp'].forEach(function(c){
+    ['contesto','conoceReferente','conoceCandidato','votaria','sabeVotar','conoceMesaPuesto','infoWhatsApp','listado14Mayo'].forEach(function(c){
         var v=(r[c]||'').toLowerCase().trim();if(v==='sí'||v==='si')preSel(c,'si');else if(v==='no')preSel(c,'no');
     });
     $('modal').classList.add('active');
@@ -284,12 +482,12 @@ window.abrirEnc=function(idx){
 function preSel(c,v){SL[c]=v==='si'?'Sí':'No';var g=document.querySelector('[data-c="'+c+'"]');if(!g)return;var bs=g.querySelectorAll('.btn-sn');if(v==='si')bs[0].classList.add('si-on');else bs[1].classList.add('no-on')}
 window.sel=function(b,v){var g=b.parentElement,c=g.getAttribute('data-c');g.querySelectorAll('.btn-sn').forEach(function(x){x.classList.remove('si-on','no-on')});if(v==='si'){b.classList.add('si-on');SL[c]='Sí'}else{b.classList.add('no-on');SL[c]='No'}};
 function guardar(){
-    if(!SL.contesto){alert('⚠️ Debe indicar si contestó la llamada');return}
-    var d={filaBDSimpatizantes:parseInt($('mIdx').value),usuarioOperador:U.usuario,nombreOperador:U.nombre,nombreContacto:$('mNom').textContent,celular:$('mCel').textContent,documento:$('mDoc').textContent,municipio:$('mMun').textContent,barrio:$('mBar').textContent,puestoVotacion:$('mPuesto').value,mesa:$('mMesa').value,contesto:SL.contesto||'',conoceReferente:SL.conoceReferente||'',conoceCandidato:SL.conoceCandidato||'',votaria:SL.votaria||'',sabeVotar:SL.sabeVotar||'',conoceMesaPuesto:SL.conoceMesaPuesto||'',infoWhatsApp:SL.infoWhatsApp||''};
+    if(!SL.contesto){alert('Debe indicar si contestó la llamada');return}
+    var d={filaBDSimpatizantes:parseInt($('mIdx').value),usuarioOperador:U.usuario,nombreOperador:U.nombre,nombreContacto:$('mNom').textContent,celular:$('mCel').textContent,documento:$('mDoc').textContent,municipio:$('mMun').textContent,barrio:$('mBar').textContent,puestoVotacion:$('mPuesto').value,mesa:$('mMesa').value,contesto:SL.contesto||'',conoceReferente:SL.conoceReferente||'',conoceCandidato:SL.conoceCandidato||'',votaria:SL.votaria||'',sabeVotar:SL.sabeVotar||'',conoceMesaPuesto:SL.conoceMesaPuesto||'',infoWhatsApp:SL.infoWhatsApp||'',listado14Mayo:SL.listado14Mayo||''};
     ld(true);
     if(typeof google!=='undefined'&&google.script){
-        google.script.run.withSuccessHandler(function(r){if(r&&r.success){cerrar();msg('✅ Encuesta guardada');loadRegs(true)}else{ld(false);alert('Error: '+(r?r.message:''))}}).withFailureHandler(function(e){ld(false);alert('Error: '+e)}).guardarEncuestaLlamadaWrapper(d)
-    }else{setTimeout(function(){ld(false);var rg=R.find(function(x){return x.idx===d.filaBDSimpatizantes});if(rg){rg.encuestado=true;rg.contesto=d.contesto;rg.votaria=d.votaria}cerrar();updView(true);msg('✅ Guardado (Demo)')},500)}
+        google.script.run.withSuccessHandler(function(r){if(r&&r.success){cerrar();msg('Encuesta guardada correctamente');loadRegs(true)}else{ld(false);alert('Error: '+(r?r.message:''))}}).withFailureHandler(function(e){ld(false);alert('Error: '+e)}).guardarEncuestaLlamadaWrapper(d)
+    }else{setTimeout(function(){ld(false);var rg=R.find(function(x){return x.idx===d.filaBDSimpatizantes});if(rg){rg.encuestado=true;rg.contesto=d.contesto;rg.votaria=d.votaria;rg.listado14Mayo=d.listado14Mayo}cerrar();updView(true);msg('Guardado (Demo)')},500)}
 }
 function cerrar(){$('modal').classList.remove('active')}
 function loadCoord(){
@@ -298,27 +496,25 @@ function loadCoord(){
         google.script.run.withSuccessHandler(function(r){ld(false);if(r&&r.success)renderC(r);else alert('Error')}).withFailureHandler(function(e){ld(false);alert('Error: '+e)}).obtenerEstadisticasCoordinadorWrapper()
     }else{setTimeout(function(){ld(false);renderC(demoC())},800)}
 }
-var CD=null; // coord data for exports
+var CD=null;
 function renderC(d){
     CD=d;
     $('cT').textContent=d.totalRegistros||0;$('cE').textContent=d.encuestados||0;$('cPe').textContent=d.sinEncuestar||0;
     var rp=d.respuestas||{},tv=rp.votaria?rp.votaria.si+rp.votaria.no:0;$('cV').textContent=(tv>0?Math.round(rp.votaria.si/tv*100):0)+'%';
-    var ps=[{k:'contesto',l:'Contestó'},{k:'conoceReferente',l:'Conoce referente'},{k:'conoceCandidato',l:'Conoce candidato'},{k:'votaria',l:'Votaría'},{k:'sabeVotar',l:'Sabe votar'},{k:'conoceMesaPuesto',l:'Conoce mesa/puesto'},{k:'infoWhatsApp',l:'Info WhatsApp'}],ch='';
+    var ps=[{k:'contesto',l:'Contestó'},{k:'conoceReferente',l:'Conoce referente'},{k:'conoceCandidato',l:'Conoce candidato'},{k:'votaria',l:'Votaría'},{k:'sabeVotar',l:'Sabe votar'},{k:'conoceMesaPuesto',l:'Conoce mesa/puesto'},{k:'infoWhatsApp',l:'Info WhatsApp'},{k:'listado14Mayo',l:'Listado 14 Mayo'}],ch='';
     ps.forEach(function(p){var r=rp[p.k]||{si:0,no:0},t=r.si+r.no,pc=t>0?Math.round(r.si/t*100):0;ch+='<div class="cb"><div class="cb-l">'+p.l+'</div><div class="cb-t"><div class="cb-f" style="width:'+pc+'%"><span>'+r.si+'</span></div></div><div class="cb-p">'+pc+'%</div></div>'});
     $('cChart').innerHTML=ch;
-    // Donut chart
     drawDonut(d);
-    // Operadores
     var ops=d.porOperador||[];
-    if(!ops.length){$('cOps').innerHTML='<p style="text-align:center;color:#666;padding:20px;">Sin datos</p>'}
+    if(!ops.length){$('cOps').innerHTML='<p style="text-align:center;color:var(--corp-gray-400);padding:20px;">Sin datos</p>'}
     else{var oh='<div class="table-container"><table class="ot"><thead><tr><th>#</th><th>Operador</th><th>Asignados</th><th>Hechos</th><th>Pend.</th><th>Avance</th><th>Sí Votaría</th></tr></thead><tbody>';
     ops.forEach(function(o,i){var rc=i===0?'rk1':i===1?'rk2':i===2?'rk3':'rkn',pc=o.totalAsignados>0?Math.round(o.encuestados/o.totalAsignados*100):0;
-    oh+='<tr><td><div class="rk '+rc+'">'+(i+1)+'</div></td><td><strong>'+esc(o.nombre)+'</strong></td><td style="text-align:center">'+o.totalAsignados+'</td><td style="text-align:center;color:#28a745;font-weight:700">'+o.encuestados+'</td><td style="text-align:center;color:#dc3545">'+o.sinEncuestar+'</td><td><div class="pb"><div class="pb-f" style="width:'+pc+'%"></div></div><small style="font-size:10px">'+pc+'%</small></td><td style="text-align:center;font-weight:600;color:#ff6b00">'+(o.siVotaria||0)+'</td></tr>'});
+    oh+='<tr><td><div class="rk '+rc+'">'+(i+1)+'</div></td><td><strong>'+esc(o.nombre)+'</strong></td><td style="text-align:center">'+o.totalAsignados+'</td><td style="text-align:center;color:var(--corp-success);font-weight:700">'+o.encuestados+'</td><td style="text-align:center;color:var(--corp-danger)">'+o.sinEncuestar+'</td><td><div class="pb"><div class="pb-f" style="width:'+pc+'%"></div></div><small style="font-size:10px">'+pc+'%</small></td><td style="text-align:center;font-weight:700;color:var(--corp-primary)">'+(o.siVotaria||0)+'</td></tr>'});
     oh+='</tbody></table></div>';$('cOps').innerHTML=oh}
     var ul=d.encuestasRecientes||[];
-    if(!ul.length){$('cUlt').innerHTML='<p style="text-align:center;color:#666;padding:20px;">Sin encuestas</p>'}
+    if(!ul.length){$('cUlt').innerHTML='<p style="text-align:center;color:var(--corp-gray-400);padding:20px;">Sin encuestas</p>'}
     else{var uh='<table class="ot"><thead><tr><th>Nombre</th><th>Celular</th><th>Municipio</th><th>Contestó</th><th>Votaría</th><th>Op.</th></tr></thead><tbody>';
-    ul.forEach(function(e){uh+='<tr><td><strong>'+esc(e.nombre)+'</strong></td><td>'+esc(e.celular)+'</td><td style="font-size:11px">'+esc(e.municipio)+'</td><td>'+esc(e.contesto)+'</td><td style="font-weight:600;color:'+((e.votaria||'').toLowerCase().includes('s')?'#28a745':'#dc3545')+'">'+esc(e.votaria||'-')+'</td><td>Op.'+e.operador+'</td></tr>'});
+    ul.forEach(function(e){uh+='<tr><td><strong>'+esc(e.nombre)+'</strong></td><td>'+esc(e.celular)+'</td><td style="font-size:11px">'+esc(e.municipio)+'</td><td>'+esc(e.contesto)+'</td><td style="font-weight:700;color:'+((e.votaria||'').toLowerCase().indexOf('s')>=0?'var(--corp-success)':'var(--corp-danger)')+'">'+esc(e.votaria||'-')+'</td><td>Op.'+e.operador+'</td></tr>'});
     uh+='</tbody></table>';$('cUlt').innerHTML=uh}
 }
 function drawDonut(d){
@@ -327,60 +523,64 @@ function drawDonut(d){
     var rp=d.respuestas||{},siV=(rp.votaria||{}).si||0,noV=(rp.votaria||{}).no||0,noC=enc-siV-noV;if(noC<0)noC=0;
     var pctG=tot>0?Math.round(enc/tot*100):0;
     $('donutPct').textContent=pctG+'%';
-    var slices=[{v:siV,color:'#28a745',label:'Sí Votaría'},{v:noV,color:'#dc3545',label:'No Votaría'},{v:noC,color:'#ffc107',label:'Sin Respuesta'},{v:pend,color:'#e0e0e0',label:'Pendientes'}];
+    var slices=[{v:siV,color:'#0D9488',label:'Sí Votaría'},{v:noV,color:'#BE123C',label:'No Votaría'},{v:noC,color:'#D97706',label:'Sin Respuesta'},{v:pend,color:'#E2E8F0',label:'Pendientes'}];
     var total=0;slices.forEach(function(s){total+=s.v});
     ctx.clearRect(0,0,440,440);
-    var cx=220,cy=220,R=190,r=120,start=-Math.PI/2;
-    if(total===0){ctx.beginPath();ctx.arc(cx,cy,R,0,Math.PI*2);ctx.arc(cx,cy,r,Math.PI*2,0,true);ctx.fillStyle='#e0e0e0';ctx.fill();return}
-    slices.forEach(function(s,i){
+    var cx=220,cy=220,Ro=190,r=120,start=-Math.PI/2;
+    if(total===0){ctx.beginPath();ctx.arc(cx,cy,Ro,0,Math.PI*2);ctx.arc(cx,cy,r,Math.PI*2,0,true);ctx.fillStyle='#E2E8F0';ctx.fill();return}
+    slices.forEach(function(s){
         if(s.v===0)return;
         var angle=(s.v/total)*Math.PI*2;var end=start+angle;
-        ctx.beginPath();ctx.arc(cx,cy,R,start,end);ctx.arc(cx,cy,r,end,start,true);ctx.closePath();
-        var grad=ctx.createRadialGradient(cx,cy,r,cx,cy,R);
-        var c2=s.color+'cc';grad.addColorStop(0,c2);grad.addColorStop(1,s.color);
-        ctx.fillStyle=grad;ctx.fill();
+        ctx.beginPath();ctx.arc(cx,cy,Ro,start,end);ctx.arc(cx,cy,r,end,start,true);ctx.closePath();
+        ctx.fillStyle=s.color;ctx.fill();
         ctx.strokeStyle='white';ctx.lineWidth=3;ctx.stroke();
         start=end;
     });
     var lgH='';slices.forEach(function(s){if(s.v>0)lgH+='<div class="legend-item"><div class="legend-dot" style="background:'+s.color+'"></div>'+s.label+' ('+s.v+')</div>'});
     $('donutLegend').innerHTML=lgH;
 }
-// === EXPORT FUNCTIONS ===
 function dl(name,content,type){var b=new Blob([content],{type:type||'text/plain;charset=utf-8'});var u=URL.createObjectURL(b);var a=document.createElement('a');a.href=u;a.download=name;a.click();URL.revokeObjectURL(u)}
 function fdate(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 window.exportTxt=function(){
     if(!CD){alert('Primero cargue los datos');return}
     var d=CD,rp=d.respuestas||{},hoy=fdate();
-    var t='═══════════════════════════════════════════════════\n';
+    var t='===============================================\n';
     t+='  INFORME DE GESTIÓN DE LLAMADAS\n';
-    t+='  Red 40-WilCas • U Caldas\n';
+    t+='  Red 40-WilCas - 40 Caldas\n';
     t+='  Fecha: '+hoy+'\n';
-    t+=t.substring(0,51)+'\n\n';
-    t+='RESUMEN GENERAL\n'+('─').repeat(40)+'\n';
+    t+='===============================================\n\n';
+    t+='RESUMEN GENERAL\n';for(var x=0;x<40;x++)t+=String.fromCharCode(9472);t+='\n';
     t+='  Total registros:    '+d.totalRegistros+'\n';
     t+='  Encuestados:        '+d.encuestados+'\n';
     t+='  Pendientes:         '+d.sinEncuestar+'\n';
     var pct=d.totalRegistros>0?Math.round(d.encuestados/d.totalRegistros*100):0;
     t+='  Avance:             '+pct+'%\n\n';
-    t+='RESULTADOS DE ENCUESTA\n'+('─').repeat(40)+'\n';
-    var ps=[{k:'contesto',l:'Contestó llamada'},{k:'conoceReferente',l:'Conoce referente'},{k:'conoceCandidato',l:'Conoce candidato'},{k:'votaria',l:'Votaría por candidato'},{k:'sabeVotar',l:'Sabe cómo votar'},{k:'conoceMesaPuesto',l:'Conoce mesa/puesto'},{k:'infoWhatsApp',l:'Info WhatsApp'}];
+    t+='RESULTADOS DE ENCUESTA\n';for(var y=0;y<40;y++)t+=String.fromCharCode(9472);t+='\n';
+    var ps=[{k:'contesto',l:'Contestó llamada'},{k:'conoceReferente',l:'Conoce referente'},{k:'conoceCandidato',l:'Conoce candidato'},{k:'votaria',l:'Votaría por candidato'},{k:'sabeVotar',l:'Sabe cómo votar'},{k:'conoceMesaPuesto',l:'Conoce mesa/puesto'},{k:'infoWhatsApp',l:'Info WhatsApp'},{k:'listado14Mayo',l:'Listado 14 Mayo'}];
     ps.forEach(function(p){var r=rp[p.k]||{si:0,no:0},tt=r.si+r.no,pc=tt>0?Math.round(r.si/tt*100):0;
-    t+='  '+p.l.padEnd(25)+' SÍ: '+String(r.si).padStart(5)+' | NO: '+String(r.no).padStart(5)+' | '+pc+'% SÍ\n'});
-    t+='\nRENDIMIENTO POR OPERADOR\n'+('─').repeat(40)+'\n';
+    var lb=p.l;while(lb.length<25)lb+=' ';
+    var ss=String(r.si);while(ss.length<5)ss=' '+ss;
+    var sn=String(r.no);while(sn.length<5)sn=' '+sn;
+    t+='  '+lb+' SÍ: '+ss+' | NO: '+sn+' | '+pc+'% SÍ\n'});
+    t+='\nRENDIMIENTO POR OPERADOR\n';for(var z=0;z<40;z++)t+=String.fromCharCode(9472);t+='\n';
     (d.porOperador||[]).forEach(function(o,i){var pc=o.totalAsignados>0?Math.round(o.encuestados/o.totalAsignados*100):0;
-    t+='  '+(i+1)+'. '+o.nombre.padEnd(18)+' Asig: '+String(o.totalAsignados).padStart(5)+' | Hechos: '+String(o.encuestados).padStart(4)+' | Pend: '+String(o.sinEncuestar).padStart(5)+' | '+pc+'% | Sí Votaría: '+(o.siVotaria||0)+'\n'});
-    t+='\n'+('═').repeat(51)+'\n';
+    var nm=o.nombre;while(nm.length<18)nm+=' ';
+    var sa=String(o.totalAsignados);while(sa.length<5)sa=' '+sa;
+    var sh=String(o.encuestados);while(sh.length<4)sh=' '+sh;
+    var sp=String(o.sinEncuestar);while(sp.length<5)sp=' '+sp;
+    t+='  '+(i+1)+'. '+nm+' Asig: '+sa+' | Hechos: '+sh+' | Pend: '+sp+' | '+pc+'% | Sí Votaría: '+(o.siVotaria||0)+'\n'});
+    t+='\n===============================================\n';
     t+='  Generado: '+new Date().toLocaleString('es-CO')+'\n';
     t+='  Soluciones WilCas\n';
     dl('informe_llamadas_'+hoy+'.txt',t);
-    msg('📄 Informe descargado');
+    msg('Informe descargado');
 };
 window.exportCsv=function(){
     if(!CD||!CD.encuestasRecientes){alert('Sin datos');return}
     var csv='Nombre,Celular,Municipio,Contestó,Votaría,Operador\n';
     CD.encuestasRecientes.forEach(function(e){csv+='"'+e.nombre+'","'+e.celular+'","'+e.municipio+'","'+e.contesto+'","'+(e.votaria||'-')+'","Op.'+e.operador+'"\n'});
     dl('encuestas_'+fdate()+'.csv','\uFEFF'+csv,'text/csv;charset=utf-8');
-    msg('📊 CSV descargado');
+    msg('CSV descargado');
 };
 window.exportOps=function(){
     if(!CD||!CD.porOperador){alert('Sin datos');return}
@@ -388,15 +588,18 @@ window.exportOps=function(){
     CD.porOperador.forEach(function(o,i){var pc=o.totalAsignados>0?Math.round(o.encuestados/o.totalAsignados*100):0;
     csv+=(i+1)+',"'+o.nombre+'",'+o.totalAsignados+','+o.encuestados+','+o.sinEncuestar+','+pc+'%,'+(o.siVotaria||0)+'\n'});
     dl('operadores_'+fdate()+'.csv','\uFEFF'+csv,'text/csv;charset=utf-8');
-    msg('🏆 CSV operadores descargado');
+    msg('CSV operadores descargado');
 };
-function demoD(){var d=[],n=['JUAN GARCÍA','MARÍA LÓPEZ','CARLOS PÉREZ','ANA MARTÍNEZ','PEDRO RODRÍGUEZ','LUCÍA GÓMEZ'];for(var i=0;i<30;i++)d.push({idx:i+2,nombre:n[i%6]+' '+(i+1),documento:String(1053800000+i),celular:'310'+String(1000000+i).substring(0,7),barrio:'BARRIO '+(i%5+1),municipio:'MANIZALES',nombreLider:'LÍDER '+(i%3+1),encuestado:i%4===0,contesto:i%4===0?'Sí':'',votaria:i%4===0?'Sí':'',puestoVotacion:'',mesa:'',conoceReferente:'',conoceCandidato:'',sabeVotar:'',conoceMesaPuesto:'',infoWhatsApp:''});return d}
-function demoC(){return{success:1,totalRegistros:500,encuestados:187,sinEncuestar:313,respuestas:{contesto:{si:150,no:37},conoceReferente:{si:120,no:67},conoceCandidato:{si:98,no:89},votaria:{si:130,no:57},sabeVotar:{si:105,no:82},conoceMesaPuesto:{si:80,no:107},infoWhatsApp:{si:155,no:32}},porOperador:[{nombre:'OP 1',totalAsignados:63,encuestados:35,sinEncuestar:28,siVotaria:28},{nombre:'OP 2',totalAsignados:63,encuestados:30,sinEncuestar:33,siVotaria:22},{nombre:'OP 3',totalAsignados:62,encuestados:28,sinEncuestar:34,siVotaria:20},{nombre:'OP 4',totalAsignados:62,encuestados:25,sinEncuestar:37,siVotaria:18},{nombre:'OP 5',totalAsignados:63,encuestados:22,sinEncuestar:41,siVotaria:15},{nombre:'OP 6',totalAsignados:63,encuestados:20,sinEncuestar:43,siVotaria:12},{nombre:'OP 7',totalAsignados:62,encuestados:15,sinEncuestar:47,siVotaria:9},{nombre:'OP 8',totalAsignados:62,encuestados:12,sinEncuestar:50,siVotaria:6}],encuestasRecientes:[{nombre:'JUAN G',celular:'3101234567',municipio:'MANIZALES',contesto:'Sí',votaria:'Sí',operador:1}]}}
+function demoD(){var d=[],n=['JUAN GARCÍA','MARÍA LÓPEZ','CARLOS PÉREZ','ANA MARTÍNEZ','PEDRO RODRÍGUEZ','LUCÍA GÓMEZ'];for(var i=0;i<30;i++)d.push({idx:i+2,nombre:n[i%6]+' '+(i+1),documento:String(1053800000+i),celular:'310'+String(1000000+i).substring(0,7),barrio:'BARRIO '+(i%5+1),municipio:'MANIZALES',nombreLider:'LÍDER '+(i%3+1),encuestado:i%4===0,contesto:i%4===0?'Sí':'',votaria:i%4===0?'Sí':'',puestoVotacion:'',mesa:'',conoceReferente:'',conoceCandidato:'',sabeVotar:'',conoceMesaPuesto:'',infoWhatsApp:'',listado14Mayo:''});return d}
+function demoC(){return{success:1,totalRegistros:500,encuestados:187,sinEncuestar:313,respuestas:{contesto:{si:150,no:37},conoceReferente:{si:120,no:67},conoceCandidato:{si:98,no:89},votaria:{si:130,no:57},sabeVotar:{si:105,no:82},conoceMesaPuesto:{si:80,no:107},infoWhatsApp:{si:155,no:32},listado14Mayo:{si:140,no:47}},porOperador:[{nombre:'OP 1',totalAsignados:63,encuestados:35,sinEncuestar:28,siVotaria:28},{nombre:'OP 2',totalAsignados:63,encuestados:30,sinEncuestar:33,siVotaria:22},{nombre:'OP 3',totalAsignados:62,encuestados:28,sinEncuestar:34,siVotaria:20},{nombre:'OP 4',totalAsignados:62,encuestados:25,sinEncuestar:37,siVotaria:18},{nombre:'OP 5',totalAsignados:63,encuestados:22,sinEncuestar:41,siVotaria:15},{nombre:'OP 6',totalAsignados:63,encuestados:20,sinEncuestar:43,siVotaria:12},{nombre:'OP 7',totalAsignados:62,encuestados:15,sinEncuestar:47,siVotaria:9},{nombre:'OP 8',totalAsignados:62,encuestados:12,sinEncuestar:50,siVotaria:6}],encuestasRecientes:[{nombre:'JUAN G',celular:'3101234567',municipio:'MANIZALES',contesto:'Sí',votaria:'Sí',operador:1}]}}
 document.addEventListener('DOMContentLoaded',function(){
+    BASE_URL=getBaseUrl();
+    var menuBtn=$('btnMenuOp');if(menuBtn)menuBtn.href=BASE_URL;
+    var menuBtnC=$('btnMenuCoord');if(menuBtnC)menuBtnC.href=BASE_URL;
     $('loginUsuario').focus();
     $('btnLogin').addEventListener('click',login);
-    $('loginClave').addEventListener('keypress',function(e){if(e.key==='Enter')login()});
-    $('loginUsuario').addEventListener('keypress',function(e){if(e.key==='Enter')$('loginClave').focus()});
+    $('loginClave').addEventListener('keydown',function(e){if(e.key==='Enter')login()});
+    $('loginUsuario').addEventListener('keydown',function(e){if(e.key==='Enter')$('loginClave').focus()});
     $('btnLogout').addEventListener('click',logout);$('btnLogoutC').addEventListener('click',logout);
     $('mClose').addEventListener('click',cerrar);$('mCancel').addEventListener('click',cerrar);$('mSave').addEventListener('click',guardar);
     $('btnRef').addEventListener('click',loadCoord);

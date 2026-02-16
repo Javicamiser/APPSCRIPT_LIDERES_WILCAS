@@ -1,0 +1,513 @@
+<!-- ================================================================
+     MÓDULO: AUDITORÍA DE SIMPATIZANTES
+     Archivo: admin-auditoria-simpatizantes.html
+     Actualización: Botón eliminar + todos los campos visibles
+     ================================================================ -->
+
+<style>
+#seccion-auditoria-simpatizantes.activa,#seccion-auditoria-simpatizantes.active{display:block!important}
+.simp-module{padding:24px;font-family:'Source Sans 3','Segoe UI',Arial,sans-serif}
+.simp-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:24px}
+.simp-header-left{display:flex;align-items:center;gap:16px}
+.simp-header-icon{width:48px;height:48px;background:linear-gradient(135deg,#e65100,#ff8f00);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.simp-header-icon svg{width:24px;height:24px;fill:none;stroke:white;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.simp-title{font-size:22px;font-weight:700;color:#1a1a2e;margin:0}
+.simp-subtitle{font-size:13px;color:#8a8fa3;margin-top:2px}
+.simp-header-right{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.simp-stat-pill{display:flex;align-items:center;gap:8px;padding:8px 16px;background:#fff3e0;border:1px solid #ffe0b2;border-radius:20px;font-size:13px;color:#e65100;font-weight:600}
+.simp-stat-pill-number{font-size:18px;font-weight:800;color:#bf360c}
+.simp-btn-primary{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:linear-gradient(135deg,#e65100,#ff8f00);color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+.simp-btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(230,81,0,.35)}
+.simp-btn-primary svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.simp-card{background:white;border:1px solid #e8eaef;border-radius:12px;margin-bottom:20px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.simp-card-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #f0f1f5}
+.simp-card-title{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:#1a1a2e;text-transform:uppercase;letter-spacing:.5px}
+.simp-card-title svg{width:14px;height:14px;fill:none;stroke:#e65100;stroke-width:2}
+.simp-search-row{display:flex;gap:12px;padding:20px;flex-wrap:wrap;align-items:flex-end}
+.simp-search-main{flex:1;min-width:280px}
+.simp-search-muni{width:200px;min-width:160px}
+.simp-label{font-size:12px;font-weight:700;color:#8a8fa3;text-transform:uppercase;letter-spacing:.3px;margin-bottom:6px;display:block}
+.simp-input{padding:10px 14px;border:1px solid #e0e3eb;border-radius:8px;font-size:14px;font-family:inherit;color:#1a1a2e;transition:all .2s;background:#fafbfc;outline:none;width:100%;box-sizing:border-box}
+.simp-input:focus{border-color:#e65100;box-shadow:0 0 0 3px rgba(230,81,0,.1);background:white}
+.simp-quick-filters{display:flex;gap:8px;padding:0 20px 16px;flex-wrap:wrap}
+.simp-tag{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid #e0e3eb;border-radius:6px;font-size:12px;font-weight:600;color:#5a5f73;background:#fafbfc;cursor:pointer;transition:all .2s;font-family:inherit}
+.simp-tag:hover{background:#f0f1f5}
+.simp-tag svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2}
+.simp-tag-export{background:#e3f2fd;color:#1565c0;border-color:#90caf9}
+.simp-tag-export-all{background:#e8f5e9;color:#2e7d32;border-color:#a5d6a7}
+.simp-tag-pdf{background:#fce4ec;color:#c62828;border-color:#ef9a9a}
+.simp-table-scroll{overflow-x:auto}
+.simp-table{width:100%;border-collapse:collapse;font-size:13px}
+.simp-table thead th{padding:12px 14px;text-align:left;font-size:11px;font-weight:700;color:#8a8fa3;text-transform:uppercase;letter-spacing:.5px;background:#f8f9fb;border-bottom:2px solid #e8eaef;white-space:nowrap}
+.simp-table tbody tr{border-bottom:1px solid #f0f1f5;transition:background .15s}
+.simp-table tbody tr:hover{background:#fff8f0}
+.simp-table tbody td{padding:10px 14px;color:#3a3f54;vertical-align:middle}
+.simp-cell-name{font-weight:600;color:#1a1a2e;white-space:nowrap}
+.simp-cell-num{font-weight:600;color:#b0b5c3;font-size:12px}
+.simp-cell-small{font-size:12px;color:#8a8fa3}
+.simp-cell-actions{display:flex;gap:6px}
+.simp-btn-action{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border:1px solid #e0e3eb;border-radius:6px;background:white;cursor:pointer;transition:all .15s}
+.simp-btn-action svg{width:15px;height:15px;fill:none;stroke:#5a5f73;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.simp-btn-ver:hover{background:#e3f2fd;border-color:#90caf9}
+.simp-btn-ver:hover svg{stroke:#1565c0}
+.simp-btn-edit:hover{background:#fff3e0;border-color:#ffcc80}
+.simp-btn-edit:hover svg{stroke:#e65100}
+.simp-btn-pdf:hover{background:#fce4ec;border-color:#ef9a9a}
+.simp-btn-pdf:hover svg{stroke:#c62828}
+.simp-btn-delete{border-color:#fecdd3}
+.simp-btn-delete:hover{background:#fff1f2;border-color:#fca5a5}
+.simp-btn-delete:hover svg{stroke:#be123c}
+.simp-pagination{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-top:1px solid #f0f1f5;flex-wrap:wrap;gap:10px}
+.simp-pagination-text{font-size:13px;color:#8a8fa3}
+.simp-pagination-text strong{color:#1a1a2e}
+.simp-pagination-nav{display:flex;align-items:center;gap:4px}
+.simp-pg-btn{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:34px;padding:0 8px;border:1px solid #e0e3eb;border-radius:6px;background:white;color:#5a5f73;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;font-family:inherit}
+.simp-pg-btn:hover:not(:disabled){background:#fff3e0;border-color:#ffcc80;color:#e65100}
+.simp-pg-btn.active{background:#e65100;border-color:#e65100;color:white}
+.simp-pg-btn:disabled{opacity:.35;cursor:not-allowed}
+.simp-pg-btn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2}
+.simp-loading{display:flex;flex-direction:column;align-items:center;gap:12px;padding:40px}
+.simp-spinner{width:36px;height:36px;border:3px solid #f0f1f5;border-top:3px solid #e65100;border-radius:50%;animation:simpSpin .8s linear infinite}
+@keyframes simpSpin{to{transform:rotate(360deg)}}
+.simp-loading-text{font-size:13px;color:#8a8fa3}
+.simp-modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:9999;align-items:center;justify-content:center;padding:20px}
+.simp-modal-overlay.open{display:flex}
+.simp-modal{background:white;border-radius:16px;width:100%;max-width:720px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.simp-modal-header{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid #e8eaef}
+.simp-modal-title{font-size:18px;font-weight:700;color:#1a1a2e;display:flex;align-items:center;gap:10px}
+.simp-modal-title svg{width:20px;height:20px;fill:none;stroke:#e65100;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.simp-modal-close{width:36px;height:36px;border:1px solid #e0e3eb;border-radius:8px;background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.simp-modal-close:hover{background:#fef2f2;border-color:#fca5a5}
+.simp-modal-close svg{width:16px;height:16px;fill:none;stroke:#64748b;stroke-width:2}
+.simp-modal-body{padding:24px;overflow-y:auto;flex:1}
+.simp-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.simp-detail-item{display:flex;flex-direction:column;gap:4px}
+.simp-detail-item.full{grid-column:1/-1}
+.simp-detail-label{font-size:11px;font-weight:700;color:#8a8fa3;text-transform:uppercase;letter-spacing:.3px}
+.simp-detail-value{font-size:14px;color:#1a1a2e;font-weight:500;padding:8px 12px;background:#f8f9fb;border-radius:6px;min-height:20px}
+.simp-detail-badge{display:inline-flex;padding:4px 10px;border-radius:4px;font-size:12px;font-weight:700}
+.simp-badge-si{background:#e8f5e9;color:#2e7d32}
+.simp-badge-no{background:#fef2f2;color:#c62828}
+.simp-badge-empty{background:#f5f5f5;color:#bdbdbd}
+.simp-section-title{font-size:14px;font-weight:700;color:#e65100;text-transform:uppercase;letter-spacing:.5px;padding:12px 0 8px;border-bottom:2px solid #fff3e0;margin-top:8px;grid-column:1/-1}
+.simp-modal-footer{padding:16px 24px;border-top:1px solid #e8eaef;display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap}
+.simp-btn-cancel{padding:10px 20px;border:1px solid #e0e3eb;border-radius:8px;background:white;color:#5a5f73;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit}
+.simp-btn-save{padding:10px 24px;border:none;border-radius:8px;background:linear-gradient(135deg,#e65100,#ff8f00);color:white;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit}
+.simp-btn-save:hover{box-shadow:0 4px 12px rgba(230,81,0,.35)}
+.simp-btn-danger{padding:10px 20px;border:1px solid #fecdd3;border-radius:8px;background:#fff1f2;color:#be123c;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:6px}
+.simp-btn-danger:hover{background:#ffe4e6;border-color:#fca5a5}
+.simp-btn-danger svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.simp-edit-input{padding:8px 12px;border:1px solid #e0e3eb;border-radius:6px;font-size:14px;font-family:inherit;color:#1a1a2e;background:white;width:100%;box-sizing:border-box;outline:none}
+.simp-edit-input:focus{border-color:#e65100;box-shadow:0 0 0 3px rgba(230,81,0,.1)}
+.simp-edit-select{padding:8px 12px;border:1px solid #e0e3eb;border-radius:6px;font-size:14px;font-family:inherit;color:#1a1a2e;background:white;width:100%;box-sizing:border-box}
+@media(max-width:768px){.simp-module{padding:16px}.simp-header{flex-direction:column;align-items:flex-start}.simp-search-row{flex-direction:column}.simp-search-muni{width:100%}.simp-detail-grid{grid-template-columns:1fr}.simp-table{font-size:12px}.simp-table thead th,.simp-table tbody td{padding:8px 8px}.simp-modal{max-width:100%}}
+</style>
+
+<div id="_tmpSimpContenido" style="display:none;">
+<div class="simp-module">
+
+    <!-- Header -->
+    <div class="simp-header">
+        <div class="simp-header-left">
+            <div class="simp-header-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+            <div><h2 class="simp-title">Auditoria de Simpatizantes</h2><div class="simp-subtitle">Gestion y seguimiento de simpatizantes registrados</div></div>
+        </div>
+        <div class="simp-header-right">
+            <div class="simp-stat-pill"><span>Total registros</span><span class="simp-stat-pill-number" id="contadorTotalSimpAuditoria">0</span></div>
+            <button class="simp-btn-primary" onclick="cargarSimpatizantesAuditoria()"><svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>Cargar / Actualizar</button>
+        </div>
+    </div>
+
+    <!-- Filtros -->
+    <div class="simp-card">
+        <div class="simp-card-header"><div class="simp-card-title"><svg viewBox="0 0 24 24"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>Busqueda</div></div>
+        <div class="simp-search-row">
+            <div class="simp-search-main">
+                <label class="simp-label">Documento, nombre del simpatizante o lider</label>
+                <input type="text" id="filtroSimpBusqueda" class="simp-input" placeholder="Buscar por documento, nombre o lider..." onkeyup="buscarSimpatizantesConDelay()">
+            </div>
+            <div class="simp-search-muni">
+                <label class="simp-label">Municipio</label>
+                <input type="text" id="filtroSimpMunicipio" class="simp-input" placeholder="Municipio..." onkeyup="buscarSimpatizantesConDelay()">
+            </div>
+        </div>
+        <div class="simp-quick-filters">
+            <button class="simp-tag" onclick="limpiarFiltroSimpatizantes()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Limpiar</button>
+            <button class="simp-tag simp-tag-export" onclick="exportarCSVSimpatizantes()"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Exportar CSV</button>
+            <button class="simp-tag simp-tag-export-all" onclick="exportarCSVTodosSimpatizantes()"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Exportar TODO</button>
+        </div>
+    </div>
+
+    <!-- Tabla -->
+    <div class="simp-card">
+        <div class="simp-table-scroll">
+            <table class="simp-table">
+                <thead><tr><th>#</th><th>Nombre</th><th>Documento</th><th>Celular</th><th>Municipio</th><th>Barrio</th><th>Lider</th><th>Fecha</th><th>Acciones</th></tr></thead>
+                <tbody id="tablaSimpAuditoriaBody"><tr><td colspan="9" style="text-align:center;padding:50px;color:#8a8fa3;">Presione <strong>"Cargar / Actualizar"</strong></td></tr></tbody>
+            </table>
+        </div>
+        <div class="simp-pagination">
+            <div class="simp-pagination-text" id="paginationInfoSimpAuditoria">Mostrando <strong>0</strong> de <strong>0</strong></div>
+            <div class="simp-pagination-nav">
+                <button class="simp-pg-btn" onclick="cambiarPaginaSimpAuditoria(-1)" id="btnPrevSimpAuditoria" disabled><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+                <span id="paginasSimpAuditoria" style="display:flex;gap:4px;"></span>
+                <button class="simp-pg-btn" onclick="cambiarPaginaSimpAuditoria(1)" id="btnNextSimpAuditoria" disabled><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Ver -->
+<div class="simp-modal-overlay" id="modalVerSimp">
+    <div class="simp-modal">
+        <div class="simp-modal-header">
+            <div class="simp-modal-title"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Detalle del Simpatizante</div>
+            <button class="simp-modal-close" onclick="cerrarModalSimp('modalVerSimp')"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+        <div class="simp-modal-body" id="modalVerSimpBody"></div>
+        <div class="simp-modal-footer">
+            <button class="simp-btn-danger" onclick="eliminarDesdeModal()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>Eliminar</button>
+            <button class="simp-tag simp-tag-pdf" onclick="descargarPDFSimpatizante()"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Descargar PDF</button>
+            <button class="simp-btn-cancel" onclick="cerrarModalSimp('modalVerSimp')">Cerrar</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Editar -->
+<div class="simp-modal-overlay" id="modalEditSimp">
+    <div class="simp-modal">
+        <div class="simp-modal-header">
+            <div class="simp-modal-title"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Editar Simpatizante</div>
+            <button class="simp-modal-close" onclick="cerrarModalSimp('modalEditSimp')"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+        <div class="simp-modal-body" id="modalEditSimpBody"></div>
+        <div class="simp-modal-footer">
+            <button class="simp-btn-danger" onclick="eliminarDesdeEditModal()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>Eliminar</button>
+            <button class="simp-btn-cancel" onclick="cerrarModalSimp('modalEditSimp')">Cancelar</button>
+            <button class="simp-btn-save" id="btnGuardarSimp" onclick="guardarEdicionSimpatizante()">Guardar Cambios</button>
+        </div>
+    </div>
+</div>
+</div>
+
+<script>
+// ================================================================
+// AUDITORÍA SIMPATIZANTES — CON ELIMINAR Y TODOS LOS CAMPOS
+// ================================================================
+(function(){var t=document.getElementById('_tmpSimpContenido'),d=document.getElementById('seccion-auditoria-simpatizantes');if(t&&d){while(t.firstChild)d.appendChild(t.firstChild);t.parentNode.removeChild(t);console.log('[SIMP] OK')}})();
+
+var paginaSimpAuditoria=1,porPaginaSimpAuditoria=100,totalSimpAuditoria=0,totalPaginasSimpAuditoria=1,cargandoSimpAuditoria=false,timerBusquedaSimp=null,simpYaCargados=false,cacheSimpDetalle={},simpViendoDoc='';
+
+(function(){var o=window.mostrarSeccion;window.mostrarSeccion=function(s){if(typeof o==='function')o.apply(this,arguments);if(s==='auditoria-simpatizantes'&&!simpYaCargados){cargarSimpatizantesAuditoria();simpYaCargados=true}}})();
+
+function cargarSimpatizantesAuditoria(){
+    if(cargandoSimpAuditoria)return;cargandoSimpAuditoria=true;simpYaCargados=true;
+    var tb=document.getElementById('tablaSimpAuditoriaBody');
+    if(tb)tb.innerHTML='<tr><td colspan="9"><div class="simp-loading"><div class="simp-spinner"></div><div class="simp-loading-text">Cargando pagina '+paginaSimpAuditoria+'...</div></div></td></tr>';
+    var b=document.getElementById('filtroSimpBusqueda'),m=document.getElementById('filtroSimpMunicipio');
+    var filtros={busqueda:b?b.value.trim():'',municipio:m?m.value.trim():''};
+    google.script.run.withSuccessHandler(function(r){
+        cargandoSimpAuditoria=false;
+        if(r&&r.success){totalSimpAuditoria=r.total||0;totalPaginasSimpAuditoria=Math.ceil(totalSimpAuditoria/porPaginaSimpAuditoria)||1;var c=document.getElementById('contadorTotalSimpAuditoria');if(c)c.textContent=totalSimpAuditoria;renderTablaSimp(r.simpatizantes||[],r.total||0)}
+        else{var t=document.getElementById('tablaSimpAuditoriaBody');if(t)t.innerHTML='<tr><td colspan="9" style="text-align:center;padding:40px;color:#e53935;">Error: '+(r?r.message:'Sin respuesta')+'</td></tr>'}
+    }).withFailureHandler(function(e){cargandoSimpAuditoria=false;var t=document.getElementById('tablaSimpAuditoriaBody');if(t)t.innerHTML='<tr><td colspan="9" style="text-align:center;padding:40px;color:#e53935;">Error: '+(e.message||e)+'</td></tr>'}).obtenerSimpatizantesPaginadosV2(paginaSimpAuditoria,porPaginaSimpAuditoria,filtros);
+}
+
+function renderTablaSimp(datos,total){
+    var tb=document.getElementById('tablaSimpAuditoriaBody');if(!tb)return;
+    var ini=(paginaSimpAuditoria-1)*porPaginaSimpAuditoria,h='';
+    if(!datos||datos.length===0){h='<tr><td colspan="9" style="text-align:center;padding:40px;color:#8a8fa3;">Sin registros</td></tr>'}
+    else{for(var i=0;i<datos.length;i++){var s=datos[i];var key=s.documento||('i'+i);cacheSimpDetalle[key]=s;
+        h+='<tr><td class="simp-cell-num">'+(ini+i+1)+'</td><td class="simp-cell-name">'+X(s.nombre)+'</td><td>'+X(s.documento)+'</td><td>'+X(s.celular)+'</td><td>'+X(s.municipio)+'</td><td class="simp-cell-small">'+X(s.barrio)+'</td><td class="simp-cell-small">'+X(s.liderNombre||s.liderDocumento||'')+'</td><td class="simp-cell-small">'+X(s.fechaRegistro)+'</td>';
+        h+='<td><div class="simp-cell-actions">';
+        h+='<button class="simp-btn-action simp-btn-ver" title="Ver detalle" onclick="verSimp(\''+X(key)+'\')"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>';
+        h+='<button class="simp-btn-action simp-btn-edit" title="Editar" onclick="editSimp(\''+X(key)+'\')"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>';
+        h+='<button class="simp-btn-action simp-btn-delete" title="Eliminar" onclick="eliminarSimp(\''+X(key)+'\',\''+X(s.nombre)+'\',\''+X(s.liderDocumento||'')+'\')"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>';
+        h+='</div></td></tr>'}}
+    tb.innerHTML=h;
+    var fin=Math.min(ini+(datos?datos.length:0),total);
+    var info=document.getElementById('paginationInfoSimpAuditoria');if(info)info.innerHTML='Mostrando <strong>'+(total>0?ini+1:0)+'-'+fin+'</strong> de <strong>'+total+'</strong>';
+    var bp=document.getElementById('btnPrevSimpAuditoria'),bn=document.getElementById('btnNextSimpAuditoria');
+    if(bp)bp.disabled=(paginaSimpAuditoria<=1);if(bn)bn.disabled=(paginaSimpAuditoria>=totalPaginasSimpAuditoria);
+    var ps=document.getElementById('paginasSimpAuditoria');if(ps){var ph='',sP=Math.max(1,paginaSimpAuditoria-2),eP=Math.min(totalPaginasSimpAuditoria,sP+4);if(eP-sP<4)sP=Math.max(1,eP-4);for(var p=sP;p<=eP;p++)ph+='<button class="simp-pg-btn'+(p===paginaSimpAuditoria?' active':'')+'" onclick="irPaginaSimpAuditoria('+p+')">'+p+'</button>';ps.innerHTML=ph}
+}
+
+function X(t){if(!t)return'';var d=document.createElement('div');d.textContent=String(t);return d.innerHTML}
+
+// ================================================================
+// ELIMINAR SIMPATIZANTE
+// ================================================================
+function eliminarSimp(docSimp,nombre,docLider){
+    if(!docSimp){
+        if(typeof mostrarToastAud==='function')mostrarToastAud('Documento del simpatizante no disponible','error');
+        else alert('Documento del simpatizante no disponible');
+        return;
+    }
+    if(!confirm('¿Eliminar simpatizante?\n\nNombre: '+(nombre||docSimp)+'\nDocumento: '+docSimp+'\n\nEsta accion es irreversible.'))return;
+
+    // Mostrar loading en la fila (visual feedback)
+    if(typeof mostrarLoading==='function')mostrarLoading('Eliminando simpatizante...');
+
+    google.script.run.withSuccessHandler(function(r){
+        if(typeof ocultarLoading==='function')ocultarLoading();
+        if(r&&r.success){
+            if(typeof mostrarToastAud==='function')mostrarToastAud('Simpatizante eliminado correctamente','success');
+            else alert('Simpatizante eliminado correctamente');
+            // Limpiar del cache local
+            if(cacheSimpDetalle[docSimp])delete cacheSimpDetalle[docSimp];
+            cargarSimpatizantesAuditoria();
+        }else{
+            if(typeof mostrarToastAud==='function')mostrarToastAud('Error: '+(r?r.message:''),'error');
+            else alert('Error: '+(r?r.message:''));
+        }
+    }).withFailureHandler(function(e){
+        if(typeof ocultarLoading==='function')ocultarLoading();
+        if(typeof mostrarToastAud==='function')mostrarToastAud('Error: '+(e.message||e),'error');
+        else alert('Error: '+(e.message||e));
+    }).eliminarSimpatizanteWrapper(docSimp,docLider);
+}
+
+// Eliminar desde el modal de Ver
+function eliminarDesdaModal(){
+    var s=cacheSimpDetalle[simpViendoDoc];
+    if(!s){alert('No hay datos del simpatizante');return}
+    cerrarModalSimp('modalVerSimp');
+    eliminarSimp(s.documento,s.nombre,s.liderDocumento);
+}
+// Alias por si hay typo
+function eliminarDesdaModal(){eliminarDesdeModalVer()}
+function eliminarDesdeModal(){
+    var s=cacheSimpDetalle[simpViendoDoc];
+    if(!s){alert('No hay datos del simpatizante');return}
+    cerrarModalSimp('modalVerSimp');
+    eliminarSimp(s.documento,s.nombre,s.liderDocumento);
+}
+
+// Eliminar desde el modal de Editar
+function eliminarDesdeEditModal(){
+    var s=cacheSimpDetalle[simpViendoDoc];
+    if(!s){alert('No hay datos del simpatizante');return}
+    cerrarModalSimp('modalEditSimp');
+    eliminarSimp(s.documento,s.nombre,s.liderDocumento);
+}
+
+// ================================================================
+// VER DETALLE — TODOS LOS CAMPOS
+// ================================================================
+function verSimp(key){
+    var s=cacheSimpDetalle[key];if(!s){alert('No encontrado');return}
+    simpViendoDoc=key;
+    var h='<div class="simp-detail-grid">';
+
+    h+=ST('Datos Personales');
+    h+=CV('Nombre completo',s.nombre,1);
+    h+=CV('Tipo documento',s.tipoDocumento);
+    h+=CV('Numero documento',s.documento);
+    h+=CV('Numero celular',s.celular);
+    h+=CV('Direccion',s.direccion,1);
+    h+=CV('Barrio',s.barrio);
+    h+=CV('Departamento',s.departamento);
+    h+=CV('Municipio',s.municipio);
+    h+=CV('Ha sido',s.haSido);
+    h+=CV('Fecha registro',s.fechaRegistro);
+
+    h+=ST('Datos del Lider');
+    h+=CV('ID Lider (documento)',s.liderDocumento);
+    h+=CV('Nombre lider',s.liderNombre);
+
+    h+=ST('Datos Electorales');
+    h+=CV('Puesto de votacion',s.puestoVotacion,1);
+    h+=CV('Mesa',s.mesa);
+    h+=BG('Contesto la llamada',s.contesto);
+    h+=BG('Conoce al referente',s.conoceReferente);
+    h+=BG('Conoce al candidato',s.conoceCandidato);
+    h+=BG('Votaria por el candidato',s.votariaCandidato);
+    h+=BG('Sabe votar (U/1)',s.sabeVotar);
+    h+=BG('Conoce mesa y puesto',s.conoceMesaPuesto);
+    h+=BG('Info WhatsApp',s.infoWhatsapp);
+    h+=CV('Listado 14 mayo',s.listado14Mayo);
+
+    h+='</div>';
+    document.getElementById('modalVerSimpBody').innerHTML=h;
+    document.getElementById('modalVerSimp').classList.add('open');
+}
+
+function CV(l,v,f){return'<div class="simp-detail-item'+(f?' full':'')+'"><div class="simp-detail-label">'+l+'</div><div class="simp-detail-value">'+(v?X(v):'<span style="color:#ccc">—</span>')+'</div></div>'}
+function BG(l,v){var u=(v||'').toString().toUpperCase().trim(),c='simp-badge-empty',t='—';if(u==='SI'||u==='SÍ'||u==='S'){c='simp-badge-si';t='SI'}else if(u==='NO'||u==='N'){c='simp-badge-no';t='NO'}else if(u){c='';t=X(v)}return'<div class="simp-detail-item"><div class="simp-detail-label">'+l+'</div><div><span class="simp-detail-badge '+c+'">'+t+'</span></div></div>'}
+function ST(t){return'<div class="simp-section-title">'+t+'</div>'}
+
+// ================================================================
+// EDITAR — TODOS LOS CAMPOS
+// ================================================================
+var simpEditFila=0;
+function editSimp(key){
+    var s=cacheSimpDetalle[key];if(!s){alert('No encontrado');return}
+    simpEditFila=s.fila||0;simpViendoDoc=key;
+    var h='<div class="simp-detail-grid">';
+
+    h+=ST('Datos Personales');
+    h+=IF('eNom','Nombre completo',s.nombre,1);
+    h+=IF('eCel','Numero celular',s.celular);
+    h+=IF('eDir','Direccion',s.direccion,1);
+    h+=IF('eBar','Barrio',s.barrio);
+    h+=IF('eDep','Departamento',s.departamento);
+    h+=IF('eMun','Municipio',s.municipio);
+    h+=IF('eHaSido','Ha sido',s.haSido);
+
+    h+=ST('Datos Electorales');
+    h+=IF('ePue','Puesto de votacion',s.puestoVotacion,1);
+    h+=IF('eMes','Mesa',s.mesa);
+    h+=SN('eCon','Contesto la llamada',s.contesto);
+    h+=SN('eCR','Conoce al referente',s.conoceReferente);
+    h+=SN('eCC','Conoce al candidato',s.conoceCandidato);
+    h+=SN('eVC','Votaria por el candidato',s.votariaCandidato);
+    h+=SN('eSV','Sabe votar (U/1)',s.sabeVotar);
+    h+=SN('eCMP','Conoce mesa y puesto',s.conoceMesaPuesto);
+    h+=SN('eIW','Info WhatsApp',s.infoWhatsapp);
+    h+=IF('eL14','Listado 14 mayo',s.listado14Mayo);
+
+    h+='</div>';
+    document.getElementById('modalEditSimpBody').innerHTML=h;
+    document.getElementById('modalEditSimp').classList.add('open');
+}
+
+function IF(id,l,v,f){return'<div class="simp-detail-item'+(f?' full':'')+'"><div class="simp-detail-label">'+l+'</div><input type="text" class="simp-edit-input" id="'+id+'" value="'+(v?X(v):'')+'"></div>'}
+function SN(id,l,v){var u=(v||'').toString().toUpperCase().trim();var si=(u==='SI'||u==='SÍ'||u==='S')?' selected':'';var no=(u==='NO'||u==='N')?' selected':'';var va=(!si&&!no)?' selected':'';return'<div class="simp-detail-item"><div class="simp-detail-label">'+l+'</div><select class="simp-edit-select" id="'+id+'"><option value=""'+va+'>— Sin dato —</option><option value="SI"'+si+'>SI</option><option value="NO"'+no+'>NO</option></select></div>'}
+
+function guardarEdicionSimpatizante(){
+    if(!simpEditFila){alert('Error: fila no identificada');return}
+    var d={
+        fila:simpEditFila,
+        nombre:GV('eNom'),
+        celular:GV('eCel'),
+        direccion:GV('eDir'),
+        barrio:GV('eBar'),
+        departamento:GV('eDep'),
+        municipio:GV('eMun'),
+        haSido:GV('eHaSido'),
+        puestoVotacion:GV('ePue'),
+        mesa:GV('eMes'),
+        contesto:GV('eCon'),
+        conoceReferente:GV('eCR'),
+        conoceCandidato:GV('eCC'),
+        votariaCandidato:GV('eVC'),
+        sabeVotar:GV('eSV'),
+        conoceMesaPuesto:GV('eCMP'),
+        infoWhatsapp:GV('eIW'),
+        listado14Mayo:GV('eL14')
+    };
+    var btn=document.getElementById('btnGuardarSimp');if(btn){btn.textContent='Guardando...';btn.disabled=true}
+    google.script.run.withSuccessHandler(function(r){
+        if(btn){btn.textContent='Guardar Cambios';btn.disabled=false}
+        if(r&&r.success){
+            if(typeof mostrarToastAud==='function')mostrarToastAud('Simpatizante actualizado correctamente','success');
+            else alert('Actualizado correctamente');
+            cerrarModalSimp('modalEditSimp');cargarSimpatizantesAuditoria();
+        }else{
+            if(typeof mostrarToastAud==='function')mostrarToastAud('Error: '+(r?r.message:''),'error');
+            else alert('Error: '+(r?r.message:''));
+        }
+    }).withFailureHandler(function(e){
+        if(btn){btn.textContent='Guardar Cambios';btn.disabled=false}
+        alert('Error: '+(e.message||e));
+    }).actualizarSimpatizanteAdmin(d);
+}
+
+function GV(id){var e=document.getElementById(id);return e?e.value.trim():''}
+function cerrarModalSimp(id){var m=document.getElementById(id);if(m)m.classList.remove('open')}
+
+// ================================================================
+// PDF — TODOS LOS CAMPOS
+// ================================================================
+function descargarPDFSimpatizante(){
+    var s=cacheSimpDetalle[simpViendoDoc];if(!s){alert('No hay datos');return}
+    var w=window.open('','_blank');if(!w){alert('Permita ventanas emergentes');return}
+    var html='<!DOCTYPE html><html><head><meta charset="utf-8"><title>Simpatizante - '+X(s.nombre)+'</title><style>body{font-family:Arial,sans-serif;margin:30px;color:#333}h1{font-size:20px;color:#e65100;border-bottom:2px solid #e65100;padding-bottom:8px}h2{font-size:15px;color:#e65100;margin-top:20px;border-bottom:1px solid #ffe0b2;padding-bottom:4px}.row{display:flex;margin-bottom:6px}.lbl{font-size:11px;color:#888;text-transform:uppercase;font-weight:700;width:200px;flex-shrink:0}.val{font-size:14px;font-weight:500}.badge-si{color:#2e7d32;font-weight:700}.badge-no{color:#c62828;font-weight:700}@media print{body{margin:15px}}</style></head><body>';
+    html+='<h1>Ficha del Simpatizante</h1>';
+
+    html+='<h2>Datos Personales</h2>';
+    html+=RW('Nombre completo',s.nombre);
+    html+=RW('Tipo documento',s.tipoDocumento);
+    html+=RW('Numero documento',s.documento);
+    html+=RW('Numero celular',s.celular);
+    html+=RW('Direccion',s.direccion);
+    html+=RW('Barrio',s.barrio);
+    html+=RW('Departamento',s.departamento);
+    html+=RW('Municipio',s.municipio);
+    html+=RW('Ha sido',s.haSido);
+    html+=RW('Fecha registro',s.fechaRegistro);
+
+    html+='<h2>Datos del Lider</h2>';
+    html+=RW('ID Lider (documento)',s.liderDocumento);
+    html+=RW('Nombre lider',s.liderNombre);
+
+    html+='<h2>Datos Electorales</h2>';
+    html+=RW('Puesto de votacion',s.puestoVotacion);
+    html+=RW('Mesa',s.mesa);
+    html+=RB('Contesto la llamada',s.contesto);
+    html+=RB('Conoce al referente',s.conoceReferente);
+    html+=RB('Conoce al candidato',s.conoceCandidato);
+    html+=RB('Votaria por el candidato',s.votariaCandidato);
+    html+=RB('Sabe votar (U/1)',s.sabeVotar);
+    html+=RB('Conoce mesa y puesto',s.conoceMesaPuesto);
+    html+=RB('Info WhatsApp',s.infoWhatsapp);
+    html+=RW('Listado 14 mayo',s.listado14Mayo);
+
+    html+='<br><div style="font-size:11px;color:#aaa;margin-top:20px;border-top:1px solid #eee;padding-top:8px">Sistema 40 Caldas — Generado el '+new Date().toLocaleString('es-CO')+'</div>';
+    html+='<script>setTimeout(function(){window.print()},500)<\/script></body></html>';
+    w.document.write(html);w.document.close();
+}
+
+function RW(l,v){return'<div class="row"><div class="lbl">'+l+'</div><div class="val">'+(v||'—')+'</div></div>'}
+function RB(l,v){var u=(v||'').toString().toUpperCase().trim();var cls='',txt='—';if(u==='SI'||u==='SÍ'||u==='S'){cls='badge-si';txt='SI'}else if(u==='NO'||u==='N'){cls='badge-no';txt='NO'}else if(v){txt=v}return'<div class="row"><div class="lbl">'+l+'</div><div class="val '+cls+'">'+txt+'</div></div>'}
+
+// ================================================================
+// NAVEGACIÓN
+// ================================================================
+function cambiarPaginaSimpAuditoria(d){var n=paginaSimpAuditoria+d;if(n<1||n>totalPaginasSimpAuditoria)return;paginaSimpAuditoria=n;cargarSimpatizantesAuditoria()}
+function irPaginaSimpAuditoria(p){if(p<1||p>totalPaginasSimpAuditoria)return;paginaSimpAuditoria=p;cargarSimpatizantesAuditoria()}
+function buscarSimpatizantesConDelay(){if(timerBusquedaSimp)clearTimeout(timerBusquedaSimp);timerBusquedaSimp=setTimeout(function(){paginaSimpAuditoria=1;cargarSimpatizantesAuditoria()},600)}
+function filtrarSimpatizantes(){paginaSimpAuditoria=1;cargarSimpatizantesAuditoria()}
+function limpiarFiltroSimpatizantes(){var a=document.getElementById('filtroSimpBusqueda'),b=document.getElementById('filtroSimpMunicipio');if(a)a.value='';if(b)b.value='';paginaSimpAuditoria=1;cargarSimpatizantesAuditoria()}
+
+// ================================================================
+// EXPORTAR CSV
+// ================================================================
+function exportarCSVSimpatizantes(){var t=document.getElementById('tablaSimpAuditoriaBody');if(!t||!t.rows||t.rows.length===0){alert('No hay datos');return}var csv='No,Nombre,Documento,Celular,Municipio,Barrio,Lider,Fecha\n';for(var i=0;i<t.rows.length;i++){var c=t.rows[i].cells;if(c.length<8)continue;var f='';for(var j=0;j<8;j++){f+='"'+(c[j].textContent||'').replace(/"/g,'""')+'"';if(j<7)f+=','}csv+=f+'\n'}var b=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});var u=URL.createObjectURL(b);var a=document.createElement('a');a.href=u;a.download='simpatizantes_pag'+paginaSimpAuditoria+'.csv';a.click();URL.revokeObjectURL(u)}
+
+function exportarCSVTodosSimpatizantes(){
+    if(totalSimpAuditoria===0){alert('No hay datos.');return}
+    if(!confirm('Exportar '+totalSimpAuditoria+' registros?'))return;
+    var tb=document.getElementById('tablaSimpAuditoriaBody');
+    var orig=tb?tb.innerHTML:'';
+    if(tb){tb.innerHTML='<tr><td colspan="9"><div class="simp-loading"><div class="simp-spinner"></div><div class="simp-loading-text">Exportando...</div></div></td></tr>'}
+    var b=document.getElementById('filtroSimpBusqueda');
+    var m=document.getElementById('filtroSimpMunicipio');
+    google.script.run
+        .withSuccessHandler(function(r){
+            if(tb)tb.innerHTML=orig;
+            if(r&&r.success&&r.simpatizantes){
+                var csv='Nombre,Documento,Celular,Municipio,Barrio,Lider,Fecha\n';
+                for(var i=0;i<r.simpatizantes.length;i++){
+                    var s=r.simpatizantes[i];
+                    csv+='"'+(s.nombre||'')+'",'
+                        +'"'+(s.documento||'')+'",'
+                        +'"'+(s.celular||'')+'",'
+                        +'"'+(s.municipio||'')+'",'
+                        +'"'+(s.barrio||'')+'",'
+                        +'"'+(s.liderNombre||'')+'",'
+                        +'"'+(s.fechaRegistro||'')+'"\n';
+                }
+                var bl=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
+                var u=URL.createObjectURL(bl);
+                var a=document.createElement('a');
+                a.href=u;a.download='simpatizantes_COMPLETO.csv';a.click();URL.revokeObjectURL(u);
+            }else{alert('Error: '+(r?r.message:''))}
+        })
+        .withFailureHandler(function(e){
+            if(tb)tb.innerHTML=orig;
+            alert('Error: '+(e.message||e));
+        })
+        .obtenerSimpatizantesParaExportar(b?b.value.trim():'',m?m.value.trim():'');
+}
+</script>

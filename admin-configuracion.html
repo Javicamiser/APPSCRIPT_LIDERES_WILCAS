@@ -1,0 +1,136 @@
+<!-- ================================================================
+     MÓDULO: CONFIGURACIÓN
+     Archivo: admin-configuracion.html
+     ================================================================ -->
+<script>
+(function() {
+  var contenedor = document.getElementById('seccion-configuracion');
+  if (contenedor && !contenedor.innerHTML.trim()) {
+    contenedor.innerHTML = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">' +
+
+      '<div class="card">' +
+        '<div class="card-header"><span class="card-title">Mantenimiento</span></div>' +
+        '<div style="display:flex;flex-direction:column;gap:10px;">' +
+          '<button class="btn-primary" onclick="ejecutarSincronizacion()" style="width:100%;justify-content:center;">Sincronizar Hojas</button>' +
+          '<button class="btn-secondary" onclick="ejecutarLimpiarCache()" style="width:100%;justify-content:center;">Limpiar Cache del Sistema</button>' +
+          '<button class="btn-secondary" onclick="ejecutarDiagnosticoSistema()" style="width:100%;justify-content:center;">Ejecutar Diagnostico</button>' +
+        '</div>' +
+      '</div>' +
+
+      '<div class="card">' +
+        '<div class="card-header"><span class="card-title">Depuracion de Datos</span></div>' +
+        '<div style="display:flex;flex-direction:column;gap:10px;">' +
+          '<div style="display:flex;gap:8px;">' +
+            '<input type="text" class="filter-input" id="inputDepurarDoc" placeholder="Documento del lider a depurar..." style="flex:1;">' +
+            '<button class="btn-secondary" onclick="ejecutarDepuracion()">Depurar</button>' +
+          '</div>' +
+          '<p style="font-size:12px;color:var(--gray-400);">Elimina duplicados de un lider manteniendo el primer registro.</p>' +
+        '</div>' +
+      '</div>' +
+
+      '<div class="card" style="grid-column:span 2;">' +
+        '<div class="card-header"><span class="card-title">Resultado de Operaciones</span></div>' +
+        '<div id="resultadoConfiguracion" style="padding:12px;background:var(--gray-50);border-radius:8px;min-height:100px;font-size:13px;color:var(--gray-500);">Seleccione una operacion para ver el resultado aqui.</div>' +
+      '</div>' +
+
+    '</div>';
+  }
+})();
+
+function ejecutarSincronizacion() {
+  mostrarLoading('Sincronizando hojas...');
+  google.script.run
+    .withSuccessHandler(function(r) {
+      ocultarLoading();
+      var div = document.getElementById('resultadoConfiguracion');
+      if (r && r.success) {
+        div.innerHTML = '<div style="color:var(--success);font-weight:600;margin-bottom:8px;">Sincronizacion exitosa</div>' +
+          '<p>Lideres agregados: ' + (r.agregados || 0) + '</p>' +
+          '<p>Total BD-lideres: ' + (r.totalGT || 0) + '</p>' +
+          '<p>Total Registros: ' + (r.totalReg || 0) + '</p>';
+        mostrarAlertaGlobal('Sincronizacion completada', 'success');
+      } else {
+        div.innerHTML = '<div style="color:var(--danger);">Error: ' + (r ? r.message : 'Sin respuesta') + '</div>';
+      }
+    })
+    .withFailureHandler(function(e) {
+      ocultarLoading();
+      document.getElementById('resultadoConfiguracion').innerHTML = '<div style="color:var(--danger);">Error: ' + e.message + '</div>';
+    })
+    .sincronizarHojasWrapper();
+}
+
+function ejecutarLimpiarCache() {
+  mostrarLoading('Limpiando cache...');
+  google.script.run
+    .withSuccessHandler(function(r) {
+      ocultarLoading();
+      document.getElementById('resultadoConfiguracion').innerHTML = '<div style="color:var(--success);font-weight:600;">Cache limpiado correctamente</div>';
+      mostrarAlertaGlobal('Cache limpiado', 'success');
+    })
+    .withFailureHandler(function(e) {
+      ocultarLoading();
+      document.getElementById('resultadoConfiguracion').innerHTML = '<div style="color:var(--danger);">Error: ' + e.message + '</div>';
+    })
+    .limpiarCache();
+}
+
+function ejecutarDiagnosticoSistema() {
+  mostrarLoading('Ejecutando diagnostico...');
+  google.script.run
+    .withSuccessHandler(function(r) {
+      ocultarLoading();
+      var div = document.getElementById('resultadoConfiguracion');
+      if (r && r.success) {
+        var d = r.diagnostico;
+        var html = '<div style="font-weight:600;margin-bottom:12px;color:var(--success);">Diagnostico completado</div>';
+
+        if (d.spreadsheets) {
+          for (var key in d.spreadsheets) {
+            var ss = d.spreadsheets[key];
+            var icon = ss.status === 'OK' ? '<span style="color:var(--success);">OK</span>' : '<span style="color:var(--danger);">ERROR</span>';
+            html += '<div style="padding:8px;border-bottom:1px solid var(--gray-100);">';
+            html += '<strong>' + key + '</strong>: ' + icon;
+            if (ss.hojas) html += ' | Hojas: ' + ss.hojas.join(', ');
+            if (ss.filas) html += ' | Filas: ' + ss.filas;
+            if (ss.columnas) html += ' | Columnas: ' + ss.columnas;
+            if (ss.message) html += ' | ' + ss.message;
+            html += '</div>';
+          }
+        }
+        div.innerHTML = html;
+      } else {
+        div.innerHTML = '<div style="color:var(--danger);">Error: ' + (r ? r.message : '') + '</div>';
+      }
+    })
+    .withFailureHandler(function(e) {
+      ocultarLoading();
+      document.getElementById('resultadoConfiguracion').innerHTML = '<div style="color:var(--danger);">Error: ' + e.message + '</div>';
+    })
+    .ejecutarDiagnostico();
+}
+
+function ejecutarDepuracion() {
+  var doc = document.getElementById('inputDepurarDoc') ? document.getElementById('inputDepurarDoc').value.trim() : '';
+  if (!doc) { mostrarAlertaGlobal('Ingrese un documento', 'warning'); return; }
+  if (!confirm('Depurar duplicados del documento: ' + doc + '?')) return;
+
+  mostrarLoading('Depurando duplicados...');
+  google.script.run
+    .withSuccessHandler(function(r) {
+      ocultarLoading();
+      var div = document.getElementById('resultadoConfiguracion');
+      if (r && r.success) {
+        div.innerHTML = '<div style="color:var(--success);font-weight:600;">' + r.message + '</div><p>Duplicados eliminados: ' + (r.eliminados || 0) + '</p>';
+        if (r.eliminados > 0) actualizarDatos();
+      } else {
+        div.innerHTML = '<div style="color:var(--danger);">Error: ' + (r ? r.message : '') + '</div>';
+      }
+    })
+    .withFailureHandler(function(e) {
+      ocultarLoading();
+      document.getElementById('resultadoConfiguracion').innerHTML = '<div style="color:var(--danger);">Error: ' + e.message + '</div>';
+    })
+    .depurarDuplicadosWrapper(doc);
+}
+</script>

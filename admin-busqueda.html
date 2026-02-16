@@ -1,0 +1,69 @@
+<!-- ================================================================
+     MÓDULO: BÚSQUEDA AVANZADA
+     Archivo: admin-busqueda.html
+     ================================================================ -->
+<script>
+function realizarBusquedaAvanzada() {
+  var termino = document.getElementById('inputBusquedaAvanzada') ? document.getElementById('inputBusquedaAvanzada').value.trim() : '';
+  if (!termino || termino.length < 2) {
+    mostrarAlertaGlobal('Ingrese al menos 2 caracteres', 'warning');
+    return;
+  }
+
+  var contenedorRes = document.getElementById('resultadosBusqueda');
+  if (!contenedorRes) return;
+
+  // Buscar en datos locales primero
+  var upper = termino.toUpperCase();
+  var resultadosLideres = datosLlamadas.filter(function(d) {
+    return (d.nombre || '').toUpperCase().indexOf(upper) !== -1 ||
+           (d.documento || '').indexOf(termino) !== -1 ||
+           (d.celular || '').indexOf(termino) !== -1 ||
+           (d.correo || '').toUpperCase().indexOf(upper) !== -1;
+  });
+
+  var html = '<div style="padding:8px 16px;background:var(--primary-50);border:1px solid var(--primary-200);border-radius:8px;font-size:13px;font-weight:600;color:var(--primary);margin-bottom:16px;">Resultados: ' + resultadosLideres.length + ' lideres encontrados</div>';
+
+  if (resultadosLideres.length > 0) {
+    html += '<div class="card" style="padding:0;"><div class="table-container">';
+    html += '<table class="data-table"><thead><tr><th>#</th><th>Nombre</th><th>Documento</th><th>Celular</th><th>Entidad</th><th>Comuna</th><th>Simp.</th><th>Estado</th></tr></thead><tbody>';
+
+    var max = Math.min(resultadosLideres.length, 100);
+    for (var i = 0; i < max; i++) {
+      var d = resultadosLideres[i];
+      var estado = (d.estadoLlamada || 'pendiente').toLowerCase();
+      var badgeClass = estado === 'contactado' || estado === 'llamado' ? 'contactado' : estado === 'no contesta' ? 'no-contesta' : 'pendiente';
+
+      html += '<tr><td>' + (i + 1) + '</td>';
+      html += '<td style="font-weight:600;">' + (d.nombre || '') + '</td>';
+      html += '<td>' + (d.documento || '') + '</td>';
+      html += '<td>' + (d.celular || '') + '</td>';
+      html += '<td>' + truncarTexto(normalizarEntidad(d.entidad), 18) + '</td>';
+      html += '<td>' + (d.comuna || '') + '</td>';
+      html += '<td>' + (d.cantidadSimpatizantes || 0) + '</td>';
+      html += '<td><span class="badge ' + badgeClass + '">' + estado + '</span></td></tr>';
+    }
+    if (resultadosLideres.length > 100) html += '<tr><td colspan="8" style="text-align:center;padding:12px;color:var(--gray-400);">Mostrando 100 de ' + resultadosLideres.length + ' resultados</td></tr>';
+    html += '</tbody></table></div></div>';
+  } else {
+    html += '<div class="card" style="text-align:center;padding:40px;color:var(--gray-400);">No se encontraron resultados para "' + termino + '"</div>';
+  }
+
+  contenedorRes.innerHTML = html;
+}
+
+// Inicializar sección
+(function() {
+  var contenedor = document.getElementById('seccion-busqueda');
+  if (contenedor && !contenedor.innerHTML.trim()) {
+    contenedor.innerHTML = '<div class="card" style="margin-bottom:16px;">' +
+      '<div class="card-header"><span class="card-title">Busqueda Avanzada</span></div>' +
+      '<div style="display:flex;gap:10px;">' +
+        '<input type="text" class="filter-input" id="inputBusquedaAvanzada" placeholder="Buscar por nombre, documento, celular o correo..." style="flex:1;" onkeydown="if(event.key===\'Enter\')realizarBusquedaAvanzada()">' +
+        '<button class="btn-primary" onclick="realizarBusquedaAvanzada()">Buscar</button>' +
+      '</div>' +
+    '</div>' +
+    '<div id="resultadosBusqueda"></div>';
+  }
+})();
+</script>

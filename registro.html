@@ -6,131 +6,628 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>Registro de Simpatizantes 40 Caldas</title>
+    <title>Registro de Simpatizantes - WilCas 40 Partido de la U Caldas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f7fa; font-size: 16px; line-height: 1.4; }
-        .container { max-width: 100%; margin: 0 auto; background: white; min-height: 100vh; }
-        .header { background: linear-gradient(90deg, #ff6b00 0%, #ff8c00 25%, #ffa500 50%, #c4d500 75%, #9acd32 100%); color: white; padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; }
-        .header-left { display: flex; align-items: center; gap: 15px; }
-        .header-icon { width: 45px; height: 45px; background: rgba(255,255,255,0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
-        .header-title h1 { font-size: 20px; font-weight: 600; margin-bottom: 3px; }
-        .header-title p { font-size: 13px; opacity: 0.9; }
-        .btn-menu { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 10px 20px; border-radius: 8px; font-size: 14px; cursor: pointer; font-weight: 500; text-decoration: none; display: flex; align-items: center; gap: 8px; }
-        .content { padding: 25px; max-width: 600px; margin: 0 auto; }
-        .section { background: white; border-radius: 12px; padding: 25px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); border: 1px solid #e9ecef; }
-        .section-title { font-size: 18px; font-weight: 600; color: #333; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #ff6b00; display: flex; align-items: center; gap: 10px; }
-        .form-group { margin-bottom: 18px; }
-        label { display: block; font-weight: 600; margin-bottom: 8px; color: #333; font-size: 14px; }
-        .required { color: #e74c3c; }
-        input, select, textarea { width: 100%; padding: 14px 16px; border: 2px solid #e9ecef; border-radius: 10px; font-size: 15px; font-family: inherit; background: #fafbfc; transition: all 0.3s; }
-        input:focus, select:focus, textarea:focus { border-color: #ff6b00; outline: none; background: white; box-shadow: 0 0 0 4px rgba(255, 107, 0, 0.1); }
-        textarea { resize: vertical; min-height: 80px; }
-        .radio-group { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px; }
-        .radio-item { display: flex; align-items: center; padding: 14px; border: 2px solid #e9ecef; border-radius: 10px; cursor: pointer; background: #fafbfc; }
-        .radio-item:hover, .radio-item.selected { border-color: #ff6b00; background: #fff8f5; }
-        .radio-item input { margin-right: 10px; width: 18px; height: 18px; accent-color: #ff6b00; }
-        .radio-item label { margin: 0; cursor: pointer; font-size: 14px; font-weight: 500; }
-        button { background: linear-gradient(90deg, #ff6b00 0%, #ff8c00 50%, #9acd32 100%); color: white; border: none; padding: 16px 24px; border-radius: 10px; font-size: 16px; cursor: pointer; font-weight: 600; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; }
-        button:disabled { opacity: 0.6; cursor: not-allowed; }
-        .btn-secondary { background: #6c757d; }
-        .btn-group { display: flex; gap: 12px; }
-        .btn-group button { flex: 1; }
-        .alert { padding: 16px 20px; margin: 15px 0; border-radius: 10px; font-weight: 500; font-size: 14px; }
-        .alert-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .alert-error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-        .alert-warning { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
-        .alert-info { background: #e3f2fd; color: #1565c0; border: 1px solid #90caf9; }
-        .hidden { display: none !important; }
-        .success-banner { background: linear-gradient(90deg, #28a745 0%, #20c997 50%, #9acd32 100%); color: white; padding: 30px; text-align: center; margin: 20px 0; border-radius: 12px; font-size: 18px; font-weight: 600; }
-        .success-banner-icon { font-size: 48px; margin-bottom: 15px; }
-        .center { text-align: center; padding: 15px; }
-        .uppercase { text-transform: uppercase; }
-        .lider-found { background-color: #d4edda !important; border-color: #28a745 !important; }
-        .readonly-field { background-color: #e9ecef !important; color: #495057; cursor: not-allowed; }
-        .loading { display: inline-block; width: 18px; height: 18px; border: 2px solid #ffffff; border-radius: 50%; border-top-color: transparent; animation: spin 1s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .verification-card { background: linear-gradient(135deg, #ff6b00 0%, #ffb800 50%, #9acd32 100%); border-radius: 16px; padding: 40px 30px; text-align: center; color: white; margin-bottom: 20px; }
-        .verification-card h2 { font-size: 22px; margin-bottom: 10px; }
-        .verification-card p { opacity: 0.95; margin-bottom: 25px; font-size: 14px; }
-        .verification-input-wrapper { background: white; border-radius: 12px; padding: 5px; display: flex; gap: 10px; }
-        .verification-input-wrapper input { border: none; background: transparent; padding: 15px; font-size: 16px; flex: 1; color: #333; }
-        .verification-input-wrapper input:focus { box-shadow: none; }
-        .verification-input-wrapper button { padding: 15px 25px; border-radius: 10px; width: auto; white-space: nowrap; background: linear-gradient(90deg, #ff6b00, #ff8c00); }
-        .scan-section { margin-top: 20px; padding-top: 20px; border-top: 1px dashed rgba(255,255,255,0.3); }
-        .btn-scan-native { background: #1565c0 !important; color: white; padding: 16px 24px; border-radius: 10px; font-size: 16px; cursor: pointer; font-weight: 600; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px; border: none; position: relative; overflow: hidden; }
-        .btn-scan-native:active { background: #0d47a1 !important; transform: scale(0.98); }
-        .btn-scan-native input[type="file"] { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
-        .scan-hint { background: rgba(255,255,255,0.15); border-radius: 8px; padding: 10px 15px; font-size: 12px; text-align: center; }
-        .image-preview { margin-top: 15px; text-align: center; display: none; }
-        .image-preview.active { display: block; }
-        .image-preview img { max-width: 100%; max-height: 200px; border-radius: 10px; border: 3px solid #28a745; }
-        .image-preview p { margin-top: 10px; font-size: 14px; color: #fff; }
-        .processing-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 99999; justify-content: center; align-items: center; flex-direction: column; color: white; text-align: center; padding: 20px; }
-        .processing-overlay.active { display: flex; }
-        .processing-overlay .spinner { width: 60px; height: 60px; border: 5px solid rgba(255,255,255,0.3); border-top-color: #ff6b00; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px; }
-        .processing-overlay h3 { font-size: 20px; margin-bottom: 10px; }
-        .processing-overlay p { font-size: 14px; opacity: 0.8; }
-        .footer-credit { text-align: center; padding: 20px; color: #999; font-size: 12px; border-top: 1px solid #e9ecef; margin-top: 30px; }
-        .footer-credit strong { color: #ff6b00; }
+/* ================================================================
+   REGISTRO — SISTEMA DE DISEÑO CORPORATIVO WILCAS 40
+   Misma paleta y tipografía del panel administrativo
+   ================================================================ */
+:root {
+    --corp-font: 'Source Sans 3', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    --corp-primary: #D95F0E;
+    --corp-primary-hover: #C2510A;
+    --corp-primary-light: #F97316;
+    --corp-primary-50: #FFF8F1;
+    --corp-primary-100: #FFEDD5;
+    --corp-primary-200: #FED7AA;
+    --corp-primary-8: rgba(217, 95, 14, 0.08);
+    --corp-primary-12: rgba(217, 95, 14, 0.12);
+    --corp-primary-15: rgba(217, 95, 14, 0.15);
+    --corp-dark: #0F172A;
+    --corp-dark-700: #1E293B;
+    --corp-dark-600: #334155;
+    --corp-gray-50: #F8FAFC;
+    --corp-gray-100: #F1F5F9;
+    --corp-gray-200: #E2E8F0;
+    --corp-gray-300: #CBD5E1;
+    --corp-gray-400: #94A3B8;
+    --corp-gray-500: #64748B;
+    --corp-gray-600: #475569;
+    --corp-gray-700: #334155;
+    --corp-gray-800: #1E293B;
+    --corp-white: #FFFFFF;
+    --corp-success: #0D9488;
+    --corp-success-bg: #F0FDFA;
+    --corp-success-border: #99F6E4;
+    --corp-warning: #B45309;
+    --corp-warning-bg: #FFFBEB;
+    --corp-warning-border: #FDE68A;
+    --corp-danger: #BE123C;
+    --corp-danger-bg: #FFF1F2;
+    --corp-danger-border: #FECDD3;
+    --corp-info: #1D4ED8;
+    --corp-info-bg: #EFF6FF;
+    --corp-info-border: #BFDBFE;
+    --corp-shadow-sm: 0 1px 3px rgba(15,23,42,0.06), 0 1px 2px rgba(15,23,42,0.04);
+    --corp-shadow-md: 0 4px 6px -1px rgba(15,23,42,0.07), 0 2px 4px rgba(15,23,42,0.04);
+    --corp-shadow-lg: 0 10px 25px -3px rgba(15,23,42,0.08), 0 4px 6px rgba(15,23,42,0.04);
+    --corp-shadow-xl: 0 20px 50px -5px rgba(15,23,42,0.12);
+    --corp-radius: 8px;
+    --corp-radius-sm: 5px;
+    --corp-radius-lg: 12px;
+    --corp-transition: all 0.2s ease;
+}
 
-        /* === NUEVO V2: Panel de Líder con info y envío de lista === */
-        .lider-panel { background: white; border-radius: 12px; padding: 18px; margin-top: 12px; border: 2px solid #e9ecef; transition: all 0.3s; }
-        .lider-panel.found { border-color: #28a745; background: linear-gradient(135deg, #f0fff4 0%, #e8f5e9 100%); }
-        .lider-panel.not-found { border-color: #dc3545; background: #fff5f5; }
-        .lider-panel-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-        .lider-panel-icon { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; }
-        .lider-panel-icon.ok { background: #d4edda; }
-        .lider-panel-icon.err { background: #f8d7da; }
-        .lider-panel-name { font-size: 16px; font-weight: 700; color: #1a3353; }
-        .lider-panel-sub { font-size: 12px; color: #666; }
-        .lider-stats { display: flex; gap: 12px; margin: 12px 0; flex-wrap: wrap; }
-        .lider-stat { flex: 1; min-width: 90px; background: white; border-radius: 10px; padding: 12px; text-align: center; border: 1px solid #e0e0e0; }
-        .lider-stat h4 { font-size: 26px; font-weight: 700; color: #ff6b00; }
-        .lider-stat p { font-size: 11px; color: #666; margin-top: 3px; }
-        .btn-email-lista { background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 12px 20px; border-radius: 10px; font-size: 14px; cursor: pointer; font-weight: 600; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 10px; }
-        .btn-email-lista:hover { opacity: 0.9; }
-        .btn-email-lista:disabled { opacity: 0.5; cursor: not-allowed; }
-        .lider-blocked { background: #fff3cd; border: 2px solid #ffc107; border-radius: 12px; padding: 18px; margin-top: 12px; text-align: center; }
-        .lider-blocked p { font-size: 14px; color: #856404; line-height: 1.6; }
-        .lider-blocked strong { color: #dc3545; }
-        .lider-blocked .phone-icon { font-size: 36px; margin-bottom: 10px; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--corp-font); background: var(--corp-gray-100); color: var(--corp-dark); font-size: 15px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
 
-        @media (max-width: 768px) {
-            .header { padding: 15px 20px; flex-direction: column; gap: 15px; }
-            .header-right { width: 100%; justify-content: center; }
-            .content { padding: 15px; }
-            .section { padding: 20px; }
-            .radio-group { grid-template-columns: 1fr; }
-            .btn-group { flex-direction: column; }
-            .verification-input-wrapper { flex-direction: column; }
-            .verification-input-wrapper button { width: 100%; }
-        }
+.container { max-width: 100%; margin: 0 auto; background: var(--corp-gray-100); min-height: 100vh; }
+
+.header {
+    background: var(--corp-white);
+    color: var(--corp-dark);
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--corp-gray-200);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--corp-shadow-sm);
+}
+
+.header-left { display: flex; align-items: center; gap: 12px; }
+
+.header-icon {
+    width: 42px;
+    height: 42px;
+    background: linear-gradient(135deg, var(--corp-primary), var(--corp-primary-light));
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 8px rgba(217, 95, 14, 0.2);
+    flex-shrink: 0;
+}
+
+.header-icon svg { width: 22px; height: 22px; fill: none; stroke: white; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+.header-title h1 { font-size: 17px; font-weight: 800; color: var(--corp-dark); letter-spacing: -0.3px; line-height: 1.2; }
+.header-title p { font-size: 12px; color: var(--corp-gray-500); font-weight: 500; margin-top: 1px; }
+
+.btn-menu {
+    background: var(--corp-white);
+    border: 1px solid var(--corp-gray-200);
+    color: var(--corp-gray-600);
+    padding: 8px 16px;
+    border-radius: var(--corp-radius);
+    font-size: 13px;
+    font-weight: 600;
+    font-family: var(--corp-font);
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: var(--corp-transition);
+}
+
+.btn-menu:hover { background: var(--corp-gray-50); border-color: var(--corp-gray-300); color: var(--corp-dark); }
+.btn-menu svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+.content { padding: 20px; max-width: 620px; margin: 0 auto; }
+
+.section {
+    background: var(--corp-white);
+    border-radius: var(--corp-radius);
+    padding: 24px;
+    margin-bottom: 16px;
+    box-shadow: var(--corp-shadow-sm);
+    border: 1px solid var(--corp-gray-200);
+}
+
+.section-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--corp-dark);
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--corp-gray-200);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.section-title::before {
+    content: '';
+    width: 3px;
+    height: 18px;
+    background: var(--corp-primary);
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.section-title svg { width: 18px; height: 18px; fill: none; stroke: var(--corp-primary); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+
+.form-group { margin-bottom: 16px; }
+
+label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--corp-gray-700);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.required { color: var(--corp-danger); }
+
+input, select, textarea {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid var(--corp-gray-200);
+    border-radius: var(--corp-radius);
+    font-size: 14px;
+    font-family: var(--corp-font);
+    font-weight: 500;
+    color: var(--corp-dark);
+    background: var(--corp-white);
+    transition: var(--corp-transition);
+    -webkit-appearance: none;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: var(--corp-primary);
+    outline: none;
+    box-shadow: 0 0 0 3px var(--corp-primary-8);
+}
+
+input::placeholder, textarea::placeholder { color: var(--corp-gray-400); font-weight: 400; }
+textarea { resize: vertical; min-height: 72px; }
+select { background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%2394A3B8' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+
+.radio-group { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 8px; }
+
+.radio-item {
+    display: flex;
+    align-items: center;
+    padding: 11px 14px;
+    border: 1.5px solid var(--corp-gray-200);
+    border-radius: var(--corp-radius);
+    cursor: pointer;
+    background: var(--corp-white);
+    transition: var(--corp-transition);
+}
+
+.radio-item:hover { border-color: var(--corp-primary-200); background: var(--corp-primary-50); }
+.radio-item.selected { border-color: var(--corp-primary); background: var(--corp-primary-50); }
+
+.radio-item input[type="radio"] {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    accent-color: var(--corp-primary);
+    flex-shrink: 0;
+    padding: 0;
+}
+
+.radio-item label { margin: 0; cursor: pointer; font-size: 13px; font-weight: 600; text-transform: none; letter-spacing: 0; color: var(--corp-dark); }
+
+button, .btn-primary-full {
+    background: var(--corp-primary);
+    color: white;
+    border: none;
+    padding: 13px 20px;
+    border-radius: var(--corp-radius);
+    font-size: 14px;
+    font-weight: 700;
+    font-family: var(--corp-font);
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: var(--corp-transition);
+    letter-spacing: 0.2px;
+}
+
+button:hover { background: var(--corp-primary-hover); box-shadow: 0 4px 12px rgba(217, 95, 14, 0.25); transform: translateY(-1px); }
+button:active { transform: translateY(0); }
+button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+button svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+.btn-secondary {
+    background: var(--corp-white) !important;
+    color: var(--corp-gray-600) !important;
+    border: 1.5px solid var(--corp-gray-200) !important;
+}
+
+.btn-secondary:hover { background: var(--corp-gray-50) !important; border-color: var(--corp-gray-300) !important; color: var(--corp-dark) !important; box-shadow: var(--corp-shadow-sm) !important; }
+
+.btn-group { display: flex; gap: 10px; }
+.btn-group button { flex: 1; }
+
+.alert {
+    padding: 12px 16px;
+    margin: 12px 0;
+    border-radius: var(--corp-radius);
+    font-weight: 600;
+    font-size: 13px;
+    font-family: var(--corp-font);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid transparent;
+}
+
+.alert-success { background: var(--corp-success-bg); color: var(--corp-success); border-color: var(--corp-success-border); }
+.alert-error { background: var(--corp-danger-bg); color: var(--corp-danger); border-color: var(--corp-danger-border); }
+.alert-warning { background: var(--corp-warning-bg); color: var(--corp-warning); border-color: var(--corp-warning-border); }
+.alert-info { background: var(--corp-info-bg); color: var(--corp-info); border-color: var(--corp-info-border); }
+
+.hidden { display: none !important; }
+
+.verification-card {
+    background: var(--corp-white);
+    border-radius: var(--corp-radius);
+    padding: 32px 24px;
+    text-align: center;
+    margin-bottom: 16px;
+    box-shadow: var(--corp-shadow-sm);
+    border: 1px solid var(--corp-gray-200);
+    position: relative;
+    overflow: hidden;
+}
+
+.verification-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--corp-primary), var(--corp-primary-light));
+}
+
+.verification-card-icon {
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, var(--corp-primary), var(--corp-primary-light));
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    box-shadow: 0 4px 12px rgba(217, 95, 14, 0.2);
+}
+
+.verification-card-icon svg { width: 28px; height: 28px; fill: none; stroke: white; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+.verification-card h2 { font-size: 20px; font-weight: 800; color: var(--corp-dark); margin-bottom: 6px; letter-spacing: -0.3px; }
+.verification-card p { color: var(--corp-gray-500); margin-bottom: 24px; font-size: 14px; font-weight: 500; }
+
+.verification-input-wrapper {
+    background: var(--corp-gray-50);
+    border: 1.5px solid var(--corp-gray-200);
+    border-radius: var(--corp-radius);
+    padding: 4px;
+    display: flex;
+    gap: 8px;
+    transition: var(--corp-transition);
+}
+
+.verification-input-wrapper:focus-within { border-color: var(--corp-primary); box-shadow: 0 0 0 3px var(--corp-primary-8); }
+
+.verification-input-wrapper input {
+    border: none !important;
+    background: transparent !important;
+    padding: 12px 14px;
+    font-size: 15px;
+    flex: 1;
+    color: var(--corp-dark);
+    box-shadow: none !important;
+    font-weight: 600;
+}
+
+.verification-input-wrapper input:focus { box-shadow: none !important; }
+
+.verification-input-wrapper button {
+    padding: 11px 22px;
+    border-radius: 6px;
+    width: auto;
+    white-space: nowrap;
+    font-size: 13px;
+}
+
+.scan-section {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--corp-gray-200);
+}
+
+.btn-scan-native {
+    background: var(--corp-info) !important;
+    color: white !important;
+    padding: 13px 20px;
+    border-radius: var(--corp-radius);
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: 700;
+    font-family: var(--corp-font);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    border: none;
+    position: relative;
+    overflow: hidden;
+    transition: var(--corp-transition);
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.btn-scan-native:hover { opacity: 0.9; }
+.btn-scan-native:active { transform: scale(0.98); }
+.btn-scan-native svg { width: 18px; height: 18px; fill: none; stroke: white; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+.btn-scan-native input[type="file"] { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+
+.scan-hint {
+    background: var(--corp-gray-50);
+    border: 1px solid var(--corp-gray-200);
+    border-radius: var(--corp-radius);
+    padding: 10px 14px;
+    font-size: 12px;
+    color: var(--corp-gray-500);
+    text-align: center;
+    line-height: 1.6;
+    font-weight: 500;
+}
+
+.image-preview { margin-top: 14px; text-align: center; display: none; }
+.image-preview.active { display: block; }
+.image-preview img { max-width: 100%; max-height: 180px; border-radius: var(--corp-radius); border: 2px solid var(--corp-success); }
+.image-preview p { margin-top: 8px; font-size: 13px; color: var(--corp-gray-500); font-weight: 600; }
+
+.readonly-field { background: var(--corp-gray-50) !important; color: var(--corp-gray-600) !important; cursor: not-allowed; border-color: var(--corp-gray-200) !important; }
+.lider-found { background: var(--corp-success-bg) !important; border-color: var(--corp-success-border) !important; color: var(--corp-success) !important; font-weight: 700 !important; }
+
+.lider-panel {
+    background: var(--corp-white);
+    border-radius: var(--corp-radius);
+    padding: 16px;
+    margin-top: 12px;
+    border: 1.5px solid var(--corp-gray-200);
+    transition: var(--corp-transition);
+}
+
+.lider-panel.found { border-color: var(--corp-success-border); background: var(--corp-success-bg); }
+.lider-panel.not-found { border-color: var(--corp-danger-border); background: var(--corp-danger-bg); }
+
+.lider-panel-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+
+.lider-panel-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.lider-panel-icon.ok { background: var(--corp-success-bg); border: 1px solid var(--corp-success-border); }
+.lider-panel-icon.ok svg { width: 20px; height: 20px; fill: none; stroke: var(--corp-success); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+.lider-panel-icon.err { background: var(--corp-danger-bg); border: 1px solid var(--corp-danger-border); }
+
+.lider-panel-name { font-size: 15px; font-weight: 700; color: var(--corp-dark); }
+.lider-panel-sub { font-size: 12px; color: var(--corp-gray-500); font-weight: 500; margin-top: 1px; }
+
+.lider-stats { display: flex; gap: 10px; margin: 12px 0; flex-wrap: wrap; }
+
+.lider-stat {
+    flex: 1;
+    min-width: 90px;
+    background: var(--corp-white);
+    border-radius: var(--corp-radius);
+    padding: 12px;
+    text-align: center;
+    border: 1px solid var(--corp-gray-200);
+}
+
+.lider-stat h4 { font-size: 24px; font-weight: 800; color: var(--corp-primary); }
+.lider-stat p { font-size: 10px; font-weight: 700; color: var(--corp-gray-400); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.3px; }
+
+.btn-email-lista {
+    background: var(--corp-info) !important;
+    color: white !important;
+    border: none;
+    padding: 11px 18px;
+    border-radius: var(--corp-radius);
+    font-size: 13px;
+    cursor: pointer;
+    font-weight: 700;
+    font-family: var(--corp-font);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 10px;
+    transition: var(--corp-transition);
+}
+
+.btn-email-lista:hover { opacity: 0.9; }
+.btn-email-lista:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.lider-blocked {
+    background: var(--corp-warning-bg);
+    border: 1.5px solid var(--corp-warning-border);
+    border-radius: var(--corp-radius);
+    padding: 20px;
+    margin-top: 12px;
+    text-align: center;
+}
+
+.lider-blocked .phone-icon {
+    width: 44px;
+    height: 44px;
+    background: var(--corp-warning-bg);
+    border: 1px solid var(--corp-warning-border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px;
+}
+
+.lider-blocked .phone-icon svg { width: 22px; height: 22px; fill: none; stroke: var(--corp-warning); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+.lider-blocked p { font-size: 13px; color: var(--corp-warning); line-height: 1.6; font-weight: 500; }
+.lider-blocked strong { color: var(--corp-danger); font-weight: 700; }
+
+.success-banner {
+    background: var(--corp-white);
+    border: 1.5px solid var(--corp-success-border);
+    color: var(--corp-success);
+    padding: 32px 24px;
+    text-align: center;
+    margin: 20px 0;
+    border-radius: var(--corp-radius);
+    box-shadow: var(--corp-shadow-sm);
+}
+
+.success-banner-icon {
+    width: 56px;
+    height: 56px;
+    background: var(--corp-success-bg);
+    border: 1px solid var(--corp-success-border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 14px;
+}
+
+.success-banner-icon svg { width: 28px; height: 28px; fill: none; stroke: var(--corp-success); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+.success-banner-text { font-size: 18px; font-weight: 800; color: var(--corp-dark); }
+
+.center { text-align: center; padding: 14px 0; }
+
+.uppercase { text-transform: uppercase; }
+
+.loading {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: #ffffff;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.processing-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(15, 23, 42, 0.85);
+    z-index: 99999;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    text-align: center;
+    padding: 24px;
+    backdrop-filter: blur(4px);
+}
+
+.processing-overlay.active { display: flex; }
+
+.processing-overlay .spinner {
+    width: 52px;
+    height: 52px;
+    border: 4px solid rgba(255,255,255,0.15);
+    border-top-color: var(--corp-primary-light);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-bottom: 20px;
+}
+
+.processing-overlay h3 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+.processing-overlay p { font-size: 13px; opacity: 0.7; font-weight: 500; }
+
+.footer-credit {
+    text-align: center;
+    padding: 20px;
+    color: var(--corp-gray-400);
+    font-size: 12px;
+    border-top: 1px solid var(--corp-gray-200);
+    margin-top: 24px;
+    font-weight: 500;
+    line-height: 1.8;
+}
+
+.footer-credit strong { color: var(--corp-primary); font-weight: 700; }
+
+@media (max-width: 768px) {
+    .header { padding: 12px 16px; flex-direction: column; gap: 10px; }
+    .header-right { width: 100%; display: flex; justify-content: center; }
+    .content { padding: 14px; }
+    .section { padding: 18px; }
+    .radio-group { grid-template-columns: 1fr; }
+    .btn-group { flex-direction: column; }
+    .verification-card { padding: 24px 18px; }
+    .verification-input-wrapper { flex-direction: column; }
+    .verification-input-wrapper button { width: 100%; }
+}
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- ========== HEADER CORPORATIVO ========== -->
         <div class="header">
             <div class="header-left">
-                <div class="header-icon">📝</div>
+                <div class="header-icon">
+                    <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                </div>
                 <div class="header-title">
                     <h1>Registro de Simpatizantes</h1>
-                    <p>Red 40-WilCas</p>
+                    <p>WilCas 40 - Partido de la U Caldas</p>
                 </div>
             </div>
             <div class="header-right">
-                <a href="https://script.google.com/macros/s/AKfycbyxdUb31zFOygX8ladGubiRst3t-Nz78GRY67ivUPPAxbNTfms2SWkmYZVWeUs6fHl-/exec" class="btn-menu" target="_top">← Menú</a>
+                <a href="https://script.google.com/macros/s/AKfycbyxdUb31zFOygX8ladGubiRst3t-Nz78GRY67ivUPPAxbNTfms2SWkmYZVWeUs6fHl-/exec" class="btn-menu" target="_top">
+                    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+                    Menu
+                </a>
             </div>
         </div>
 
         <div class="content">
+            <!-- ========== PASO 1: VERIFICACIÓN ========== -->
             <div id="paso1">
                 <div class="verification-card">
-                    <h2>🔍 Verificación de Documento</h2>
-                    <p>Ingrese el número de documento o tome foto de la cédula</p>
+                    <div class="verification-card-icon">
+                        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    </div>
+                    <h2>Verificacion de Documento</h2>
+                    <p>Ingrese el numero de documento o tome foto de la cedula</p>
                     
                     <div class="verification-input-wrapper">
-                        <input type="text" id="numeroDoc" placeholder="Número de documento" inputmode="numeric" pattern="[0-9]*" maxlength="12" autofocus>
+                        <input type="text" id="numeroDoc" placeholder="Numero de documento" inputmode="numeric" pattern="[0-9]*" maxlength="12" autofocus>
                         <button onclick="verificarDocumento()" id="btnVerificar">
                             <span id="btnText">Verificar</span>
                         </button>
@@ -138,13 +635,13 @@
 
                     <div class="scan-section">
                         <label class="btn-scan-native">
-                            📷 Tomar Foto de la Cédula
+                            <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                            Tomar Foto de la Cedula
                             <input type="file" id="inputFoto" accept="image/*" capture="environment">
                         </label>
                         
                         <div class="scan-hint">
-                            📌 Tome foto del código de barras en la parte TRASERA de la cédula.<br>
-                            Asegure buena iluminación y que el código esté enfocado.
+                            Tome foto del codigo de barras en la parte TRASERA de la cedula. Asegure buena iluminacion y que el codigo este enfocado.
                         </div>
                         
                         <div id="imagePreview" class="image-preview">
@@ -156,10 +653,14 @@
                 <div id="alertas"></div>
             </div>
 
+            <!-- ========== PASO 2: FORMULARIO ========== -->
             <div id="paso2" class="hidden">
                 <form id="formulario">
                     <div class="section">
-                        <div class="section-title"><span>👤</span> Datos del Simpatizante</div>
+                        <div class="section-title">
+                            <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            Datos del Simpatizante
+                        </div>
                         
                         <div class="form-group">
                             <label>Nombre Completo <span class="required">*</span></label>
@@ -170,26 +671,26 @@
                             <label>Tipo de Documento <span class="required">*</span></label>
                             <select name="tipoDocumento" id="tipoDocumento" required>
                                 <option value="">Seleccionar tipo</option>
-                                <option value="CC" selected>CC - Cédula de Ciudadanía</option>
-                                <option value="CE">CE - Cédula de Extranjería</option>
+                                <option value="CC" selected>CC - Cedula de Ciudadania</option>
+                                <option value="CE">CE - Cedula de Extranjeria</option>
                                 <option value="TI">TI - Tarjeta de Identidad</option>
                                 <option value="PP">PP - Pasaporte</option>
                             </select>
                         </div>
 
                         <div class="form-group">
-                            <label>Número de Documento <span class="required">*</span></label>
+                            <label>Numero de Documento <span class="required">*</span></label>
                             <input type="text" name="numeroDocumento" id="docFinal" readonly class="readonly-field">
                         </div>
 
                         <div class="form-group">
-                            <label>Número de Celular <span class="required">*</span></label>
+                            <label>Numero de Celular <span class="required">*</span></label>
                             <input type="tel" name="numeroCelular" inputmode="numeric" pattern="[0-9]*" placeholder="3001234567" required maxlength="10">
                         </div>
 
                         <div class="form-group">
-                            <label>Dirección <span class="required">*</span></label>
-                            <textarea name="direccion" class="uppercase" required maxlength="200" placeholder="Dirección de residencia"></textarea>
+                            <label>Direccion <span class="required">*</span></label>
+                            <textarea name="direccion" class="uppercase" required maxlength="200" placeholder="Direccion de residencia"></textarea>
                         </div>
 
                         <div class="form-group">
@@ -245,7 +746,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label>¿Alguna vez ha sido? <span class="required">*</span></label>
+                            <label>Alguna vez ha sido? <span class="required">*</span></label>
                             <div class="radio-group">
                                 <div class="radio-item" onclick="selectRadio('edil')">
                                     <input type="radio" name="hasBeenType" value="Edil" id="edil" required>
@@ -267,52 +768,71 @@
                         </div>
                     </div>
 
-                    <!-- ========== SECCIÓN LÍDER MODIFICADA V2 ========== -->
+                    <!-- ========== SECCIÓN LÍDER V2 ========== -->
                     <div class="section">
-                        <div class="section-title"><span>👥</span> Datos del Líder</div>
+                        <div class="section-title">
+                            <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                            Datos del Lider
+                        </div>
                         
                         <div class="form-group">
-                            <label>ID del Líder (Cédula) <span class="required">*</span></label>
-                            <input type="text" name="idLider" id="idLider" inputmode="numeric" pattern="[0-9]*" required maxlength="12" placeholder="Ingrese la cédula del líder para verificar">
+                            <label>ID del Lider (Cedula) <span class="required">*</span></label>
+                            <input type="text" name="idLider" id="idLider" inputmode="numeric" pattern="[0-9]*" required maxlength="12" placeholder="Ingrese la cedula del lider para verificar">
                             <div id="liderInfo"></div>
                         </div>
 
                         <div class="form-group">
-                            <label>Nombre del Líder</label>
-                            <input type="text" name="nombreLider" id="nombreLider" class="uppercase readonly-field" readonly required maxlength="100" placeholder="Se completará al verificar el ID del líder">
+                            <label>Nombre del Lider</label>
+                            <input type="text" name="nombreLider" id="nombreLider" class="uppercase readonly-field" readonly required maxlength="100" placeholder="Se completara al verificar el ID del lider">
                         </div>
 
                         <div id="liderPanel"></div>
                     </div>
-                    <!-- ========== FIN SECCIÓN LÍDER V2 ========== -->
 
                     <div class="btn-group">
-                        <button type="button" onclick="volverPaso1()" class="btn-secondary">⬅️ Volver</button>
-                        <button type="submit" id="btnGuardar">💾 Guardar Registro</button>
+                        <button type="button" onclick="volverPaso1()" class="btn-secondary">
+                            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+                            Volver
+                        </button>
+                        <button type="submit" id="btnGuardar">
+                            <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                            Guardar Registro
+                        </button>
                     </div>
                 </form>
             </div>
 
+            <!-- ========== PASO 3: ÉXITO ========== -->
             <div id="exito" class="hidden">
                 <div class="success-banner">
-                    <div class="success-banner-icon">✅</div>
-                    ¡Registro guardado exitosamente!
+                    <div class="success-banner-icon">
+                        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <div class="success-banner-text">Registro guardado exitosamente</div>
                 </div>
                 <div class="center">
-                    <button onclick="nuevoRegistro()">➕ Nuevo Registro</button>
+                    <button onclick="nuevoRegistro()">
+                        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        Nuevo Registro
+                    </button>
                 </div>
             </div>
 
-            <div class="footer-credit">Desarrollado Por <strong>Soluciones WilCas</strong></div>
+            <div class="footer-credit">
+                <span style="font-weight:700;color:var(--corp-dark);">WilCas 40</span> &mdash; Partido de la U Caldas<br>
+                Elaborado por <strong>Soluciones WilCas</strong>
+            </div>
         </div>
     </div>
 
+    <!-- ========== OVERLAY PROCESAMIENTO ========== -->
     <div id="processingOverlay" class="processing-overlay">
         <div class="spinner"></div>
         <h3>Procesando imagen...</h3>
-        <p>Analizando el código de barras con Google Vision</p>
+        <p>Analizando el codigo de barras con Google Vision</p>
     </div>
 
+    <!-- ========== JAVASCRIPT — SIN CAMBIOS FUNCIONALES ========== -->
     <script>
         // ============================================
         // CONFIGURACIÓN - GOOGLE CLOUD VISION API
@@ -322,7 +842,6 @@
 
         var lideres = [{ id: '1075215691', nombre: 'WILMER JAVIER CASTAÑEDA G' }];
 
-        // === NUEVO V2: Estado del líder actual ===
         var liderActual = null;
         var buscandoLider = false;
 
@@ -402,7 +921,7 @@
             document.getElementById('formulario').addEventListener('submit', function(e) { e.preventDefault(); guardarFormulario(); });
             document.getElementById('numeroDoc').addEventListener('keypress', function(e) { if (e.key === 'Enter') { e.preventDefault(); verificarDocumento(); } });
             var celInput = document.querySelector('input[name="numeroCelular"]');
-            if (celInput) { celInput.addEventListener('input', function(e) { if (e.target.value.length === 10 && e.target.value.charAt(0) !== '3') { mostrarAlerta('⚠️ El celular debe comenzar con 3', 'warning'); } }); }
+            if (celInput) { celInput.addEventListener('input', function(e) { if (e.target.value.length === 10 && e.target.value.charAt(0) !== '3') { mostrarAlerta('El celular debe comenzar con 3', 'warning'); } }); }
             var radioItems = document.querySelectorAll('.radio-item input');
             for (var ri = 0; ri < radioItems.length; ri++) {
                 radioItems[ri].addEventListener('change', function() { var allItems = document.querySelectorAll('.radio-item'); for (var ai = 0; ai < allItems.length; ai++) { allItems[ai].classList.remove('selected'); } this.closest('.radio-item').classList.add('selected'); });
@@ -410,7 +929,7 @@
         }
 
         // ============================================
-        // PROCESAMIENTO DE FOTO (SIN CAMBIOS)
+        // PROCESAMIENTO DE FOTO
         // ============================================
         function procesarFoto(file) {
             document.getElementById('processingOverlay').classList.add('active');
@@ -421,10 +940,10 @@
             }).then(function(textoDetectado) {
                 if (textoDetectado) {
                     var cedula = extraerCedulaDeTexto(textoDetectado);
-                    if (cedula) { document.getElementById('processingOverlay').classList.remove('active'); document.getElementById('numeroDoc').value = cedula; mostrarAlerta('✅ Cédula detectada: ' + cedula, 'success'); setTimeout(function() { verificarDocumento(); }, 500); }
-                    else { document.getElementById('processingOverlay').classList.remove('active'); mostrarAlerta('⚠️ No se encontró número de cédula. Intente con mejor iluminación.', 'warning'); }
-                } else { document.getElementById('processingOverlay').classList.remove('active'); mostrarAlerta('⚠️ No se pudo leer la imagen.', 'warning'); }
-            }).catch(function(error) { document.getElementById('processingOverlay').classList.remove('active'); mostrarAlerta('❌ Error: ' + error.message, 'error'); });
+                    if (cedula) { document.getElementById('processingOverlay').classList.remove('active'); document.getElementById('numeroDoc').value = cedula; mostrarAlerta('Cedula detectada: ' + cedula, 'success'); setTimeout(function() { verificarDocumento(); }, 500); }
+                    else { document.getElementById('processingOverlay').classList.remove('active'); mostrarAlerta('No se encontro numero de cedula. Intente con mejor iluminacion.', 'warning'); }
+                } else { document.getElementById('processingOverlay').classList.remove('active'); mostrarAlerta('No se pudo leer la imagen.', 'warning'); }
+            }).catch(function(error) { document.getElementById('processingOverlay').classList.remove('active'); mostrarAlerta('Error: ' + error.message, 'error'); });
             document.getElementById('inputFoto').value = '';
         }
         function fileToBase64(file) { return new Promise(function(resolve, reject) { var reader = new FileReader(); reader.onload = function() { resolve(reader.result.split(',')[1]); }; reader.onerror = function(error) { reject(error); }; reader.readAsDataURL(file); }); }
@@ -467,7 +986,7 @@
 
         function cargarLideres() {
             if (typeof google !== 'undefined' && google.script && google.script.run) {
-                google.script.run.withSuccessHandler(function(r) { if (r && r.length > 0) { lideres = r; } }).withFailureHandler(function(e) { console.log('Error líderes:', e); }).obtenerLideres();
+                google.script.run.withSuccessHandler(function(r) { if (r && r.length > 0) { lideres = r; } }).withFailureHandler(function(e) { console.log('Error lideres:', e); }).obtenerLideres();
             }
         }
 
@@ -476,15 +995,15 @@
             var alertas = document.getElementById('alertas');
             var btnText = document.getElementById('btnText');
             var btnVerificar = document.getElementById('btnVerificar');
-            if (!numeroDoc) { mostrarAlertaEn(alertas, '❌ Ingresa un número de documento', 'error'); return; }
-            if (!/^\d+$/.test(numeroDoc)) { mostrarAlertaEn(alertas, '❌ Solo se permiten números', 'error'); return; }
-            if (numeroDoc.length < 6 || numeroDoc.length > 12) { mostrarAlertaEn(alertas, '❌ El documento debe tener entre 6 y 12 dígitos', 'error'); return; }
+            if (!numeroDoc) { mostrarAlertaEn(alertas, 'Ingresa un numero de documento', 'error'); return; }
+            if (!/^\d+$/.test(numeroDoc)) { mostrarAlertaEn(alertas, 'Solo se permiten numeros', 'error'); return; }
+            if (numeroDoc.length < 6 || numeroDoc.length > 12) { mostrarAlertaEn(alertas, 'El documento debe tener entre 6 y 12 digitos', 'error'); return; }
             btnText.innerHTML = '<span class="loading"></span>'; btnVerificar.disabled = true;
-            mostrarAlertaEn(alertas, '🔄 Verificando documento...', 'info');
-            if (typeof google === 'undefined' || !google.script) { setTimeout(function() { btnText.textContent = 'Verificar'; btnVerificar.disabled = false; mostrarAlertaEn(alertas, '✅ Documento disponible', 'success'); setTimeout(function() { continuar(numeroDoc); }, 1000); }, 1500); return; }
+            mostrarAlertaEn(alertas, 'Verificando documento...', 'info');
+            if (typeof google === 'undefined' || !google.script) { setTimeout(function() { btnText.textContent = 'Verificar'; btnVerificar.disabled = false; mostrarAlertaEn(alertas, 'Documento disponible', 'success'); setTimeout(function() { continuar(numeroDoc); }, 1000); }, 1500); return; }
             google.script.run
-                .withSuccessHandler(function(existe) { btnText.textContent = 'Verificar'; btnVerificar.disabled = false; if (existe) { mostrarAlertaEn(alertas, '❌ Este documento ya está registrado', 'error'); setTimeout(function() { document.getElementById('numeroDoc').value = ''; alertas.innerHTML = ''; document.getElementById('numeroDoc').focus(); }, 3000); } else { mostrarAlertaEn(alertas, '✅ Documento disponible', 'success'); setTimeout(function() { continuar(numeroDoc); }, 1000); } })
-                .withFailureHandler(function() { btnText.textContent = 'Verificar'; btnVerificar.disabled = false; mostrarAlertaEn(alertas, '❌ Error de conexión', 'error'); })
+                .withSuccessHandler(function(existe) { btnText.textContent = 'Verificar'; btnVerificar.disabled = false; if (existe) { mostrarAlertaEn(alertas, 'Este documento ya esta registrado', 'error'); setTimeout(function() { document.getElementById('numeroDoc').value = ''; alertas.innerHTML = ''; document.getElementById('numeroDoc').focus(); }, 3000); } else { mostrarAlertaEn(alertas, 'Documento disponible', 'success'); setTimeout(function() { continuar(numeroDoc); }, 1000); } })
+                .withFailureHandler(function() { btnText.textContent = 'Verificar'; btnVerificar.disabled = false; mostrarAlertaEn(alertas, 'Error de conexion', 'error'); })
                 .verificarDocumentoWrapper(numeroDoc);
         }
 
@@ -498,15 +1017,13 @@
         }
 
         // ============================================================
-        // === NUEVO V2: buscarLider() con validación estricta ===
+        // BUSCAR LÍDER V2
         // ============================================================
         function escHtml(t) { var d = document.createElement('div'); d.textContent = t || ''; return d.innerHTML; }
 
         function buscarLider() {
             var rawValue = document.getElementById('idLider').value;
-            // Limpieza agresiva: solo dígitos, quitar TODO lo demás
             var idLider = rawValue.replace(/[^0-9]/g, '');
-            // Actualizar el campo con valor limpio
             document.getElementById('idLider').value = idLider;
             
             var nombreInput = document.getElementById('nombreLider');
@@ -516,22 +1033,20 @@
             if (!idLider || idLider.length < 6) { limpiarLider(); return; }
 
             if (idLider.length < 8) {
-                infoDiv.innerHTML = '<div class="alert alert-info">ℹ️ Continúe escribiendo...</div>';
+                infoDiv.innerHTML = '<div class="alert alert-info">Continue escribiendo...</div>';
                 return;
             }
 
             if (buscandoLider) return;
 
-            // Buscar con backend V2 para obtener info completa
             if (typeof google !== 'undefined' && google.script && google.script.run) {
                 buscandoLider = true;
-                var idBuscado = idLider; // guardar qué valor se buscó
-                infoDiv.innerHTML = '<div class="alert alert-info">🔄 Verificando líder...</div>';
+                var idBuscado = idLider;
+                infoDiv.innerHTML = '<div class="alert alert-info">Verificando lider...</div>';
                 
                 google.script.run
                     .withSuccessHandler(function(r) {
                         buscandoLider = false;
-                        // Si el usuario cambió el input mientras buscaba, re-buscar
                         var idActual = document.getElementById('idLider').value.replace(/[^0-9]/g, '');
                         if (idActual !== idBuscado && idActual.length >= 8) {
                             buscarLider();
@@ -543,18 +1058,18 @@
                             nombreInput.value = l.nombre;
                             nombreInput.classList.add('lider-found');
                             nombreInput.dataset.encontrado = 'true';
-                            infoDiv.innerHTML = '<div class="alert alert-success">✅ Líder verificado en la base de datos</div>';
+                            infoDiv.innerHTML = '<div class="alert alert-success">Lider verificado en la base de datos</div>';
                             
                             var hasEmail = l.tieneCorreo;
                             var ph = '<div class="lider-panel found">';
-                            ph += '<div class="lider-panel-header"><div class="lider-panel-icon ok">👤</div><div><div class="lider-panel-name">' + escHtml(l.nombre) + '</div><div class="lider-panel-sub">Doc: ' + escHtml(l.documento) + (l.celular ? ' • Cel: ' + escHtml(l.celular) : '') + '</div></div></div>';
-                            ph += '<div class="lider-stats"><div class="lider-stat"><h4>' + l.totalSimpatizantes + '</h4><p>Simpatizantes registrados</p></div>';
-                            ph += '<div class="lider-stat"><h4>' + (hasEmail ? '✅' : '❌') + '</h4><p>Correo ' + (hasEmail ? 'registrado' : 'sin registrar') + '</p></div></div>';
+                            ph += '<div class="lider-panel-header"><div class="lider-panel-icon ok"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div><div class="lider-panel-name">' + escHtml(l.nombre) + '</div><div class="lider-panel-sub">Doc: ' + escHtml(l.documento) + (l.celular ? ' &bull; Cel: ' + escHtml(l.celular) : '') + '</div></div></div>';
+                            ph += '<div class="lider-stats"><div class="lider-stat"><h4>' + l.totalSimpatizantes + '</h4><p>Simpatizantes</p></div>';
+                            ph += '<div class="lider-stat"><h4>' + (hasEmail ? '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#0D9488" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>' : '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#BE123C" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>') + '</h4><p>Correo ' + (hasEmail ? 'registrado' : 'sin registrar') + '</p></div></div>';
                             
                             if (l.totalSimpatizantes > 0 && hasEmail) {
-                                ph += '<button type="button" class="btn-email-lista" onclick="enviarListaEmail()" id="btnEnviarLista">📧 Enviar lista de ' + l.totalSimpatizantes + ' simpatizantes al correo del líder</button>';
+                                ph += '<button type="button" class="btn-email-lista" onclick="enviarListaEmail()" id="btnEnviarLista"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Enviar lista de ' + l.totalSimpatizantes + ' simpatizantes al correo del lider</button>';
                             } else if (l.totalSimpatizantes > 0 && !hasEmail) {
-                                ph += '<div style="background:#e3f2fd;border-radius:8px;padding:10px;margin-top:8px;font-size:12px;color:#1565c0;text-align:center;">ℹ️ Para recibir la lista por correo, el líder debe registrar su email en la sede</div>';
+                                ph += '<div style="background:var(--corp-info-bg);border:1px solid var(--corp-info-border);border-radius:var(--corp-radius);padding:10px 14px;margin-top:8px;font-size:12px;color:var(--corp-info);text-align:center;font-weight:600;">Para recibir la lista por correo, el lider debe registrar su email en la sede</div>';
                             }
                             ph += '</div>';
                             panelDiv.innerHTML = ph;
@@ -567,26 +1082,22 @@
                                 lideres.push({ id: l.documento, nombre: l.nombre });
                             }
                         } else {
-                            // LÍDER NO ENCONTRADO - BLOQUEAR
                             liderActual = null;
                             nombreInput.value = '';
                             nombreInput.classList.remove('lider-found');
                             nombreInput.dataset.encontrado = 'false';
                             infoDiv.innerHTML = '';
-                            panelDiv.innerHTML = '<div class="lider-blocked"><div class="phone-icon">📞</div><p><strong>Líder no registrado en el sistema</strong></p><p>Para registrar simpatizantes, el líder debe estar creado previamente.<br>Por favor comuníquese con la <strong>sede</strong> para que lo registren como líder.</p><p style="margin-top:10px;font-size:12px;color:#666;">☎️ Contacte al coordinador de su zona</p><p style="margin-top:8px;font-size:9px;color:#aaa;">ENVIADO: [' + idLider + '] len:' + idLider.length + ' | RESP: ' + JSON.stringify(r).substring(0, 200) + '</p></div>';
+                            panelDiv.innerHTML = '<div class="lider-blocked"><div class="phone-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div><p><strong>Lider no registrado en el sistema</strong></p><p>Para registrar simpatizantes, el lider debe estar creado previamente.<br>Por favor comuniquese con la <strong>sede</strong> para que lo registren como lider.</p><p style="margin-top:10px;font-size:11px;color:var(--corp-gray-400);">Contacte al coordinador de su zona</p><p style="margin-top:8px;font-size:9px;color:var(--corp-gray-400);">ENVIADO: [' + idLider + '] len:' + idLider.length + ' | RESP: ' + JSON.stringify(r).substring(0, 200) + '</p></div>';
                         }
                     })
                     .withFailureHandler(function(e) {
                         buscandoLider = false;
-                        // Si el usuario cambió el input mientras buscaba, re-buscar
                         var idActual2 = document.getElementById('idLider').value.replace(/[^0-9]/g, '');
                         if (idActual2 !== idBuscado && idActual2.length >= 8) {
                             buscarLider();
                             return;
                         }
-                        // DEBUG: mostrar error real
                         var debugMsg = 'ENVIADO: [' + idBuscado + '] len:' + idBuscado.length + ' | FAIL: ' + String(e);
-                        // Fallback: buscar en cache local
                         var liderLocal = null;
                         for (var li = 0; li < lideres.length; li++) {
                             if (lideres[li].id === idLider) { liderLocal = lideres[li]; break; }
@@ -595,17 +1106,16 @@
                             nombreInput.value = liderLocal.nombre;
                             nombreInput.classList.add('lider-found');
                             nombreInput.dataset.encontrado = 'true';
-                            infoDiv.innerHTML = '<div class="alert alert-success">✅ Líder encontrado</div>';
+                            infoDiv.innerHTML = '<div class="alert alert-success">Lider encontrado</div>';
                             panelDiv.innerHTML = '';
                         } else {
                             nombreInput.value = '';
                             nombreInput.dataset.encontrado = 'false';
-                            panelDiv.innerHTML = '<div class="lider-blocked"><div class="phone-icon">📞</div><p><strong>Líder no registrado en el sistema</strong></p><p>Comuníquese con la <strong>sede</strong> para que registren al líder.</p><p style="font-size:9px;color:#aaa;">' + debugMsg + '</p></div>';
+                            panelDiv.innerHTML = '<div class="lider-blocked"><div class="phone-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div><p><strong>Lider no registrado en el sistema</strong></p><p>Comuniquese con la <strong>sede</strong> para que registren al lider.</p><p style="font-size:9px;color:var(--corp-gray-400);">' + debugMsg + '</p></div>';
                         }
                     })
                     .obtenerInfoLiderV2(idLider);
             } else {
-                // Modo demo / sin backend - DEBUG
                 var liderLocal2 = null;
                 for (var li = 0; li < lideres.length; li++) {
                     if (lideres[li].id === idLider) { liderLocal2 = lideres[li]; break; }
@@ -614,12 +1124,12 @@
                     nombreInput.value = liderLocal2.nombre;
                     nombreInput.classList.add('lider-found');
                     nombreInput.dataset.encontrado = 'true';
-                    infoDiv.innerHTML = '<div class="alert alert-success">✅ Líder encontrado</div>';
-                    panelDiv.innerHTML = '<div class="lider-panel found"><div class="lider-panel-header"><div class="lider-panel-icon ok">👤</div><div><div class="lider-panel-name">' + liderLocal2.nombre + '</div><div class="lider-panel-sub">DEBUG: SIN BACKEND (google.script no disponible)</div></div></div></div>';
+                    infoDiv.innerHTML = '<div class="alert alert-success">Lider encontrado</div>';
+                    panelDiv.innerHTML = '<div class="lider-panel found"><div class="lider-panel-header"><div class="lider-panel-icon ok"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div><div class="lider-panel-name">' + liderLocal2.nombre + '</div><div class="lider-panel-sub">DEBUG: SIN BACKEND</div></div></div></div>';
                 } else {
                     nombreInput.value = '';
                     nombreInput.dataset.encontrado = 'false';
-                    panelDiv.innerHTML = '<div class="lider-blocked"><div class="phone-icon">📞</div><p><strong>Líder no registrado</strong></p><p>Comuníquese con la <strong>sede</strong> para registrarlo.</p></div>';
+                    panelDiv.innerHTML = '<div class="lider-blocked"><div class="phone-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div><p><strong>Lider no registrado</strong></p><p>Comuniquese con la <strong>sede</strong> para registrarlo.</p></div>';
                 }
             }
         }
@@ -634,37 +1144,36 @@
             liderActual = null;
         }
 
-        // === NUEVO V2: Enviar lista al correo del líder ===
         function enviarListaEmail() {
-            if (!liderActual) { mostrarAlerta('❌ No hay líder seleccionado', 'error'); return; }
+            if (!liderActual) { mostrarAlerta('No hay lider seleccionado', 'error'); return; }
             var btn = document.getElementById('btnEnviarLista');
             if (btn) { btn.disabled = true; btn.innerHTML = '<span class="loading"></span> Enviando al correo...'; }
             
             if (typeof google !== 'undefined' && google.script && google.script.run) {
                 google.script.run
                     .withSuccessHandler(function(r) {
-                        if (btn) { btn.disabled = false; btn.innerHTML = '📧 Enviar lista al correo del líder'; }
+                        if (btn) { btn.disabled = false; btn.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Enviar lista al correo del lider'; }
                         if (r && r.success) {
-                            mostrarAlerta('✅ ' + r.message + ' (' + r.totalEnviados + ' simpatizantes)', 'success');
+                            mostrarAlerta(r.message + ' (' + r.totalEnviados + ' simpatizantes)', 'success');
                         } else {
-                            mostrarAlerta('❌ ' + (r ? r.message : 'Error al enviar'), 'error');
+                            mostrarAlerta((r ? r.message : 'Error al enviar'), 'error');
                         }
                     })
                     .withFailureHandler(function(e) {
-                        if (btn) { btn.disabled = false; btn.innerHTML = '📧 Enviar lista al correo del líder'; }
-                        mostrarAlerta('❌ Error: ' + e, 'error');
+                        if (btn) { btn.disabled = false; btn.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Enviar lista al correo del lider'; }
+                        mostrarAlerta('Error: ' + e, 'error');
                     })
                     .enviarListaSimpatizantesV2(liderActual.documento);
             } else {
                 setTimeout(function() {
-                    if (btn) { btn.disabled = false; btn.innerHTML = '📧 Enviar lista al correo del líder'; }
-                    mostrarAlerta('✅ Lista enviada al correo (Demo)', 'success');
+                    if (btn) { btn.disabled = false; btn.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Enviar lista al correo del lider'; }
+                    mostrarAlerta('Lista enviada al correo (Demo)', 'success');
                 }, 1500);
             }
         }
 
         // ============================================
-        // GUARDAR FORMULARIO (MODIFICADO V2)
+        // GUARDAR FORMULARIO
         // ============================================
         function guardarFormulario() {
             var formData = new FormData(document.getElementById('formulario'));
@@ -672,10 +1181,9 @@
             formData.forEach(function(value, key) { datos[key] = value; });
             if (!validarFormulario(datos)) return;
             
-            // === V2: Bloquear si líder no está verificado ===
             var nombreLiderInput = document.getElementById('nombreLider');
             if (nombreLiderInput.dataset.encontrado !== 'true') {
-                mostrarAlerta('❌ El líder debe estar registrado en el sistema. Comuníquese con la sede para que lo creen.', 'error');
+                mostrarAlerta('El lider debe estar registrado en el sistema. Comuniquese con la sede para que lo creen.', 'error');
                 return;
             }
             
@@ -686,22 +1194,22 @@
             if (typeof google === 'undefined' || !google.script) { setTimeout(function() { submitBtn.innerHTML = textoOriginal; submitBtn.disabled = false; mostrarExito(); }, 2000); return; }
 
             google.script.run
-                .withSuccessHandler(function(r) { submitBtn.innerHTML = textoOriginal; submitBtn.disabled = false; if (r.success) { mostrarExito(); } else { mostrarAlerta('❌ ' + r.message, 'error'); } })
-                .withFailureHandler(function() { submitBtn.innerHTML = textoOriginal; submitBtn.disabled = false; mostrarAlerta('❌ Error al guardar', 'error'); })
+                .withSuccessHandler(function(r) { submitBtn.innerHTML = textoOriginal; submitBtn.disabled = false; if (r.success) { mostrarExito(); } else { mostrarAlerta(r.message, 'error'); } })
+                .withFailureHandler(function() { submitBtn.innerHTML = textoOriginal; submitBtn.disabled = false; mostrarAlerta('Error al guardar', 'error'); })
                 .guardarRegistroWrapper(datos);
         }
 
         function validarFormulario(datos) {
             var cel = datos.numeroCelular.trim();
-            if (!cel || !/^\d{10}$/.test(cel)) { mostrarAlerta('❌ El celular debe tener 10 dígitos', 'error'); return false; }
-            if (cel.charAt(0) !== '3') { mostrarAlerta('❌ El celular debe comenzar con 3', 'error'); return false; }
+            if (!cel || !/^\d{10}$/.test(cel)) { mostrarAlerta('El celular debe tener 10 digitos', 'error'); return false; }
+            if (cel.charAt(0) !== '3') { mostrarAlerta('El celular debe comenzar con 3', 'error'); return false; }
             var req = ['nombreCompleto', 'tipoDocumento', 'numeroDocumento', 'numeroCelular', 'direccion', 'barrio', 'departamento', 'municipio', 'hasBeenType', 'idLider', 'nombreLider'];
-            for (var vc = 0; vc < req.length; vc++) { if (!datos[req[vc]] || datos[req[vc]].trim() === '') { mostrarAlerta('❌ Complete: ' + obtenerNombreCampo(req[vc]), 'error'); return false; } }
+            for (var vc = 0; vc < req.length; vc++) { if (!datos[req[vc]] || datos[req[vc]].trim() === '') { mostrarAlerta('Complete: ' + obtenerNombreCampo(req[vc]), 'error'); return false; } }
             return true;
         }
 
         function obtenerNombreCampo(c) {
-            var n = { 'nombreCompleto': 'Nombre Completo', 'tipoDocumento': 'Tipo de Documento', 'numeroDocumento': 'Número de Documento', 'numeroCelular': 'Celular', 'direccion': 'Dirección', 'barrio': 'Barrio', 'departamento': 'Departamento', 'municipio': 'Municipio', 'hasBeenType': '¿Ha sido?', 'idLider': 'ID del Líder', 'nombreLider': 'Nombre del Líder' };
+            var n = { 'nombreCompleto': 'Nombre Completo', 'tipoDocumento': 'Tipo de Documento', 'numeroDocumento': 'Numero de Documento', 'numeroCelular': 'Celular', 'direccion': 'Direccion', 'barrio': 'Barrio', 'departamento': 'Departamento', 'municipio': 'Municipio', 'hasBeenType': 'Ha sido?', 'idLider': 'ID del Lider', 'nombreLider': 'Nombre del Lider' };
             return n[c] || c;
         }
 
@@ -730,16 +1238,16 @@
             var alerta = document.createElement('div');
             alerta.className = 'alert alert-' + tipo;
             alerta.innerHTML = mensaje;
-            alerta.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:999999;max-width:90%;box-shadow:0 5px 20px rgba(0,0,0,0.3)';
+            alerta.style.cssText = 'position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:999999;max-width:90%;box-shadow:var(--corp-shadow-lg);padding:14px 20px;';
             document.body.appendChild(alerta);
             setTimeout(function() { if (alerta.parentNode) alerta.parentNode.removeChild(alerta); }, 5000);
         }
 
         function mostrarAlertaEn(contenedor, mensaje, tipo) { contenedor.innerHTML = '<div class="alert alert-' + tipo + '">' + mensaje + '</div>'; }
 
-        window.addEventListener('offline', function() { mostrarAlerta('⚠️ Sin conexión', 'warning'); });
-        window.addEventListener('online', function() { mostrarAlerta('✅ Conexión restaurada', 'success'); });
+        window.addEventListener('offline', function() { mostrarAlerta('Sin conexion a internet', 'warning'); });
+        window.addEventListener('online', function() { mostrarAlerta('Conexion restaurada', 'success'); });
     </script>
-    <div style="text-align:center;padding:5px;font-size:10px;color:#999;">v2.4-RACE</div>
+    <div style="text-align:center;padding:5px;font-size:10px;color:var(--corp-gray-400);">v3.0-WILCAS40</div>
 </body>
 </html>

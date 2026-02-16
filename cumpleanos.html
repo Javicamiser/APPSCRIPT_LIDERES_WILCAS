@@ -1,0 +1,168 @@
+<!-- ================================================================
+     MÓDULO: CUMPLEAÑOS
+     Archivo: cumpleanos.html
+     ================================================================ -->
+<script>
+var CumpleModule = {
+  datos: [],
+
+  cargarDatosCompletos: function(callback) {
+    var self = this;
+    google.script.run
+      .withSuccessHandler(function(r) {
+        if (r && r.success) {
+          self.datos = (r.datos || []).filter(function(d) {
+            return d.fechaNacimiento && d.fechaNacimiento.trim() !== '';
+          });
+          if (callback) callback();
+        }
+      })
+      .withFailureHandler(function() { if (callback) callback(); })
+      .obtenerDatosLlamadasWrapper();
+  },
+
+  verificarHoy: function() {
+    var self = this;
+    if (this.datos.length === 0) {
+      this.cargarDatosCompletos(function() { self._verificarHoyInterno(); });
+    } else {
+      this._verificarHoyInterno();
+    }
+  },
+
+  _verificarHoyInterno: function() {
+    var hoy = new Date();
+    var diaHoy = hoy.getDate();
+    var mesHoy = hoy.getMonth() + 1;
+
+    var cumpleaneros = [];
+    for (var i = 0; i < this.datos.length; i++) {
+      var fecha = this._parsearFecha(this.datos[i].fechaNacimiento);
+      if (fecha && fecha.dia === diaHoy && fecha.mes === mesHoy) {
+        cumpleaneros.push(this.datos[i]);
+      }
+    }
+
+    if (cumpleaneros.length > 0) {
+      var alerta = document.getElementById('alertaCumpleanosDashboard');
+      var texto = document.getElementById('textoCumpleanos');
+      var badge = document.getElementById('badgeCumpleanos');
+
+      if (alerta) alerta.style.display = 'block';
+      if (texto) texto.textContent = 'Hoy cumplen anos ' + cumpleaneros.length + ' lider(es). Haga clic para ver.';
+      if (badge) { badge.textContent = cumpleaneros.length; badge.style.display = 'inline-block'; }
+    }
+  },
+
+  mostrarLista: function(filtro) {
+    var self = this;
+    if (this.datos.length === 0) {
+      this.cargarDatosCompletos(function() { self._renderLista(filtro); });
+    } else {
+      this._renderLista(filtro);
+    }
+  },
+
+  _renderLista: function(filtro) {
+    var contenedor = document.getElementById('seccion-cumpleanos');
+    if (!contenedor) return;
+
+    var hoy = new Date();
+    var diaHoy = hoy.getDate();
+    var mesHoy = hoy.getMonth() + 1;
+    var self = this;
+
+    var cumpleaneros = [];
+    for (var i = 0; i < this.datos.length; i++) {
+      var fecha = this._parsearFecha(this.datos[i].fechaNacimiento);
+      if (!fecha) continue;
+
+      var incluir = false;
+      if (filtro === 'hoy') {
+        incluir = fecha.dia === diaHoy && fecha.mes === mesHoy;
+      } else if (filtro === 'semana') {
+        for (var d = 0; d < 7; d++) {
+          var check = new Date(hoy);
+          check.setDate(check.getDate() + d);
+          if (fecha.dia === check.getDate() && fecha.mes === (check.getMonth() + 1)) { incluir = true; break; }
+        }
+      } else if (filtro === 'mes') {
+        incluir = fecha.mes === mesHoy;
+      } else {
+        incluir = true;
+      }
+
+      if (incluir) {
+        var edad = hoy.getFullYear() - (fecha.anio || hoy.getFullYear());
+        cumpleaneros.push({
+          nombre: this.datos[i].nombre,
+          documento: this.datos[i].documento,
+          celular: this.datos[i].celular,
+          entidad: this.datos[i].entidad,
+          fechaNacimiento: this.datos[i].fechaNacimiento,
+          edad: edad,
+          dia: fecha.dia,
+          mes: fecha.mes
+        });
+      }
+    }
+
+    cumpleaneros.sort(function(a, b) { return (a.mes * 100 + a.dia) - (b.mes * 100 + b.dia); });
+
+    var html = '<div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;">';
+    html += '<button class="' + (filtro === 'hoy' ? 'btn-primary' : 'btn-secondary') + '" onclick="CumpleModule.mostrarLista(\'hoy\')">Hoy</button>';
+    html += '<button class="' + (filtro === 'semana' ? 'btn-primary' : 'btn-secondary') + '" onclick="CumpleModule.mostrarLista(\'semana\')">Esta semana</button>';
+    html += '<button class="' + (filtro === 'mes' ? 'btn-primary' : 'btn-secondary') + '" onclick="CumpleModule.mostrarLista(\'mes\')">Este mes</button>';
+    html += '<button class="' + (filtro === 'todos' ? 'btn-primary' : 'btn-secondary') + '" onclick="CumpleModule.mostrarLista(\'todos\')">Todos</button>';
+    html += '<span style="padding:8px 16px;background:var(--primary-50);border-radius:8px;font-size:13px;font-weight:600;color:var(--primary);">' + cumpleaneros.length + ' cumpleanero(s)</span>';
+    html += '</div>';
+
+    html += '<div class="card" style="padding:0;"><div class="table-container">';
+    html += '<table class="data-table"><thead><tr><th>#</th><th>Nombre</th><th>Fecha Nac.</th><th>Edad</th><th>Celular</th><th>Entidad</th><th>Accion</th></tr></thead><tbody>';
+
+    for (var j = 0; j < cumpleaneros.length; j++) {
+      var c = cumpleaneros[j];
+      var esHoy = c.dia === diaHoy && c.mes === mesHoy;
+      var rowStyle = esHoy ? 'background:var(--warning-bg);' : '';
+
+      html += '<tr style="' + rowStyle + '">';
+      html += '<td>' + (j + 1) + '</td>';
+      html += '<td style="font-weight:600;">' + (esHoy ? '<span style="color:var(--warning);margin-right:4px;">*</span>' : '') + (c.nombre || '') + '</td>';
+      html += '<td>' + (c.fechaNacimiento || '') + '</td>';
+      html += '<td>' + (c.edad || '') + '</td>';
+      html += '<td>' + (c.celular || '') + '</td>';
+      html += '<td>' + truncarTexto(normalizarEntidad(c.entidad), 15) + '</td>';
+      html += '<td>';
+      if (c.celular) {
+        var cel = String(c.celular).replace(/\D/g, '');
+        if (cel.length === 10) cel = '57' + cel;
+        html += '<button class="btn-success" style="padding:4px 10px;font-size:11px;" onclick="window.open(\'https://wa.me/' + cel + '?text=' + encodeURIComponent('Feliz cumpleanos! Le deseamos un excelente dia.') + '\',\'_blank\')">Felicitar</button>';
+      }
+      html += '</td></tr>';
+    }
+    if (cumpleaneros.length === 0) html += '<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--gray-400);">Sin cumpleaneros para este periodo</td></tr>';
+    html += '</tbody></table></div></div>';
+
+    contenedor.innerHTML = html;
+  },
+
+  _parsearFecha: function(str) {
+    if (!str) return null;
+    str = String(str).trim();
+
+    // Formato dd/MM/yyyy
+    var partes = str.split('/');
+    if (partes.length === 3) {
+      return { dia: parseInt(partes[0], 10), mes: parseInt(partes[1], 10), anio: parseInt(partes[2], 10) };
+    }
+
+    // Formato yyyy-MM-dd
+    partes = str.split('-');
+    if (partes.length === 3 && partes[0].length === 4) {
+      return { dia: parseInt(partes[2], 10), mes: parseInt(partes[1], 10), anio: parseInt(partes[0], 10) };
+    }
+
+    return null;
+  }
+};
+</script>

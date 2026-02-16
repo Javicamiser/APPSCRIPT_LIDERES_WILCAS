@@ -1,0 +1,432 @@
+<!-- ================================================================
+     MÓDULO: GEOVISUAL ELECTORAL
+     Archivo: admin-mapa-calor.html
+     ================================================================ -->
+
+<style>
+.geo-module { padding: 0; }
+.geo-stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 20px; }
+.geo-stat-card { background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 16px; display: flex; align-items: center; gap: 12px; transition: all 0.2s; }
+.geo-stat-card:hover { border-color: #fed7aa; box-shadow: 0 2px 8px rgba(217,95,14,0.12); }
+.geo-stat-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.geo-stat-icon svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.geo-stat-icon.orange { background: #ffedd5; color: #d95f0e; }
+.geo-stat-icon.green { background: #f0fdfa; color: #0d9488; }
+.geo-stat-icon.blue { background: #eff6ff; color: #2563eb; }
+.geo-stat-icon.yellow { background: #fffbeb; color: #d97706; }
+.geo-stat-val { font-size: 24px; font-weight: 800; color: #0f172a; line-height: 1; }
+.geo-stat-lbl { font-size: 11px; color: #64748b; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; margin-top: 2px; }
+
+.geo-search-card { background: white; border: 1px solid #e2e8f0; border-radius: 14px; padding: 16px 20px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.geo-search-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.geo-search-row label { font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.3px; white-space: nowrap; }
+.geo-search-input { flex: 1; min-width: 180px; padding: 10px 14px; border: 1.5px solid #e2e8f0; border-radius: 8px; font-size: 14px; font-family: inherit; color: #0f172a; outline: none; transition: all 0.2s; }
+.geo-search-input:focus { border-color: #d95f0e; box-shadow: 0 0 0 3px rgba(217,95,14,0.1); }
+.geo-filters-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 12px; padding-top: 12px; border-top: 1px solid #f1f5f9; align-items: flex-end; }
+.geo-filter-group { display: flex; flex-direction: column; gap: 4px; min-width: 200px; flex: 1; }
+.geo-filter-group label { font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.3px; }
+.geo-filter-select { padding: 9px 14px; border: 1.5px solid #e2e8f0; border-radius: 8px; font-size: 13px; font-family: inherit; color: #0f172a; background: white; outline: none; transition: all 0.2s; width: 100%; }
+.geo-filter-select:focus { border-color: #d95f0e; box-shadow: 0 0 0 3px rgba(217,95,14,0.1); }
+.geo-btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 18px; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all 0.2s; }
+.geo-btn-primary { background: linear-gradient(135deg, #d95f0e, #f97316); color: white; }
+.geo-btn-primary:hover { box-shadow: 0 4px 12px rgba(217,95,14,0.3); transform: translateY(-1px); }
+.geo-btn-secondary { background: white; color: #64748b; border: 1.5px solid #e2e8f0; }
+.geo-btn-secondary:hover { background: #f8fafc; border-color: #cbd5e1; }
+.geo-btn svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.geo-filtro-activo { display: none; background: #eff6ff; border: 1px solid #93c5fd; border-radius: 10px; padding: 12px 18px; margin-bottom: 16px; font-size: 13px; color: #1e40af; }
+.geo-filtro-activo.visible { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.geo-filtro-activo strong { color: #1e3a8a; }
+.geo-filtro-clear { background: none; border: none; color: #dc2626; font-weight: 700; cursor: pointer; font-size: 13px; text-decoration: underline; font-family: inherit; }
+
+.geo-map-card { background: white; border: 1px solid #e2e8f0; border-radius: 14px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.geo-map-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid #f1f5f9; flex-wrap: wrap; gap: 8px; }
+.geo-map-title { font-size: 15px; font-weight: 700; color: #0f172a; display: flex; align-items: center; gap: 8px; }
+.geo-map-title svg { width: 18px; height: 18px; fill: none; stroke: #d95f0e; stroke-width: 2; }
+.geo-map-legend { display: flex; gap: 14px; font-size: 12px; color: #64748b; }
+.geo-map-legend-item { display: flex; align-items: center; gap: 5px; }
+.geo-map-legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+#geoMapContainer { width: 100%; height: 500px; background: #f1f5f9; position: relative; }
+.geo-map-loading { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 12px; }
+.geo-map-spinner { width: 36px; height: 36px; border: 3px solid #e2e8f0; border-top: 3px solid #d95f0e; border-radius: 50%; animation: geoSpin 0.8s linear infinite; }
+@keyframes geoSpin { to { transform: rotate(360deg); } }
+.geo-map-loading-text { font-size: 13px; color: #64748b; }
+
+.geo-tabla-card { background: white; border: 1px solid #e2e8f0; border-radius: 14px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.geo-tabla-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid #f1f5f9; flex-wrap: wrap; gap: 10px; }
+.geo-tabla-title { font-size: 15px; font-weight: 700; color: #0f172a; }
+.geo-tabla-scroll { overflow-x: auto; }
+.geo-tabla { width: 100%; border-collapse: collapse; font-size: 13px; }
+.geo-tabla thead th { padding: 10px 14px; text-align: left; font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; background: #f8fafc; border-bottom: 2px solid #e2e8f0; white-space: nowrap; }
+.geo-tabla tbody tr { border-bottom: 1px solid #f1f5f9; transition: background 0.15s; }
+.geo-tabla tbody tr:hover { background: #fff8f1; }
+.geo-tabla tbody td { padding: 10px 14px; color: #334155; vertical-align: middle; }
+.geo-pos { font-weight: 700; color: #d95f0e; }
+.geo-puesto-name { font-weight: 600; color: #0f172a; max-width: 280px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.geo-comuna-cell { font-weight: 600; color: #7c3aed; font-size: 12px; }
+.geo-bar-bg { height: 8px; background: #f1f5f9; border-radius: 4px; overflow: hidden; min-width: 100px; }
+.geo-bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s; }
+.geo-badge { display: inline-flex; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+.geo-badge-exact { background: #d1fae5; color: #065f46; }
+.geo-badge-aprox { background: #fef3c7; color: #92400e; }
+
+.geo-popup-table { width: 100%; border-collapse: collapse; font-size: 12px; font-family: 'Source Sans 3', Arial, sans-serif; max-height: 200px; display: block; overflow-y: auto; }
+.geo-popup-table th { background: #f8fafc; padding: 6px 10px; text-align: left; font-size: 10px; text-transform: uppercase; color: #64748b; border-bottom: 1px solid #e2e8f0; position: sticky; top: 0; }
+.geo-popup-table td { padding: 5px 10px; border-bottom: 1px solid #f1f5f9; color: #334155; }
+.geo-popup-title { font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 4px; }
+.geo-popup-sub { font-size: 12px; color: #64748b; margin-bottom: 8px; }
+.geo-popup-badge { display: inline-block; padding: 1px 6px; border-radius: 8px; font-size: 10px; font-weight: 600; }
+.geo-popup-lider { background: #eff6ff; color: #2563eb; }
+.geo-popup-simp { background: #f0fdfa; color: #0d9488; }
+
+@media (max-width: 768px) {
+    .geo-stats-row { grid-template-columns: repeat(2, 1fr); }
+    #geoMapContainer { height: 350px; }
+    .geo-search-row { flex-direction: column; align-items: stretch; }
+    .geo-filters-row { flex-direction: column; }
+    .geo-filter-group { min-width: 100%; }
+}
+</style>
+
+<script>
+var geoMapInstance = null;
+var geoFiltroLider = '';
+var geoDatosCompletos = []; // todos los puestos del servidor
+var geoDatosFiltrados = []; // después de aplicar filtros locales
+
+function renderMapaCalor() {
+    var contenedor = document.getElementById('seccion-mapa-calor');
+    if (!contenedor) return;
+
+    // Comunas desde datosLlamadas
+    var comunas = {}, maxVal = 0;
+    for (var i = 0; i < datosLlamadas.length; i++) {
+        var com = datosLlamadas[i].comuna || 'Sin comuna';
+        comunas[com] = (comunas[com] || 0) + 1;
+        if (comunas[com] > maxVal) maxVal = comunas[com];
+    }
+    var items = [];
+    for (var key in comunas) items.push({ name: key, count: comunas[key] });
+    items.sort(function(a, b) { return b.count - a.count; });
+
+    var html = '';
+
+    // Búsqueda + filtros
+    html += '<div class="geo-search-card">';
+    html += '<div class="geo-search-row">';
+    html += '<label>Buscar por cédula del líder</label>';
+    html += '<input type="text" class="geo-search-input" id="geoInputLider" placeholder="Número de documento del líder..." onkeydown="if(event.key===\'Enter\')buscarPorLider()">';
+    html += '<button class="geo-btn geo-btn-primary" onclick="buscarPorLider()"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Buscar</button>';
+    html += '<button class="geo-btn geo-btn-secondary" onclick="limpiarTodosFiltrosGeo()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Limpiar todo</button>';
+    html += '</div>';
+    // Filtros
+    html += '<div class="geo-filters-row">';
+    html += '<div class="geo-filter-group"><label>Filtrar por comuna</label><select class="geo-filter-select" id="geoFiltroComuna" onchange="aplicarFiltrosLocales()"><option value="">— Todas las comunas —</option></select></div>';
+    html += '<div class="geo-filter-group"><label>Filtrar por puesto de votación</label><select class="geo-filter-select" id="geoFiltroPuesto" onchange="aplicarFiltrosLocales()"><option value="">— Todos los puestos —</option></select></div>';
+    html += '</div>';
+    html += '</div>';
+
+    // Banner filtro líder
+    html += '<div class="geo-filtro-activo" id="geoFiltroActivo">Mostrando simpatizantes del líder: <strong id="geoFiltroNombre"></strong> <button class="geo-filtro-clear" onclick="limpiarFiltroLider()">Quitar filtro líder</button></div>';
+
+    // Stats
+    html += '<div id="geoStatsRow" class="geo-stats-row">';
+    html += '<div class="geo-stat-card"><div class="geo-stat-icon orange"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div><div class="geo-stat-val" id="geoStatPuestos">—</div><div class="geo-stat-lbl">Puestos</div></div></div>';
+    html += '<div class="geo-stat-card"><div class="geo-stat-icon green"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div><div class="geo-stat-val" id="geoStatSimp">—</div><div class="geo-stat-lbl">Simpatizantes</div></div></div>';
+    html += '<div class="geo-stat-card"><div class="geo-stat-icon blue"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6"/><path d="M23 11h-6"/></svg></div><div><div class="geo-stat-val" id="geoStatLid">—</div><div class="geo-stat-lbl">Líderes</div></div></div>';
+    html += '<div class="geo-stat-card"><div class="geo-stat-icon yellow"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div><div><div class="geo-stat-val" id="geoStatTotal">—</div><div class="geo-stat-lbl">Total Personas</div></div></div>';
+    html += '</div>';
+
+    // Mapa
+    html += '<div class="geo-map-card"><div class="geo-map-header"><div class="geo-map-title"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Mapa Electoral por Puesto de Votación</div>';
+    html += '<div class="geo-map-legend"><div class="geo-map-legend-item"><div class="geo-map-legend-dot" style="background:#d95f0e;"></div>Alto</div><div class="geo-map-legend-item"><div class="geo-map-legend-dot" style="background:#f97316;"></div>Medio</div><div class="geo-map-legend-item"><div class="geo-map-legend-dot" style="background:#fed7aa;"></div>Bajo</div></div>';
+    html += '</div><div id="geoMapContainer"><div class="geo-map-loading"><div class="geo-map-spinner"></div><div class="geo-map-loading-text">Cargando mapa electoral...</div></div></div></div>';
+
+    // Tabla puestos
+    html += '<div class="geo-tabla-card"><div class="geo-tabla-header"><span class="geo-tabla-title">Detalle por Puesto de Votación</span>';
+    html += '<button class="geo-btn geo-btn-primary" onclick="cargarDatosGeovisual()"><svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>Actualizar</button></div>';
+    html += '<div class="geo-tabla-scroll"><table class="geo-tabla"><thead><tr><th>#</th><th>Puesto de Votación</th><th>Comuna</th><th>Líderes</th><th>Simpatizantes</th><th>Total</th><th>Ubicación</th><th>Proporción</th></tr></thead>';
+    html += '<tbody id="geoTablaBody"><tr><td colspan="8" style="text-align:center;padding:30px;color:#94a3b8;">Cargando...</td></tr></tbody></table></div></div>';
+
+    // Cards comunas
+    html += '<div class="card" style="margin-bottom:16px;"><div class="card-header"><span class="card-title">Distribución de Líderes por Comuna</span></div>';
+    html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;">';
+    for (var j = 0; j < items.length; j++) {
+        var pct = maxVal > 0 ? items[j].count / maxVal : 0;
+        var r = Math.round(217 + (255 - 217) * (1 - pct));
+        var g = Math.round(95 + (255 - 95) * (1 - pct));
+        var b = Math.round(14 + (255 - 14) * (1 - pct));
+        var tc = pct > 0.5 ? '#FFFFFF' : 'var(--dark)';
+        html += '<div style="background:rgb(' + r + ',' + g + ',' + b + ');border-radius:var(--radius);padding:20px;text-align:center;transition:transform 0.2s;cursor:pointer;" onmouseover="this.style.transform=\'scale(1.03)\'" onmouseout="this.style.transform=\'scale(1)\'">';
+        html += '<div style="font-size:32px;font-weight:800;color:' + tc + ';line-height:1;">' + items[j].count + '</div>';
+        html += '<div style="font-size:13px;font-weight:600;color:' + tc + ';margin-top:6px;opacity:0.9;">' + items[j].name + '</div>';
+        html += '<div style="font-size:11px;color:' + tc + ';opacity:0.7;margin-top:2px;">' + Math.round(pct * 100) + '% del máximo</div></div>';
+    }
+    html += '</div></div>';
+
+    // Tabla comunas
+    html += '<div class="card" style="padding:0;"><div class="table-container"><table class="data-table"><thead><tr><th>Posición</th><th>Comuna</th><th>Líderes</th><th>Porcentaje</th><th>Barra</th></tr></thead><tbody>';
+    var totalGen = datosLlamadas.length;
+    for (var k = 0; k < items.length; k++) {
+        var pG = totalGen > 0 ? Math.round((items[k].count / totalGen) * 100) : 0;
+        var pB = maxVal > 0 ? Math.round((items[k].count / maxVal) * 100) : 0;
+        html += '<tr><td style="font-weight:700;color:var(--primary);">' + (k + 1) + '</td><td style="font-weight:600;">' + items[k].name + '</td><td style="font-weight:700;">' + items[k].count + '</td><td>' + pG + '%</td>';
+        html += '<td><div style="height:8px;background:var(--gray-100);border-radius:4px;overflow:hidden;min-width:120px;"><div style="height:100%;width:' + pB + '%;background:linear-gradient(90deg,var(--primary),var(--primary-light));border-radius:4px;"></div></div></td></tr>';
+    }
+    html += '</tbody></table></div></div>';
+
+    contenedor.innerHTML = html;
+    cargarDatosGeovisual();
+}
+
+// ===== BÚSQUEDA POR LÍDER (servidor) =====
+function buscarPorLider() {
+    var input = document.getElementById('geoInputLider');
+    var doc = input ? input.value.trim() : '';
+    if (!doc) { alert('Ingrese el número de documento del líder'); return; }
+    geoFiltroLider = doc;
+    resetFiltrosLocales();
+    cargarDatosGeovisual();
+}
+
+function limpiarFiltroLider() {
+    geoFiltroLider = '';
+    var input = document.getElementById('geoInputLider');
+    if (input) input.value = '';
+    var banner = document.getElementById('geoFiltroActivo');
+    if (banner) banner.classList.remove('visible');
+    cargarDatosGeovisual();
+}
+
+function limpiarTodosFiltrosGeo() {
+    geoFiltroLider = '';
+    var input = document.getElementById('geoInputLider');
+    if (input) input.value = '';
+    var banner = document.getElementById('geoFiltroActivo');
+    if (banner) banner.classList.remove('visible');
+    resetFiltrosLocales();
+    cargarDatosGeovisual();
+}
+
+function resetFiltrosLocales() {
+    var sc = document.getElementById('geoFiltroComuna');
+    var sp = document.getElementById('geoFiltroPuesto');
+    if (sc) sc.value = '';
+    if (sp) sp.value = '';
+}
+
+// ===== CARGA DESDE SERVIDOR =====
+function cargarDatosGeovisual() {
+    var mapDiv = document.getElementById('geoMapContainer');
+    if (mapDiv && !geoMapInstance) {
+        mapDiv.innerHTML = '<div class="geo-map-loading"><div class="geo-map-spinner"></div><div class="geo-map-loading-text">Consultando puestos de votación...</div></div>';
+    }
+    google.script.run
+        .withSuccessHandler(function(r) {
+            if (r && r.success) {
+                geoDatosCompletos = r.puestos || [];
+                poblarSelectsFiltros(geoDatosCompletos);
+                aplicarFiltrosLocales();
+                // Banner líder
+                var banner = document.getElementById('geoFiltroActivo');
+                var nombre = document.getElementById('geoFiltroNombre');
+                if (r.filtroActivo && banner) {
+                    var txt = geoFiltroLider;
+                    if (r.nombreLider) txt = r.nombreLider + ' (' + geoFiltroLider + ')';
+                    if (nombre) nombre.textContent = txt;
+                    banner.classList.add('visible');
+                } else if (banner) {
+                    banner.classList.remove('visible');
+                }
+            } else {
+                var mc = document.getElementById('geoMapContainer');
+                if (mc) mc.innerHTML = '<div class="geo-map-loading"><div class="geo-map-loading-text" style="color:#dc2626;">Error: ' + (r ? r.message : 'Sin respuesta') + '</div></div>';
+            }
+        })
+        .withFailureHandler(function(e) {
+            var mc = document.getElementById('geoMapContainer');
+            if (mc) mc.innerHTML = '<div class="geo-map-loading"><div class="geo-map-loading-text" style="color:#dc2626;">Error: ' + (e.message || e) + '</div></div>';
+        })
+        .obtenerDatosGeovisual(geoFiltroLider || '');
+}
+
+// ===== FILTROS LOCALES (comuna y puesto) =====
+function poblarSelectsFiltros(puestos) {
+    var comunasSet = {}, puestosSet = {};
+    for (var i = 0; i < puestos.length; i++) {
+        var p = puestos[i];
+        if (p.comuna) comunasSet[p.comuna] = true;
+        if (p.puesto) puestosSet[p.puesto] = true;
+    }
+
+    // Comunas
+    var sc = document.getElementById('geoFiltroComuna');
+    if (sc) {
+        var valActual = sc.value;
+        var optsC = '<option value="">— Todas las comunas —</option>';
+        var comunasArr = [];
+        for (var c in comunasSet) comunasArr.push(c);
+        comunasArr.sort();
+        for (var ci = 0; ci < comunasArr.length; ci++) {
+            var sel = (comunasArr[ci] === valActual) ? ' selected' : '';
+            optsC += '<option value="' + escHtml(comunasArr[ci]) + '"' + sel + '>' + escHtml(comunasArr[ci]) + '</option>';
+        }
+        sc.innerHTML = optsC;
+    }
+
+    // Puestos
+    var sp = document.getElementById('geoFiltroPuesto');
+    if (sp) {
+        var valActualP = sp.value;
+        var optsP = '<option value="">— Todos los puestos —</option>';
+        var puestosArr = [];
+        for (var pk in puestosSet) puestosArr.push(pk);
+        puestosArr.sort();
+        for (var pi = 0; pi < puestosArr.length; pi++) {
+            var selP = (puestosArr[pi] === valActualP) ? ' selected' : '';
+            var label = puestosArr[pi].length > 50 ? puestosArr[pi].substring(0, 50) + '...' : puestosArr[pi];
+            optsP += '<option value="' + escHtml(puestosArr[pi]) + '"' + selP + '>' + escHtml(label) + '</option>';
+        }
+        sp.innerHTML = optsP;
+    }
+}
+
+function aplicarFiltrosLocales() {
+    var fComuna = '';
+    var fPuesto = '';
+    var sc = document.getElementById('geoFiltroComuna');
+    var sp = document.getElementById('geoFiltroPuesto');
+    if (sc) fComuna = sc.value;
+    if (sp) fPuesto = sp.value;
+
+    var filtrados = [];
+    for (var i = 0; i < geoDatosCompletos.length; i++) {
+        var p = geoDatosCompletos[i];
+        if (fComuna && p.comuna !== fComuna) continue;
+        if (fPuesto && p.puesto !== fPuesto) continue;
+        filtrados.push(p);
+    }
+
+    geoDatosFiltrados = filtrados;
+
+    // Recalcular stats de filtrados
+    var tPuestos = filtrados.length, tSimp = 0, tLid = 0;
+    for (var j = 0; j < filtrados.length; j++) {
+        tSimp += filtrados[j].simpatizantes;
+        tLid += filtrados[j].lideres;
+    }
+    actualizarStatsGeo({ totalPuestos: tPuestos, totalSimpatizantes: tSimp, totalLideres: tLid, totalPersonas: tSimp + tLid });
+    actualizarTablaGeo(filtrados);
+    renderizarMapa(filtrados);
+}
+
+function actualizarStatsGeo(stats) {
+    var el;
+    el = document.getElementById('geoStatPuestos'); if (el) el.textContent = stats.totalPuestos || 0;
+    el = document.getElementById('geoStatSimp');    if (el) el.textContent = stats.totalSimpatizantes || 0;
+    el = document.getElementById('geoStatLid');     if (el) el.textContent = stats.totalLideres || 0;
+    el = document.getElementById('geoStatTotal');   if (el) el.textContent = stats.totalPersonas || 0;
+}
+
+function actualizarTablaGeo(puestos) {
+    var tbody = document.getElementById('geoTablaBody');
+    if (!tbody) return;
+    if (!puestos || puestos.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:30px;color:#94a3b8;">No se encontraron puestos con los filtros seleccionados</td></tr>';
+        return;
+    }
+    var maxTotal = puestos[0].total;
+    var h = '';
+    for (var i = 0; i < puestos.length; i++) {
+        var p = puestos[i];
+        var pctBar = maxTotal > 0 ? Math.round((p.total / maxTotal) * 100) : 0;
+        var gradColor = pctBar > 60 ? '#d95f0e' : (pctBar > 30 ? '#f97316' : '#fed7aa');
+        h += '<tr>';
+        h += '<td class="geo-pos">' + (i + 1) + '</td>';
+        h += '<td class="geo-puesto-name" title="' + escHtml(p.puesto) + '">' + escHtml(p.puesto) + '</td>';
+        h += '<td class="geo-comuna-cell">' + escHtml(p.comuna || '—') + '</td>';
+        h += '<td style="font-weight:600;color:#2563eb;">' + p.lideres + '</td>';
+        h += '<td style="font-weight:600;color:#0d9488;">' + p.simpatizantes + '</td>';
+        h += '<td style="font-weight:800;">' + p.total + '</td>';
+        h += '<td><span class="geo-badge ' + (p.geoExacto ? 'geo-badge-exact' : 'geo-badge-aprox') + '">' + (p.geoExacto ? 'Exacta' : 'Aprox.') + '</span></td>';
+        h += '<td><div class="geo-bar-bg"><div class="geo-bar-fill" style="width:' + pctBar + '%;background:' + gradColor + ';"></div></div></td>';
+        h += '</tr>';
+    }
+    tbody.innerHTML = h;
+}
+
+// ===== MAPA =====
+function cargarLeafletYMapa(puestos) {
+    if (window.L) { renderizarMapa(puestos); return; }
+    var css = document.createElement('link'); css.rel = 'stylesheet';
+    css.href = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css';
+    document.head.appendChild(css);
+    var js = document.createElement('script');
+    js.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';
+    js.onload = function() { renderizarMapa(puestos); };
+    js.onerror = function() { var mc = document.getElementById('geoMapContainer'); if (mc) mc.innerHTML = '<div class="geo-map-loading"><div class="geo-map-loading-text" style="color:#dc2626;">No se pudo cargar la librería de mapas.</div></div>'; };
+    document.head.appendChild(js);
+}
+
+function renderizarMapa(puestos) {
+    if (!window.L) { cargarLeafletYMapa(puestos); return; }
+    var mapDiv = document.getElementById('geoMapContainer');
+    if (!mapDiv) return;
+    mapDiv.innerHTML = '';
+    if (geoMapInstance) { geoMapInstance.remove(); geoMapInstance = null; }
+    geoMapInstance = L.map('geoMapContainer', { center: [5.0670, -75.5050], zoom: 14, zoomControl: true });
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap', maxZoom: 19 }).addTo(geoMapInstance);
+    if (!puestos || puestos.length === 0) return;
+
+    var maxTotal = 1;
+    for (var i = 0; i < puestos.length; i++) { if (puestos[i].total > maxTotal) maxTotal = puestos[i].total; }
+
+    var bounds = [];
+    for (var j = 0; j < puestos.length; j++) {
+        var p = puestos[j];
+        if (!p.lat || !p.lng) continue;
+        bounds.push([p.lat, p.lng]);
+        var pct = p.total / maxTotal;
+        var radius = Math.max(8, Math.round(pct * 28));
+        var color = pct > 0.6 ? '#d95f0e' : (pct > 0.3 ? '#f97316' : '#fb923c');
+        var fillColor = pct > 0.6 ? '#d95f0e' : (pct > 0.3 ? '#f97316' : '#fed7aa');
+        var marker = L.circleMarker([p.lat, p.lng], { radius: radius, fillColor: fillColor, color: color, weight: 2, opacity: 0.9, fillOpacity: 0.6 }).addTo(geoMapInstance);
+        var comunaInfo = p.comuna ? ' | Comuna: ' + escHtml(p.comuna) : '';
+        marker.bindTooltip('<strong>' + escHtml(p.puesto) + '</strong>' + comunaInfo + '<br>Total: <strong>' + p.total + '</strong> (' + p.lideres + ' líd, ' + p.simpatizantes + ' simp.)', { direction: 'top', offset: [0, -radius] });
+        marker.bindPopup(crearPopupPuesto(p), { maxWidth: 350, maxHeight: 300 });
+    }
+    if (bounds.length > 1) geoMapInstance.fitBounds(bounds, { padding: [30, 30] });
+    else if (bounds.length === 1) geoMapInstance.setView(bounds[0], 15);
+    setTimeout(function() { if (geoMapInstance) geoMapInstance.invalidateSize(); }, 300);
+}
+
+function crearPopupPuesto(puesto) {
+    var h = '<div class="geo-popup-title">' + escHtml(puesto.puesto) + '</div>';
+    if (puesto.comuna) h += '<div style="font-size:11px;color:#7c3aed;font-weight:600;margin-bottom:4px;">Comuna: ' + escHtml(puesto.comuna) + '</div>';
+    h += '<div class="geo-popup-sub">' + puesto.total + ' personas — ' + puesto.lideres + ' líderes, ' + puesto.simpatizantes + ' simpatizantes</div>';
+    h += '<table class="geo-popup-table"><thead><tr><th>Nombre</th><th>Rol</th></tr></thead><tbody>';
+    var personas = puesto.personas || [];
+    for (var i = 0; i < personas.length; i++) {
+        var per = personas[i];
+        var bc = per.rol === 'Líder' ? 'geo-popup-lider' : 'geo-popup-simp';
+        h += '<tr><td>' + escHtml(per.nombre) + '</td><td><span class="geo-popup-badge ' + bc + '">' + per.rol + '</span></td></tr>';
+    }
+    if (puesto.total > personas.length) h += '<tr><td colspan="2" style="text-align:center;color:#94a3b8;font-style:italic;">... y ' + (puesto.total - personas.length) + ' más</td></tr>';
+    h += '</tbody></table>';
+    return h;
+}
+
+function escHtml(t) { if (!t) return ''; var d = document.createElement('div'); d.textContent = String(t); return d.innerHTML; }
+
+// ===== NAVEGACIÓN =====
+(function() {
+    var origMostrar = mostrarSeccion;
+    mostrarSeccion = function(seccion) {
+        origMostrar(seccion);
+        if (seccion === 'mapa-calor') {
+            renderMapaCalor();
+            setTimeout(function() { if (geoMapInstance) geoMapInstance.invalidateSize(); }, 400);
+        }
+        if (seccion === 'tabla-lideres' && typeof renderTablaLideres === 'function') renderTablaLideres();
+    };
+})();
+</script>

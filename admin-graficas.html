@@ -1,0 +1,133 @@
+<!-- ================================================================
+     MÓDULO: GRÁFICAS Y REPORTES
+     Archivo: admin-graficas.html
+     ================================================================ -->
+<script>
+var chartInstances = {};
+
+function generarGraficas() {
+  var contenedor = document.getElementById('seccion-graficas');
+  if (!contenedor) return;
+
+  contenedor.innerHTML = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">' +
+    '<div class="card"><div class="card-header"><span class="card-title">Estado de Llamadas</span></div><canvas id="chartEstados" height="260"></canvas></div>' +
+    '<div class="card"><div class="card-header"><span class="card-title">Lideres por Entidad (Top 10)</span></div><canvas id="chartEntidades" height="260"></canvas></div>' +
+    '<div class="card"><div class="card-header"><span class="card-title">Lideres por Comuna</span></div><canvas id="chartComunas" height="260"></canvas></div>' +
+    '<div class="card"><div class="card-header"><span class="card-title">Cumplimiento Meta 40</span></div><canvas id="chartMeta" height="260"></canvas></div>' +
+  '</div>';
+
+  setTimeout(function() { renderizarGraficas(); }, 100);
+}
+
+function renderizarGraficas() {
+  // Destruir instancias previas
+  for (var key in chartInstances) {
+    if (chartInstances[key]) chartInstances[key].destroy();
+  }
+
+  var contactados = 0, pendientes = 0, noContesta = 0;
+  var entidades = {}, comunas = {};
+  var conMeta = 0, sinMeta = 0;
+
+  for (var i = 0; i < datosLlamadas.length; i++) {
+    var d = datosLlamadas[i];
+    var estado = (d.estadoLlamada || 'pendiente').toLowerCase();
+    if (estado === 'contactado' || estado === 'llamado') contactados++;
+    else if (estado === 'no contesta') noContesta++;
+    else pendientes++;
+
+    var ent = normalizarEntidad(d.entidad) || 'Sin entidad';
+    entidades[ent] = (entidades[ent] || 0) + 1;
+
+    var com = d.comuna || 'Sin comuna';
+    comunas[com] = (comunas[com] || 0) + 1;
+
+    if ((d.cantidadSimpatizantes || 0) >= 40) conMeta++;
+    else sinMeta++;
+  }
+
+  // Gráfica Estados
+  var ctxEstados = document.getElementById('chartEstados');
+  if (ctxEstados) {
+    chartInstances.estados = new Chart(ctxEstados.getContext('2d'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Contactados', 'Pendientes', 'No Contesta'],
+        datasets: [{
+          data: [contactados, pendientes, noContesta],
+          backgroundColor: ['#0D9488', '#D97706', '#DC2626'],
+          borderWidth: 0
+        }]
+      },
+      options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { font: { family: 'Source Sans 3' }, padding: 16 } } } }
+    });
+  }
+
+  // Gráfica Entidades
+  var ctxEntidades = document.getElementById('chartEntidades');
+  if (ctxEntidades) {
+    var entArr = [];
+    for (var eKey in entidades) entArr.push({ name: eKey, count: entidades[eKey] });
+    entArr.sort(function(a, b) { return b.count - a.count; });
+    entArr = entArr.slice(0, 10);
+
+    chartInstances.entidades = new Chart(ctxEntidades.getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: entArr.map(function(e) { return e.name; }),
+        datasets: [{
+          label: 'Lideres',
+          data: entArr.map(function(e) { return e.count; }),
+          backgroundColor: '#D95F0E',
+          borderRadius: 6
+        }]
+      },
+      options: {
+        responsive: true, indexAxis: 'y',
+        plugins: { legend: { display: false } },
+        scales: { x: { grid: { display: false } }, y: { ticks: { font: { family: 'Source Sans 3', size: 11 } } } }
+      }
+    });
+  }
+
+  // Gráfica Comunas
+  var ctxComunas = document.getElementById('chartComunas');
+  if (ctxComunas) {
+    var comArr = [];
+    for (var cKey in comunas) comArr.push({ name: cKey, count: comunas[cKey] });
+    comArr.sort(function(a, b) { return b.count - a.count; });
+
+    var colores = ['#D95F0E','#F97316','#FB923C','#FDBA74','#0D9488','#2563EB','#7C3AED','#DC2626','#D97706','#059669','#64748B'];
+
+    chartInstances.comunas = new Chart(ctxComunas.getContext('2d'), {
+      type: 'pie',
+      data: {
+        labels: comArr.map(function(c) { return c.name; }),
+        datasets: [{
+          data: comArr.map(function(c) { return c.count; }),
+          backgroundColor: colores.slice(0, comArr.length),
+          borderWidth: 0
+        }]
+      },
+      options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { font: { family: 'Source Sans 3', size: 11 }, padding: 10 } } } }
+    });
+  }
+
+  // Gráfica Meta
+  var ctxMeta = document.getElementById('chartMeta');
+  if (ctxMeta) {
+    chartInstances.meta = new Chart(ctxMeta.getContext('2d'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Meta cumplida (40+)', 'Sin cumplir meta'],
+        datasets: [{
+          data: [conMeta, sinMeta],
+          backgroundColor: ['#0D9488', '#E2E8F0'],
+          borderWidth: 0
+        }]
+      },
+      options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { font: { family: 'Source Sans 3' }, padding: 16 } } } }
+    });
+  }
+}
+</script>

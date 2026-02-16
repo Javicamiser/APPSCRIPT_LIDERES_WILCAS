@@ -1,0 +1,112 @@
+<!-- ================================================================
+     MÓDULO: WHATSAPP
+     Archivo: whatsapp.html
+     ================================================================ -->
+<script>
+var WAModule = {
+  lideres: [],
+
+  cargarLideres: function() {
+    this.lideres = datosLlamadas.filter(function(d) {
+      return d.celular && String(d.celular).trim().length >= 7;
+    });
+    this.render();
+  },
+
+  render: function() {
+    var contenedor = document.getElementById('seccion-whatsapp');
+    if (!contenedor) return;
+
+    var html = '<div class="card" style="margin-bottom:16px;">' +
+      '<div class="card-header"><span class="card-title">Enviar Mensaje por WhatsApp</span></div>' +
+      '<div class="form-group"><label>Mensaje</label>' +
+        '<textarea id="waMessage" style="width:100%;padding:12px;border:1.5px solid var(--gray-200);border-radius:8px;font-size:13px;min-height:100px;font-family:var(--font);" placeholder="Escriba el mensaje a enviar..."></textarea>' +
+      '</div>' +
+      '<div style="display:flex;gap:10px;flex-wrap:wrap;">' +
+        '<input type="text" class="filter-input" id="waFiltro" placeholder="Filtrar lideres por nombre o entidad..." onkeyup="WAModule.filtrar()" style="flex:1;">' +
+        '<button class="btn-primary" onclick="WAModule.enviarSeleccionados()">Enviar a Seleccionados</button>' +
+        '<button class="btn-secondary" onclick="WAModule.seleccionarTodos()">Seleccionar Todos</button>' +
+        '<button class="btn-secondary" onclick="WAModule.deseleccionarTodos()">Deseleccionar</button>' +
+      '</div>' +
+    '</div>';
+
+    html += '<div class="card" style="padding:0;"><div class="table-container" style="max-height:500px;overflow-y:auto;">';
+    html += '<table class="data-table"><thead><tr><th><input type="checkbox" id="waCheckAll" onchange="WAModule.toggleAll(this)"></th><th>Nombre</th><th>Celular</th><th>Entidad</th><th>Comuna</th><th>Enviar</th></tr></thead><tbody id="waTablaBody">';
+    html += '</tbody></table></div></div>';
+
+    contenedor.innerHTML = html;
+    this.filtrar();
+  },
+
+  filtrar: function() {
+    var filtro = (document.getElementById('waFiltro') ? document.getElementById('waFiltro').value : '').toUpperCase();
+    var body = document.getElementById('waTablaBody');
+    if (!body) return;
+
+    var filtrados = this.lideres;
+    if (filtro) {
+      filtrados = this.lideres.filter(function(d) {
+        return (d.nombre || '').toUpperCase().indexOf(filtro) !== -1 || (d.entidad || '').toUpperCase().indexOf(filtro) !== -1;
+      });
+    }
+
+    var html = '';
+    for (var i = 0; i < filtrados.length; i++) {
+      var d = filtrados[i];
+      var cel = String(d.celular).replace(/\D/g, '');
+      html += '<tr>';
+      html += '<td><input type="checkbox" class="waCheck" data-cel="' + cel + '" data-nombre="' + (d.nombre || '') + '"></td>';
+      html += '<td style="font-weight:500;">' + (d.nombre || '') + '</td>';
+      html += '<td>' + (d.celular || '') + '</td>';
+      html += '<td>' + truncarTexto(normalizarEntidad(d.entidad), 18) + '</td>';
+      html += '<td>' + (d.comuna || '') + '</td>';
+      html += '<td><button class="btn-secondary" style="padding:4px 10px;font-size:11px;" onclick="WAModule.enviarIndividual(\'' + cel + '\')">Enviar</button></td>';
+      html += '</tr>';
+    }
+    if (filtrados.length === 0) html = '<tr><td colspan="6" style="text-align:center;padding:30px;color:var(--gray-400);">Sin lideres con celular</td></tr>';
+    body.innerHTML = html;
+  },
+
+  enviarIndividual: function(celular) {
+    var mensaje = document.getElementById('waMessage') ? document.getElementById('waMessage').value : '';
+    var numero = celular.replace(/\D/g, '');
+    if (numero.length === 10) numero = '57' + numero;
+    var url = 'https://wa.me/' + numero + '?text=' + encodeURIComponent(mensaje);
+    window.open(url, '_blank');
+  },
+
+  enviarSeleccionados: function() {
+    var mensaje = document.getElementById('waMessage') ? document.getElementById('waMessage').value : '';
+    if (!mensaje) { mostrarAlertaGlobal('Escriba un mensaje primero', 'warning'); return; }
+
+    var checks = document.querySelectorAll('.waCheck:checked');
+    if (checks.length === 0) { mostrarAlertaGlobal('Seleccione al menos un lider', 'warning'); return; }
+
+    var enviados = 0;
+    for (var i = 0; i < checks.length; i++) {
+      var cel = checks[i].getAttribute('data-cel');
+      if (cel.length === 10) cel = '57' + cel;
+      setTimeout(function(c) {
+        window.open('https://wa.me/' + c + '?text=' + encodeURIComponent(mensaje), '_blank');
+      }.bind(null, cel), i * 2000);
+      enviados++;
+    }
+    mostrarAlertaGlobal('Abriendo ' + enviados + ' conversaciones (cada 2 segundos)', 'info');
+  },
+
+  seleccionarTodos: function() {
+    var checks = document.querySelectorAll('.waCheck');
+    for (var i = 0; i < checks.length; i++) checks[i].checked = true;
+  },
+
+  deseleccionarTodos: function() {
+    var checks = document.querySelectorAll('.waCheck');
+    for (var i = 0; i < checks.length; i++) checks[i].checked = false;
+  },
+
+  toggleAll: function(el) {
+    var checks = document.querySelectorAll('.waCheck');
+    for (var i = 0; i < checks.length; i++) checks[i].checked = el.checked;
+  }
+};
+</script>

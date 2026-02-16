@@ -3,247 +3,274 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menú Principal - U Caldas</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>WilCas 40 - Partido de la U Caldas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+:root {
+    --font: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
+    --primary: #D95F0E;
+    --primary-hover: #C2510A;
+    --primary-light: #F97316;
+    --primary-50: #FFF8F1;
+    --primary-100: #FFEDD5;
+    --primary-8: rgba(217, 95, 14, 0.08);
+    --primary-12: rgba(217, 95, 14, 0.12);
+    --dark: #0F172A;
+    --dark-700: #1E293B;
+    --gray-50: #F8FAFC;
+    --gray-100: #F1F5F9;
+    --gray-200: #E2E8F0;
+    --gray-300: #CBD5E1;
+    --gray-400: #94A3B8;
+    --gray-500: #64748B;
+    --gray-600: #475569;
+    --white: #FFFFFF;
+    --success: #0D9488;
+    --success-bg: #F0FDFA;
+    --info: #2563EB;
+    --info-bg: #EFF6FF;
+    --radius: 10px;
+    --radius-lg: 16px;
+    --shadow: 0 2px 8px rgba(0,0,0,0.08);
+    --shadow-lg: 0 8px 30px rgba(0,0,0,0.10);
+    --transition: all 0.2s ease;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+    height: 100%;
+    font-family: var(--font);
+    background: var(--gray-50);
+    color: var(--dark);
+    -webkit-font-smoothing: antialiased;
+}
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
 
-        body {
-            font-family: Arial, sans-serif;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #ff6b00 0%, #ff8c00 25%, #ffb800 50%, #c4d500 75%, #9acd32 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+.menu-container {
+    width: 100%;
+    max-width: 480px;
+    text-align: center;
+}
 
-        .container {
-            width: 100%;
-            max-width: 400px;
-        }
+/* LOGO PARTIDO DE LA U */
+.logo-partido {
+    width: 80px;
+    height: 80px;
+    border-radius: 18px;
+    margin: 0 auto 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: conic-gradient(
+        from 200deg,
+        #E53E3E,
+        #DD6B20,
+        #D69E2E,
+        #38A169,
+        #319795,
+        #3182CE,
+        #5A67D8,
+        #805AD5,
+        #E53E3E
+    );
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    position: relative;
+    overflow: hidden;
+}
+.logo-partido::after {
+    content: 'U';
+    font-family: var(--font);
+    font-size: 44px;
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
 
-        .card {
-            background: white;
-            border-radius: 20px;
-            padding: 40px 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            text-align: center;
-        }
+.menu-container h1 {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--dark);
+    letter-spacing: -0.5px;
+    margin-bottom: 4px;
+}
 
-        .logo {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 15px auto;
-            background: linear-gradient(135deg, #ff6b00 0%, #ffb800 25%, #7ed321 50%, #4cd964 75%, #00b4d8 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
-        }
+.menu-container .subtitle {
+    font-size: 14px;
+    color: var(--gray-500);
+    font-weight: 400;
+    margin-bottom: 36px;
+}
 
-        .logo-letter {
-            font-size: 48px;
-            font-weight: 800;
-            color: white;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
+/* OPCIONES DEL MENÚ */
+.menu-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 36px;
+}
 
-        .title {
-            font-size: 24px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 5px;
-        }
+.menu-btn {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 20px;
+    background: var(--white);
+    border: 1.5px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    color: var(--dark);
+    transition: var(--transition);
+    cursor: pointer;
+    box-shadow: var(--shadow);
+}
 
-        .subtitle {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 30px;
-        }
+.menu-btn:hover {
+    border-color: var(--primary);
+    box-shadow: 0 4px 16px var(--primary-12);
+    transform: translateY(-2px);
+}
 
-        .menu-options {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
+.menu-btn:active {
+    transform: translateY(0);
+}
 
-        .menu-option {
-            display: flex;
-            align-items: center;
-            padding: 15px 20px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            color: #333;
-        }
+.menu-btn .btn-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
 
-        .menu-option:hover {
-            border-color: #ff6b00;
-            background: linear-gradient(135deg, rgba(255,107,0,0.1), rgba(255,140,0,0.1));
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255,107,0,0.2);
-        }
+.menu-btn .btn-icon svg {
+    width: 20px;
+    height: 20px;
+    stroke-width: 2;
+}
 
-        .menu-option.active {
-            border-color: #ff6b00;
-            background: linear-gradient(90deg, #ff6b00, #ff8c00, #9acd32);
-            color: white;
-        }
+.menu-btn .btn-icon.ic-admin {
+    background: var(--primary-100);
+    color: var(--primary);
+}
 
-        .menu-option.active .option-icon {
-            background: rgba(255,255,255,0.2);
-        }
+.menu-btn .btn-icon.ic-registro {
+    background: var(--primary-50);
+    color: var(--primary);
+}
 
-        .option-icon {
-            width: 45px;
-            height: 45px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            margin-right: 15px;
-            background: #f5f5f5;
-        }
+.menu-btn .btn-icon.ic-llamadas {
+    background: var(--primary-50);
+    color: var(--primary);
+}
 
-        .option-info {
-            text-align: left;
-            flex: 1;
-        }
+.menu-btn .btn-info {
+    flex: 1;
+    text-align: left;
+}
 
-        .option-title {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 3px;
-        }
+.menu-btn .btn-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--dark);
+    letter-spacing: -0.1px;
+}
 
-        .option-desc {
-            font-size: 12px;
-            opacity: 0.7;
-        }
+.menu-btn:hover .btn-title {
+    color: var(--primary);
+}
 
-        .option-arrow {
-            font-size: 18px;
-            opacity: 0.5;
-            transition: all 0.3s;
-        }
+.menu-btn .btn-role {
+    font-size: 12px;
+    color: var(--gray-400);
+    font-weight: 500;
+    flex-shrink: 0;
+}
 
-        .menu-option:hover .option-arrow {
-            opacity: 1;
-            transform: translateX(5px);
-        }
+/* FOOTER */
+.menu-footer {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid var(--gray-200);
+    font-size: 12px;
+    color: var(--gray-400);
+    line-height: 1.8;
+}
+.menu-footer strong { color: var(--dark); font-weight: 700; }
+.menu-footer .by { color: var(--primary); font-weight: 600; }
 
-        .footer {
-            margin-top: 25px;
-            padding-top: 20px;
-            border-top: 1px solid #e0e0e0;
-            font-size: 12px;
-            color: #999;
-        }
-
-        .footer strong {
-            color: #ff6b00;
-        }
-
-        .version {
-            margin-top: 5px;
-            font-size: 11px;
-            color: #ccc;
-        }
-
-        @media (max-width: 480px) {
-            body {
-                padding: 15px;
-            }
-
-            .card {
-                padding: 30px 20px;
-                border-radius: 15px;
-            }
-
-            .logo {
-                width: 70px;
-                height: 70px;
-            }
-
-            .logo-letter {
-                font-size: 42px;
-            }
-
-            .title {
-                font-size: 20px;
-            }
-
-            .menu-option {
-                padding: 12px 15px;
-            }
-
-            .option-icon {
-                width: 40px;
-                height: 40px;
-                font-size: 20px;
-            }
-
-            .option-title {
-                font-size: 14px;
-            }
-
-            .option-desc {
-                font-size: 11px;
-            }
-        }
+@media (max-width: 480px) {
+    body { padding: 16px; }
+    .logo-partido { width: 68px; height: 68px; border-radius: 16px; }
+    .logo-partido::after { font-size: 38px; }
+    .menu-container h1 { font-size: 24px; }
+    .menu-btn { padding: 14px 16px; }
+}
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="card">
-            <div class="logo">
-                <span class="logo-letter">U</span>
+
+<div class="menu-container">
+
+    <!-- LOGO PARTIDO DE LA U -->
+    <div class="logo-partido"></div>
+
+    <h1>WilCas 40</h1>
+    <p class="subtitle">Partido de la U Caldas</p>
+
+    <!-- OPCIONES -->
+    <div class="menu-options">
+
+        <a id="linkAdmin" class="menu-btn" href="{{BASE_URL}}?mode=admin" target="_top">
+            <div class="btn-icon ic-admin">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
             </div>
-            <h1 class="title">Menú Principal U Caldas</h1>
-            <p class="subtitle">Red 40-WilCas • Seleccione una opción</p>
-
-            <div class="menu-options">
-                <a href="https://script.google.com/macros/s/AKfycbyxdUb31zFOygX8ladGubiRst3t-Nz78GRY67ivUPPAxbNTfms2SWkmYZVWeUs6fHl-/exec?mode=registro" class="menu-option" target="_top">
-                    <div class="option-icon">📝</div>
-                    <div class="option-info">
-                        <div class="option-title">Registro de Simpatizantes</div>
-                        <div class="option-desc">Registrar nuevos simpatizantes</div>
-                    </div>
-                    <div class="option-arrow">→</div>
-                </a>
-
-                <a href="https://script.google.com/macros/s/AKfycbyxdUb31zFOygX8ladGubiRst3t-Nz78GRY67ivUPPAxbNTfms2SWkmYZVWeUs6fHl-/exec?mode=llamadas" class="menu-option" target="_top">
-                    <div class="option-icon">📞</div>
-                    <div class="option-info">
-                        <div class="option-title">Gestión de Llamadas</div>
-                        <div class="option-desc">Administrar llamadas a líderes</div>
-                    </div>
-                    <div class="option-arrow">→</div>
-                </a>
-
-                <a href="https://script.google.com/macros/s/AKfycbyxdUb31zFOygX8ladGubiRst3t-Nz78GRY67ivUPPAxbNTfms2SWkmYZVWeUs6fHl-/exec?mode=admin" class="menu-option" target="_top">
-                    <div class="option-icon">⚙️</div>
-                    <div class="option-info">
-                        <div class="option-title">Panel de Administración</div>
-                        <div class="option-desc">Estadísticas y reportes</div>
-                    </div>
-                    <div class="option-arrow">→</div>
-                </a>
+            <div class="btn-info">
+                <div class="btn-title">Panel de Administracion</div>
             </div>
+            <span class="btn-role">Admin</span>
+        </a>
 
-            <div class="footer">
-                Desarrollado por <strong>Soluciones WilCas</strong>
-                <div class="version">v2.0</div>
+        <a id="linkRegistro" class="menu-btn" href="{{BASE_URL}}?mode=registro" target="_top">
+            <div class="btn-icon ic-registro">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
             </div>
-        </div>
+            <div class="btn-info">
+                <div class="btn-title">Registro de Simpatizantes</div>
+            </div>
+            <span class="btn-role">Publico</span>
+        </a>
+
+        <a id="linkLlamadas" class="menu-btn" href="{{BASE_URL}}?mode=llamadas" target="_top">
+            <div class="btn-icon ic-llamadas">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <div class="btn-info">
+                <div class="btn-title">Gestion de Llamadas</div>
+            </div>
+            <span class="btn-role">Operadores</span>
+        </a>
+
     </div>
+
+    <!-- FOOTER -->
+    <div class="menu-footer">
+        <strong>WilCas 40</strong> &mdash; Partido de la U Caldas<br>
+        Elaborado por <span class="by">Soluciones WilCas</span>
+    </div>
+
+</div>
+
+<!-- URLs inyectadas desde el servidor por doGet -->
+
 </body>
 </html>

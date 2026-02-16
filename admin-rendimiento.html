@@ -1,0 +1,83 @@
+<!-- ================================================================
+     MÓDULO: RENDIMIENTO
+     Archivo: admin-rendimiento.html
+     ================================================================ -->
+<script>
+function calcularRendimiento() {
+  var contenedor = document.getElementById('seccion-rendimiento');
+  if (!contenedor) return;
+
+  var porUsuario = {};
+  var porEntidad = {};
+  var totalContactados = 0;
+
+  for (var i = 0; i < datosLlamadas.length; i++) {
+    var d = datosLlamadas[i];
+    var estado = (d.estadoLlamada || '').toLowerCase();
+    var usuario = d.usuarioLlamada || 'Sin asignar';
+    var entidad = normalizarEntidad(d.entidad) || 'Sin entidad';
+
+    if (!porUsuario[usuario]) porUsuario[usuario] = { total: 0, contactados: 0, pendientes: 0, noContesta: 0 };
+    porUsuario[usuario].total++;
+    if (estado === 'contactado' || estado === 'llamado') { porUsuario[usuario].contactados++; totalContactados++; }
+    else if (estado === 'no contesta') porUsuario[usuario].noContesta++;
+    else porUsuario[usuario].pendientes++;
+
+    if (!porEntidad[entidad]) porEntidad[entidad] = { total: 0, contactados: 0 };
+    porEntidad[entidad].total++;
+    if (estado === 'contactado' || estado === 'llamado') porEntidad[entidad].contactados++;
+  }
+
+  var html = '<div class="stat-grid" style="margin-bottom:24px;">';
+  html += '<div class="stat-card"><div class="stat-icon orange">' + iconLideres() + '</div><div class="stat-content"><div class="stat-value">' + datosLlamadas.length + '</div><div class="stat-label">Total Lideres</div></div></div>';
+  html += '<div class="stat-card"><div class="stat-icon green">' + iconContactados() + '</div><div class="stat-content"><div class="stat-value">' + totalContactados + '</div><div class="stat-label">Contactados</div></div></div>';
+  html += '<div class="stat-card"><div class="stat-icon blue">' + iconPromedio() + '</div><div class="stat-content"><div class="stat-value">' + Object.keys(porUsuario).length + '</div><div class="stat-label">Usuarios Activos</div></div></div>';
+  html += '<div class="stat-card"><div class="stat-icon yellow">' + iconPorcentaje() + '</div><div class="stat-content"><div class="stat-value">' + (datosLlamadas.length > 0 ? Math.round((totalContactados / datosLlamadas.length) * 100) : 0) + '%</div><div class="stat-label">Avance General</div></div></div>';
+  html += '</div>';
+
+  // Tabla por usuario
+  html += '<div class="card" style="margin-bottom:16px;">';
+  html += '<div class="card-header"><span class="card-title">Rendimiento por Usuario</span></div>';
+  html += '<div class="table-container"><table class="data-table" id="tablaRendUsuarios"><thead><tr>';
+  html += '<th>Usuario</th><th>Total</th><th>Contactados</th><th>Pendientes</th><th>No Contesta</th><th>% Avance</th>';
+  html += '</tr></thead><tbody>';
+
+  var usuarios = Object.keys(porUsuario).sort(function(a, b) { return porUsuario[b].contactados - porUsuario[a].contactados; });
+  for (var u = 0; u < usuarios.length; u++) {
+    var us = porUsuario[usuarios[u]];
+    var pct = us.total > 0 ? Math.round((us.contactados / us.total) * 100) : 0;
+    html += '<tr>';
+    html += '<td style="font-weight:600;">' + usuarios[u] + '</td>';
+    html += '<td>' + us.total + '</td>';
+    html += '<td style="color:var(--success);font-weight:600;">' + us.contactados + '</td>';
+    html += '<td style="color:var(--warning);">' + us.pendientes + '</td>';
+    html += '<td style="color:var(--danger);">' + us.noContesta + '</td>';
+    html += '<td><div style="display:flex;align-items:center;gap:8px;"><div style="flex:1;height:6px;background:var(--gray-100);border-radius:3px;overflow:hidden;"><div style="height:100%;width:' + pct + '%;background:var(--primary);border-radius:3px;"></div></div><span style="font-size:12px;font-weight:600;color:var(--primary);">' + pct + '%</span></div></td>';
+    html += '</tr>';
+  }
+  html += '</tbody></table></div></div>';
+
+  // Tabla por entidad
+  html += '<div class="card">';
+  html += '<div class="card-header"><span class="card-title">Rendimiento por Entidad</span></div>';
+  html += '<div class="table-container"><table class="data-table" id="tablaRendEntidades"><thead><tr>';
+  html += '<th>Entidad</th><th>Total</th><th>Contactados</th><th>% Avance</th>';
+  html += '</tr></thead><tbody>';
+
+  var ents = Object.keys(porEntidad).sort(function(a, b) { return porEntidad[b].total - porEntidad[a].total; });
+  for (var e = 0; e < ents.length; e++) {
+    var en = porEntidad[ents[e]];
+    var pctE = en.total > 0 ? Math.round((en.contactados / en.total) * 100) : 0;
+    html += '<tr><td style="font-weight:500;">' + ents[e] + '</td><td>' + en.total + '</td><td style="color:var(--success);font-weight:600;">' + en.contactados + '</td>';
+    html += '<td><div style="display:flex;align-items:center;gap:8px;"><div style="flex:1;height:6px;background:var(--gray-100);border-radius:3px;overflow:hidden;"><div style="height:100%;width:' + pctE + '%;background:var(--success);border-radius:3px;"></div></div><span style="font-size:12px;font-weight:600;">' + pctE + '%</span></div></td></tr>';
+  }
+  html += '</tbody></table></div></div>';
+
+  html += '<div style="margin-top:12px;display:flex;gap:10px;">';
+  html += '<button class="btn-secondary" onclick="exportarTabla(\'tablaRendUsuarios\',\'rendimiento_usuarios\')">Exportar Usuarios</button>';
+  html += '<button class="btn-secondary" onclick="exportarTabla(\'tablaRendEntidades\',\'rendimiento_entidades\')">Exportar Entidades</button>';
+  html += '</div>';
+
+  contenedor.innerHTML = html;
+}
+</script>

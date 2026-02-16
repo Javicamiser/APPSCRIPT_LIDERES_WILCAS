@@ -1,0 +1,170 @@
+<!-- ================================================================
+     MÓDULO: TABLA DE LÍDERES
+     Archivo: admin-tabla-lideres.html
+     ================================================================ -->
+<script>
+var paginaTablaLideres = 1;
+var porPaginaTablaLideres = 50;
+
+function renderTablaLideres() {
+  var contenedor = document.getElementById('seccion-tabla-lideres');
+  if (!contenedor) return;
+
+  var datos = datosLlamadasFiltrados;
+  var totalPag = Math.ceil(datos.length / porPaginaTablaLideres);
+  if (paginaTablaLideres > totalPag) paginaTablaLideres = 1;
+  var inicio = (paginaTablaLideres - 1) * porPaginaTablaLideres;
+  var fin = Math.min(inicio + porPaginaTablaLideres, datos.length);
+  var pagina = datos.slice(inicio, fin);
+
+  var html = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px;">';
+  html += '<div style="display:flex;gap:10px;align-items:center;">';
+  html += '<input type="text" class="filter-input" id="filtroTablaLideres" placeholder="Buscar lider..." onkeyup="filtrarTablaLideres()">';
+  html += '</div>';
+  html += '<button class="btn-primary" onclick="mostrarModalAgregarLider()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Agregar Lider</button>';
+  html += '</div>';
+
+  html += '<div class="card" style="padding:0;"><div class="table-container">';
+  html += '<table class="data-table" id="tablaLideresPrincipal"><thead><tr>';
+  html += '<th>#</th><th>Nombre</th><th>Documento</th><th>Celular</th><th>Entidad</th><th>Municipio</th><th>Comuna</th><th>Simp.</th><th>Estado</th><th>Acciones</th>';
+  html += '</tr></thead><tbody>';
+
+  for (var i = 0; i < pagina.length; i++) {
+    var d = pagina[i];
+    var estado = (d.estadoLlamada || 'pendiente').toLowerCase();
+    var badgeClass = estado === 'contactado' || estado === 'llamado' ? 'contactado' : estado === 'no contesta' ? 'no-contesta' : 'pendiente';
+    var metaStyle = (d.cantidadSimpatizantes || 0) >= 40 ? 'color:var(--success);font-weight:700;' : '';
+
+    html += '<tr>';
+    html += '<td>' + (inicio + i + 1) + '</td>';
+    html += '<td style="font-weight:600;">' + truncarTexto(d.nombre, 30) + '</td>';
+    html += '<td>' + (d.documento || '') + '</td>';
+    html += '<td>' + (d.celular || '') + '</td>';
+    html += '<td>' + truncarTexto(normalizarEntidad(d.entidad), 18) + '</td>';
+    html += '<td>' + truncarTexto(d.municipio, 15) + '</td>';
+    html += '<td>' + (d.comuna || '') + '</td>';
+    html += '<td style="' + metaStyle + '">' + (d.cantidadSimpatizantes || 0) + '</td>';
+    html += '<td><span class="badge ' + badgeClass + '">' + estado + '</span></td>';
+    html += '<td><button class="btn-secondary" style="padding:5px 10px;font-size:11px;" onclick="editarLiderAuditoria(' + i + ',' + inicio + ')">Editar</button></td>';
+    html += '</tr>';
+  }
+  if (pagina.length === 0) html += '<tr><td colspan="10" style="text-align:center;padding:40px;color:var(--gray-400);">Sin resultados</td></tr>';
+  html += '</tbody></table></div>';
+
+  html += '<div class="pagination">';
+  html += '<button class="page-btn" onclick="paginaTablaLideres--;renderTablaLideres()"' + (paginaTablaLideres <= 1 ? ' disabled' : '') + '>Anterior</button>';
+  html += '<span class="page-info">Pagina ' + paginaTablaLideres + ' de ' + (totalPag || 1) + ' (' + datos.length + ' lideres)</span>';
+  html += '<button class="page-btn" onclick="paginaTablaLideres++;renderTablaLideres()"' + (paginaTablaLideres >= totalPag ? ' disabled' : '') + '>Siguiente</button>';
+  html += '</div></div>';
+
+  contenedor.innerHTML = html;
+}
+
+function filtrarTablaLideres() {
+  var texto = (document.getElementById('filtroTablaLideres') ? document.getElementById('filtroTablaLideres').value : '').toUpperCase();
+  if (!texto) {
+    datosLlamadasFiltrados = datosLlamadas.slice();
+  } else {
+    datosLlamadasFiltrados = datosLlamadas.filter(function(d) {
+      return (d.nombre || '').toUpperCase().indexOf(texto) !== -1 ||
+             (d.documento || '').indexOf(texto) !== -1 ||
+             (d.celular || '').indexOf(texto) !== -1;
+    });
+  }
+  paginaTablaLideres = 1;
+  renderTablaLideres();
+}
+
+// ================================================================
+// MODAL AGREGAR LÍDER
+// ================================================================
+function mostrarModalAgregarLider() {
+  var existente = document.getElementById('modalAgregarLider');
+  if (existente) existente.remove();
+
+  var comunasOpciones = ['','Atardeceres','San Jose','Cumanday','La Estacion','Ciudadela del Norte','Cerro de Oro','Tesorito','Palogrande','Universitaria','La Fuente','La Macarena'];
+  var comunaSelect = '<select id="nuevoComuna" style="width:100%;padding:10px;border:1.5px solid var(--gray-200);border-radius:8px;font-size:13px;">';
+  for (var c = 0; c < comunasOpciones.length; c++) {
+    comunaSelect += '<option value="' + comunasOpciones[c] + '">' + (comunasOpciones[c] || 'Seleccionar comuna') + '</option>';
+  }
+  comunaSelect += '</select>';
+
+  var modal = document.createElement('div');
+  modal.id = 'modalAgregarLider';
+  modal.className = 'modal-overlay active';
+  modal.innerHTML = '<div class="modal">' +
+    '<div class="modal-header"><h3>Agregar Nuevo Lider</h3><button class="modal-close" onclick="cerrarModal(\'modalAgregarLider\')">&times;</button></div>' +
+    '<div class="modal-body">' +
+      '<div class="form-row">' +
+        '<div class="form-group"><label>Nombre Completo *</label><input class="form-input" id="nuevoNombre" placeholder="Nombre completo"></div>' +
+        '<div class="form-group"><label>Documento *</label><input class="form-input" id="nuevoDocumento" placeholder="Numero de documento"></div>' +
+      '</div>' +
+      '<div class="form-row">' +
+        '<div class="form-group"><label>Tipo Documento</label><select id="nuevoTipoDoc" style="width:100%;padding:10px;border:1.5px solid var(--gray-200);border-radius:8px;font-size:13px;"><option value="CC">CC</option><option value="CE">CE</option><option value="TI">TI</option><option value="PA">PA</option></select></div>' +
+        '<div class="form-group"><label>Celular</label><input class="form-input" id="nuevoCelular" placeholder="Numero de celular"></div>' +
+      '</div>' +
+      '<div class="form-row">' +
+        '<div class="form-group"><label>Correo</label><input class="form-input" id="nuevoCorreo" placeholder="correo@ejemplo.com"></div>' +
+        '<div class="form-group"><label>Direccion</label><input class="form-input" id="nuevoDireccion" placeholder="Direccion"></div>' +
+      '</div>' +
+      '<div class="form-row">' +
+        '<div class="form-group"><label>Barrio</label><input class="form-input" id="nuevoBarrio" placeholder="Barrio"></div>' +
+        '<div class="form-group"><label>Entidad</label><input class="form-input" id="nuevoEntidad" placeholder="Entidad"></div>' +
+      '</div>' +
+      '<div class="form-row">' +
+        '<div class="form-group"><label>Municipio</label><input class="form-input" id="nuevoMunicipio" placeholder="Municipio" value="MANIZALES"></div>' +
+        '<div class="form-group"><label>Comuna</label>' + comunaSelect + '</div>' +
+      '</div>' +
+      '<div class="form-group"><label>Observaciones</label><textarea id="nuevoObservaciones" style="width:100%;padding:10px;border:1.5px solid var(--gray-200);border-radius:8px;font-size:13px;min-height:60px;font-family:var(--font);" placeholder="Observaciones"></textarea></div>' +
+    '</div>' +
+    '<div class="modal-footer">' +
+      '<button class="btn-secondary" onclick="cerrarModal(\'modalAgregarLider\')">Cancelar</button>' +
+      '<button class="btn-primary" onclick="guardarNuevoLider()">Guardar Lider</button>' +
+    '</div>' +
+  '</div>';
+
+  document.body.appendChild(modal);
+}
+
+function guardarNuevoLider() {
+  var nombre = document.getElementById('nuevoNombre').value.trim();
+  var documento = document.getElementById('nuevoDocumento').value.trim();
+
+  if (!nombre || !documento) {
+    mostrarAlertaGlobal('Nombre y documento son obligatorios', 'warning');
+    return;
+  }
+
+  var datos = {
+    nombre: nombre,
+    documento: documento,
+    tipoDocumento: document.getElementById('nuevoTipoDoc').value,
+    celular: document.getElementById('nuevoCelular').value.trim(),
+    correo: document.getElementById('nuevoCorreo').value.trim(),
+    direccion: document.getElementById('nuevoDireccion').value.trim(),
+    barrio: document.getElementById('nuevoBarrio').value.trim(),
+    entidad: document.getElementById('nuevoEntidad').value.trim(),
+    municipio: document.getElementById('nuevoMunicipio').value.trim(),
+    comuna: document.getElementById('nuevoComuna').value,
+    observaciones: document.getElementById('nuevoObservaciones').value.trim()
+  };
+
+  mostrarLoading('Guardando nuevo lider...');
+  google.script.run
+    .withSuccessHandler(function(r) {
+      ocultarLoading();
+      if (r && r.success) {
+        mostrarAlertaGlobal('Lider agregado correctamente', 'success');
+        cerrarModal('modalAgregarLider');
+        actualizarDatos();
+      } else {
+        mostrarAlertaGlobal('Error: ' + (r ? r.message : ''), 'error');
+      }
+    })
+    .withFailureHandler(function(e) {
+      ocultarLoading();
+      mostrarAlertaGlobal('Error: ' + e.message, 'error');
+    })
+    .agregarNuevoLiderWrapper(datos);
+}
+</script>
